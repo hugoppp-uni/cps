@@ -3,11 +3,9 @@ version: "3.9"
 services:
 
   dashboard:
-    build: cps-dashboard
+    image: hugopp/cps-dashboard:latest
     ports:
       - "1880:1880"
-    volumes:
-      - node-red-data:/data
 
   mosquitto:
     image: eclipse-mosquitto:2
