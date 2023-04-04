@@ -6,6 +6,8 @@ services:
     build: cps-dashboard
     ports:
       - "1880:1880"
+    volumes:
+      - node-red-data:/data
 
   mosquitto:
     image: eclipse-mosquitto:2
@@ -17,13 +19,11 @@ services:
       - type: bind
         source: ./log/
         target: /mosquitto/log/
-      - type: volume
-        source: data
-        target: /mosquitto/data/
+      - mosquitto-data:/mosquitto/data/
     ports:
       - "1883:1883" 
       - "9001:9001"
 
 volumes:
-  data:
-    name: "mqtt-broker-data"
+  mosquitto-data:
+  node-red-data:
