@@ -1,6 +1,29 @@
 version: "3.9"
+
 services:
+
   dashboard:
     build: cps-dashboard
     ports:
       - "1880:1880"
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    user: mosquitto
+    volumes:
+      - type: bind
+        source: ./config/
+        target: /mosquitto/config/
+      - type: bind
+        source: ./log/
+        target: /mosquitto/log/
+      - type: volume
+        source: data
+        target: /mosquitto/data/
+    ports:
+      - "1883:1883" 
+      - "9001:9001"
+
+volumes:
+  data:
+    name: "mqtt-broker-data"
