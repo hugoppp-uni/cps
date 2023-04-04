@@ -38,6 +38,7 @@ min. 3 Anlagen / physische Elemente (+ Timed Automata):
 	- Parkplatzsensorik
 		- Parkplatz frei
 		- Parkplatz besetzt
-	- 
-	-
+	
+![](docs/car.png)
+![](docs/street-graph.png)
 
