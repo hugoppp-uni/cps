@@ -1,0 +1,4660 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.59.4 36d058c8",
+  "osm3s": {
+    "timestamp_osm_base": "2023-04-06T18:42:09Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 17479323,
+  "lat": 53.5774892,
+  "lon": 9.9523658,
+  "tags": {
+    "bus": "yes",
+    "name": "U Osterstraße (Heußweg)",
+    "public_transport": "stop_position"
+  }
+},
+{
+  "type": "node",
+  "id": 21495487,
+  "lat": 53.5827463,
+  "lon": 9.9564234
+},
+{
+  "type": "node",
+  "id": 26316246,
+  "lat": 53.5769028,
+  "lon": 9.9484727
+},
+{
+  "type": "node",
+  "id": 27229394,
+  "lat": 53.5795093,
+  "lon": 9.9489398
+},
+{
+  "type": "node",
+  "id": 27229395,
+  "lat": 53.5784235,
+  "lon": 9.9507503
+},
+{
+  "type": "node",
+  "id": 27229396,
+  "lat": 53.5775754,
+  "lon": 9.9477766
+},
+{
+  "type": "node",
+  "id": 27484442,
+  "lat": 53.5763995,
+  "lon": 9.9560419
+},
+{
+  "type": "node",
+  "id": 27484443,
+  "lat": 53.5765368,
+  "lon": 9.9556287
+},
+{
+  "type": "node",
+  "id": 27484445,
+  "lat": 53.5769308,
+  "lon": 9.9544899
+},
+{
+  "type": "node",
+  "id": 27484446,
+  "lat": 53.5773461,
+  "lon": 9.9535866
+},
+{
+  "type": "node",
+  "id": 27484447,
+  "lat": 53.5776510,
+  "lon": 9.9533276
+},
+{
+  "type": "node",
+  "id": 27484449,
+  "lat": 53.5779189,
+  "lon": 9.9531138
+},
+{
+  "type": "node",
+  "id": 27484451,
+  "lat": 53.5781300,
+  "lon": 9.9512155
+},
+{
+  "type": "node",
+  "id": 32462596,
+  "lat": 53.5796638,
+  "lon": 9.9539634,
+  "tags": {
+    "highway": "turning_circle"
+  }
+},
+{
+  "type": "node",
+  "id": 32462599,
+  "lat": 53.5793354,
+  "lon": 9.9533859,
+  "tags": {
+    "highway": "turning_circle"
+  }
+},
+{
+  "type": "node",
+  "id": 35131337,
+  "lat": 53.5812168,
+  "lon": 9.9516269,
+  "tags": {
+    "ele": "12.0",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 35131338,
+  "lat": 53.5786241,
+  "lon": 9.9504319,
+  "tags": {
+    "ele": "13.9",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 35131825,
+  "lat": 53.5808392,
+  "lon": 9.9532614,
+  "tags": {
+    "ele": "11.9",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 167343757,
+  "lat": 53.5789661,
+  "lon": 9.9565101
+},
+{
+  "type": "node",
+  "id": 167343763,
+  "lat": 53.5776821,
+  "lon": 9.9540114
+},
+{
+  "type": "node",
+  "id": 243077312,
+  "lat": 53.5784409,
+  "lon": 9.9572962
+},
+{
+  "type": "node",
+  "id": 243077315,
+  "lat": 53.5774035,
+  "lon": 9.9549797
+},
+{
+  "type": "node",
+  "id": 243077318,
+  "lat": 53.5762332,
+  "lon": 9.9580394
+},
+{
+  "type": "node",
+  "id": 243077320,
+  "lat": 53.5765957,
+  "lon": 9.9573278
+},
+{
+  "type": "node",
+  "id": 243077322,
+  "lat": 53.5771831,
+  "lon": 9.9556680
+},
+{
+  "type": "node",
+  "id": 243077323,
+  "lat": 53.5775740,
+  "lon": 9.9544599
+},
+{
+  "type": "node",
+  "id": 243077324,
+  "lat": 53.5794451,
+  "lon": 9.9557671
+},
+{
+  "type": "node",
+  "id": 248886846,
+  "lat": 53.5835599,
+  "lon": 9.9542506
+},
+{
+  "type": "node",
+  "id": 248886851,
+  "lat": 53.5827816,
+  "lon": 9.9541948
+},
+{
+  "type": "node",
+  "id": 248886852,
+  "lat": 53.5828101,
+  "lon": 9.9527796
+},
+{
+  "type": "node",
+  "id": 248886890,
+  "lat": 53.5794986,
+  "lon": 9.9523099,
+  "tags": {
+    "ele": "12.9",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 248886891,
+  "lat": 53.5791870,
+  "lon": 9.9530405
+},
+{
+  "type": "node",
+  "id": 248886892,
+  "lat": 53.5793982,
+  "lon": 9.9526388
+},
+{
+  "type": "node",
+  "id": 248886893,
+  "lat": 53.5797223,
+  "lon": 9.9509266,
+  "tags": {
+    "ele": "13.0",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 249236682,
+  "lat": 53.5806136,
+  "lon": 9.9471873
+},
+{
+  "type": "node",
+  "id": 249236684,
+  "lat": 53.5824049,
+  "lon": 9.9498117,
+  "tags": {
+    "ele": "13.8",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 249236694,
+  "lat": 53.5804373,
+  "lon": 9.9469739
+},
+{
+  "type": "node",
+  "id": 249361734,
+  "lat": 53.5784791,
+  "lon": 9.9437757
+},
+{
+  "type": "node",
+  "id": 249361759,
+  "lat": 53.5765662,
+  "lon": 9.9457473
+},
+{
+  "type": "node",
+  "id": 249376951,
+  "lat": 53.5769462,
+  "lon": 9.9519164
+},
+{
+  "type": "node",
+  "id": 249445653,
+  "lat": 53.5785000,
+  "lon": 9.9541313
+},
+{
+  "type": "node",
+  "id": 249467757,
+  "lat": 53.5774930,
+  "lon": 9.9497511
+},
+{
+  "type": "node",
+  "id": 249467760,
+  "lat": 53.5779953,
+  "lon": 9.9500879
+},
+{
+  "type": "node",
+  "id": 249467762,
+  "lat": 53.5765892,
+  "lon": 9.9490487
+},
+{
+  "type": "node",
+  "id": 249467767,
+  "lat": 53.5823688,
+  "lon": 9.9511324,
+  "tags": {
+    "ele": "12.5",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 249467770,
+  "lat": 53.5807796,
+  "lon": 9.9473339,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing:island": "yes",
+    "crossing_ref": "toucan",
+    "highway": "crossing",
+    "tactile_paving": "no",
+    "traffic_signals:sound": "no",
+    "traffic_signals:vibration": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 249467772,
+  "lat": 53.5824179,
+  "lon": 9.9508600
+},
+{
+  "type": "node",
+  "id": 249467776,
+  "lat": 53.5813129,
+  "lon": 9.9559021
+},
+{
+  "type": "node",
+  "id": 249554965,
+  "lat": 53.5824719,
+  "lon": 9.9476585
+},
+{
+  "type": "node",
+  "id": 249554966,
+  "lat": 53.5829330,
+  "lon": 9.9474362,
+  "tags": {
+    "crossing": "uncontrolled",
+    "crossing:island": "yes",
+    "crossing_ref": "zebra",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 249589854,
+  "lat": 53.5843690,
+  "lon": 9.9502445,
+  "tags": {
+    "ele": "14.5"
+  }
+},
+{
+  "type": "node",
+  "id": 249589855,
+  "lat": 53.5839060,
+  "lon": 9.9502951
+},
+{
+  "type": "node",
+  "id": 249591020,
+  "lat": 53.5814987,
+  "lon": 9.9495548
+},
+{
+  "type": "node",
+  "id": 249591021,
+  "lat": 53.5813787,
+  "lon": 9.9497050
+},
+{
+  "type": "node",
+  "id": 249591022,
+  "lat": 53.5815198,
+  "lon": 9.9475683
+},
+{
+  "type": "node",
+  "id": 249591023,
+  "lat": 53.5814098,
+  "lon": 9.9493513
+},
+{
+  "type": "node",
+  "id": 249591024,
+  "lat": 53.5812855,
+  "lon": 9.9494813
+},
+{
+  "type": "node",
+  "id": 249591025,
+  "lat": 53.5808650,
+  "lon": 9.9493563,
+  "tags": {
+    "ele": "14.2",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 249591026,
+  "lat": 53.5804147,
+  "lon": 9.9492139,
+  "tags": {
+    "ele": "14.3",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 249591126,
+  "lat": 53.5837701,
+  "lon": 9.9503459
+},
+{
+  "type": "node",
+  "id": 249591334,
+  "lat": 53.5806396,
+  "lon": 9.9513448,
+  "tags": {
+    "ele": "12.3",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 249591335,
+  "lat": 53.5802035,
+  "lon": 9.9511431
+},
+{
+  "type": "node",
+  "id": 249591843,
+  "lat": 53.5796968,
+  "lon": 9.9486712
+},
+{
+  "type": "node",
+  "id": 249591872,
+  "lat": 53.5782219,
+  "lon": 9.9455573
+},
+{
+  "type": "node",
+  "id": 249591873,
+  "lat": 53.5787089,
+  "lon": 9.9466591
+},
+{
+  "type": "node",
+  "id": 249591874,
+  "lat": 53.5789868,
+  "lon": 9.9474749
+},
+{
+  "type": "node",
+  "id": 249591875,
+  "lat": 53.5790722,
+  "lon": 9.9476578
+},
+{
+  "type": "node",
+  "id": 249591876,
+  "lat": 53.5772324,
+  "lon": 9.9470983
+},
+{
+  "type": "node",
+  "id": 249591877,
+  "lat": 53.5776417,
+  "lon": 9.9464759
+},
+{
+  "type": "node",
+  "id": 249591878,
+  "lat": 53.5787242,
+  "lon": 9.9447477
+},
+{
+  "type": "node",
+  "id": 249668079,
+  "lat": 53.5774436,
+  "lon": 9.9447352
+},
+{
+  "type": "node",
+  "id": 249668367,
+  "lat": 53.5786316,
+  "lon": 9.9444236
+},
+{
+  "type": "node",
+  "id": 249668368,
+  "lat": 53.5786887,
+  "lon": 9.9446375
+},
+{
+  "type": "node",
+  "id": 249668369,
+  "lat": 53.5788115,
+  "lon": 9.9449304
+},
+{
+  "type": "node",
+  "id": 249668370,
+  "lat": 53.5791208,
+  "lon": 9.9453437
+},
+{
+  "type": "node",
+  "id": 249668371,
+  "lat": 53.5792731,
+  "lon": 9.9455429
+},
+{
+  "type": "node",
+  "id": 249668372,
+  "lat": 53.5787689,
+  "lon": 9.9448521
+},
+{
+  "type": "node",
+  "id": 249670394,
+  "lat": 53.5821677,
+  "lon": 9.9434834
+},
+{
+  "type": "node",
+  "id": 249670395,
+  "lat": 53.5821441,
+  "lon": 9.9432749,
+  "tags": {
+    "crossing": "unmarked",
+    "crossing:island": "yes",
+    "highway": "crossing",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 249670396,
+  "lat": 53.5818952,
+  "lon": 9.9423312
+},
+{
+  "type": "node",
+  "id": 249670399,
+  "lat": 53.5818739,
+  "lon": 9.9420305
+},
+{
+  "type": "node",
+  "id": 249670404,
+  "lat": 53.5816713,
+  "lon": 9.9432411,
+  "tags": {
+    "ele": "19.5",
+    "source": "HH-LGV-2015"
+  }
+},
+{
+  "type": "node",
+  "id": 249671367,
+  "lat": 53.5815679,
+  "lon": 9.9456318
+},
+{
+  "type": "node",
+  "id": 249671369,
+  "lat": 53.5810664,
+  "lon": 9.9464380
+},
+{
+  "type": "node",
+  "id": 249671370,
+  "lat": 53.5810082,
+  "lon": 9.9464415
+},
+{
+  "type": "node",
+  "id": 249671371,
+  "lat": 53.5809184,
+  "lon": 9.9463762
+},
+{
+  "type": "node",
+  "id": 249671372,
+  "lat": 53.5807228,
+  "lon": 9.9462063
+},
+{
+  "type": "node",
+  "id": 249671377,
+  "lat": 53.5799772,
+  "lon": 9.9425182
+},
+{
+  "type": "node",
+  "id": 249671794,
+  "lat": 53.5806637,
+  "lon": 9.9538395
+},
+{
+  "type": "node",
+  "id": 249673700,
+  "lat": 53.5800013,
+  "lon": 9.9423467
+},
+{
+  "type": "node",
+  "id": 249673704,
+  "lat": 53.5779590,
+  "lon": 9.9418045
+},
+{
+  "type": "node",
+  "id": 250816057,
+  "lat": 53.5779777,
+  "lon": 9.9564637
+},
+{
+  "type": "node",
+  "id": 250832554,
+  "lat": 53.5772970,
+  "lon": 9.9518875
+},
+{
+  "type": "node",
+  "id": 258566445,
+  "lat": 53.5767042,
+  "lon": 9.9518489
+},
+{
+  "type": "node",
+  "id": 258605627,
+  "lat": 53.5800763,
+  "lon": 9.9465345
+},
+{
+  "type": "node",
+  "id": 258605674,
+  "lat": 53.5805566,
+  "lon": 9.9427613
+},
+{
+  "type": "node",
+  "id": 258605675,
+  "lat": 53.5808304,
+  "lon": 9.9405334,
+  "tags": {
+    "highway": "turning_circle"
+  }
+},
+{
+  "type": "node",
+  "id": 264037237,
+  "lat": 53.5801232,
+  "lon": 9.9546946
+},
+{
+  "type": "node",
+  "id": 264037239,
+  "lat": 53.5811114,
+  "lon": 9.9430061
+},
+{
+  "type": "node",
+  "id": 288650575,
+  "lat": 53.5770371,
+  "lon": 9.9436442
+},
+{
+  "type": "node",
+  "id": 292054919,
+  "lat": 53.5831957,
+  "lon": 9.9475090
+},
+{
+  "type": "node",
+  "id": 293040555,
+  "lat": 53.5825777,
+  "lon": 9.9511665
+},
+{
+  "type": "node",
+  "id": 294117537,
+  "lat": 53.5815539,
+  "lon": 9.9547959
+},
+{
+  "type": "node",
+  "id": 297239789,
+  "lat": 53.5813803,
+  "lon": 9.9494262
+},
+{
+  "type": "node",
+  "id": 297239790,
+  "lat": 53.5814020,
+  "lon": 9.9496246
+},
+{
+  "type": "node",
+  "id": 303987555,
+  "lat": 53.5822732,
+  "lon": 9.9515682,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing:island": "no",
+    "crossing_ref": "toucan",
+    "highway": "crossing",
+    "tactile_paving": "yes",
+    "traffic_signals:sound": "no",
+    "traffic_signals:vibration": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 339959280,
+  "lat": 53.5779958,
+  "lon": 9.9419271
+},
+{
+  "type": "node",
+  "id": 339959282,
+  "lat": 53.5782085,
+  "lon": 9.9427329
+},
+{
+  "type": "node",
+  "id": 358399574,
+  "lat": 53.5784120,
+  "lon": 9.9503155
+},
+{
+  "type": "node",
+  "id": 361102282,
+  "lat": 53.5782776,
+  "lon": 9.9509970
+},
+{
+  "type": "node",
+  "id": 370528244,
+  "lat": 53.5797462,
+  "lon": 9.9441007
+},
+{
+  "type": "node",
+  "id": 370528256,
+  "lat": 53.5796454,
+  "lon": 9.9447936
+},
+{
+  "type": "node",
+  "id": 370528263,
+  "lat": 53.5797073,
+  "lon": 9.9443690
+},
+{
+  "type": "node",
+  "id": 370528289,
+  "lat": 53.5796046,
+  "lon": 9.9450729
+},
+{
+  "type": "node",
+  "id": 370528290,
+  "lat": 53.5798263,
+  "lon": 9.9435530
+},
+{
+  "type": "node",
+  "id": 370528291,
+  "lat": 53.5798951,
+  "lon": 9.9430815
+},
+{
+  "type": "node",
+  "id": 370532319,
+  "lat": 53.5795826,
+  "lon": 9.9452203
+},
+{
+  "type": "node",
+  "id": 375724547,
+  "lat": 53.5786376,
+  "lon": 9.9467305
+},
+{
+  "type": "node",
+  "id": 375724563,
+  "lat": 53.5771561,
+  "lon": 9.9494754
+},
+{
+  "type": "node",
+  "id": 375788540,
+  "lat": 53.5775818,
+  "lon": 9.9446015
+},
+{
+  "type": "node",
+  "id": 375788763,
+  "lat": 53.5768610,
+  "lon": 9.9453883
+},
+{
+  "type": "node",
+  "id": 375790431,
+  "lat": 53.5790207,
+  "lon": 9.9487663
+},
+{
+  "type": "node",
+  "id": 375793161,
+  "lat": 53.5781294,
+  "lon": 9.9482695
+},
+{
+  "type": "node",
+  "id": 375798651,
+  "lat": 53.5771958,
+  "lon": 9.9495066
+},
+{
+  "type": "node",
+  "id": 375802799,
+  "lat": 53.5771287,
+  "lon": 9.9468989
+},
+{
+  "type": "node",
+  "id": 376441346,
+  "lat": 53.5779813,
+  "lon": 9.9481557
+},
+{
+  "type": "node",
+  "id": 380540811,
+  "lat": 53.5808200,
+  "lon": 9.9453695
+},
+{
+  "type": "node",
+  "id": 385704971,
+  "lat": 53.5772763,
+  "lon": 9.9519208
+},
+{
+  "type": "node",
+  "id": 385704972,
+  "lat": 53.5770997,
+  "lon": 9.9519732,
+  "tags": {
+    "crossing": "marked",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 385704973,
+  "lat": 53.5770749,
+  "lon": 9.9519656
+},
+{
+  "type": "node",
+  "id": 385704974,
+  "lat": 53.5773311,
+  "lon": 9.9521435,
+  "tags": {
+    "crossing": "marked",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 385747331,
+  "lat": 53.5770416,
+  "lon": 9.9493942
+},
+{
+  "type": "node",
+  "id": 385848285,
+  "lat": 53.5784831,
+  "lon": 9.9506528
+},
+{
+  "type": "node",
+  "id": 388136632,
+  "lat": 53.5775098,
+  "lon": 9.9533651
+},
+{
+  "type": "node",
+  "id": 388136654,
+  "lat": 53.5767693,
+  "lon": 9.9549566
+},
+{
+  "type": "node",
+  "id": 388136680,
+  "lat": 53.5772126,
+  "lon": 9.9538848
+},
+{
+  "type": "node",
+  "id": 388136693,
+  "lat": 53.5774382,
+  "lon": 9.9534511
+},
+{
+  "type": "node",
+  "id": 388173452,
+  "lat": 53.5767240,
+  "lon": 9.9550921
+},
+{
+  "type": "node",
+  "id": 388173467,
+  "lat": 53.5770258,
+  "lon": 9.9561504
+},
+{
+  "type": "node",
+  "id": 388173564,
+  "lat": 53.5766296,
+  "lon": 9.9553598
+},
+{
+  "type": "node",
+  "id": 389351057,
+  "lat": 53.5834983,
+  "lon": 9.9505556
+},
+{
+  "type": "node",
+  "id": 393730842,
+  "lat": 53.5823181,
+  "lon": 9.9465012
+},
+{
+  "type": "node",
+  "id": 440613983,
+  "lat": 53.5830134,
+  "lon": 9.9475306
+},
+{
+  "type": "node",
+  "id": 443378276,
+  "lat": 53.5832628,
+  "lon": 9.9507838
+},
+{
+  "type": "node",
+  "id": 475717493,
+  "lat": 53.5795256,
+  "lon": 9.9556429,
+  "tags": {
+    "check_date:tactile_paving": "2022-02-15",
+    "crossing": "marked",
+    "crossing:island": "no",
+    "crossing_ref": "zebra",
+    "highway": "crossing",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 476345827,
+  "lat": 53.5814910,
+  "lon": 9.9478695,
+  "tags": {
+    "button_operated": "no",
+    "crossing": "traffic_signals",
+    "crossing_ref": "pelican",
+    "highway": "traffic_signals",
+    "tactile_paving": "no",
+    "traffic_signals:sound": "no",
+    "traffic_signals:vibration": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 476346403,
+  "lat": 53.5813496,
+  "lon": 9.9475377,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing_ref": "toucan",
+    "highway": "traffic_signals",
+    "tactile_paving": "no",
+    "traffic_signals:sound": "no",
+    "traffic_signals:vibration": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 476346932,
+  "lat": 53.5816275,
+  "lon": 9.9475928,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing_ref": "toucan",
+    "highway": "traffic_signals",
+    "tactile_paving": "no",
+    "traffic_signals:sound": "no",
+    "traffic_signals:vibration": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 476667858,
+  "lat": 53.5797543,
+  "lon": 9.9552828
+},
+{
+  "type": "node",
+  "id": 476745887,
+  "lat": 53.5806103,
+  "lon": 9.9555535
+},
+{
+  "type": "node",
+  "id": 482290922,
+  "lat": 53.5798595,
+  "lon": 9.9433252
+},
+{
+  "type": "node",
+  "id": 606931511,
+  "lat": 53.5803368,
+  "lon": 9.9476485
+},
+{
+  "type": "node",
+  "id": 606931514,
+  "lat": 53.5801982,
+  "lon": 9.9478734
+},
+{
+  "type": "node",
+  "id": 606931922,
+  "lat": 53.5810743,
+  "lon": 9.9474751
+},
+{
+  "type": "node",
+  "id": 606932612,
+  "lat": 53.5805964,
+  "lon": 9.9492713
+},
+{
+  "type": "node",
+  "id": 606932708,
+  "lat": 53.5814744,
+  "lon": 9.9481730
+},
+{
+  "type": "node",
+  "id": 606932749,
+  "lat": 53.5814554,
+  "lon": 9.9485209
+},
+{
+  "type": "node",
+  "id": 606932754,
+  "lat": 53.5814478,
+  "lon": 9.9486577
+},
+{
+  "type": "node",
+  "id": 606932920,
+  "lat": 53.5814377,
+  "lon": 9.9488428
+},
+{
+  "type": "node",
+  "id": 606932927,
+  "lat": 53.5814444,
+  "lon": 9.9487216
+},
+{
+  "type": "node",
+  "id": 606933503,
+  "lat": 53.5819756,
+  "lon": 9.9497114
+},
+{
+  "type": "node",
+  "id": 606938438,
+  "lat": 53.5800036,
+  "lon": 9.9490838
+},
+{
+  "type": "node",
+  "id": 606938522,
+  "lat": 53.5791478,
+  "lon": 9.9495562
+},
+{
+  "type": "node",
+  "id": 606938548,
+  "lat": 53.5794310,
+  "lon": 9.9507934
+},
+{
+  "type": "node",
+  "id": 606938609,
+  "lat": 53.5798899,
+  "lon": 9.9510032
+},
+{
+  "type": "node",
+  "id": 683084141,
+  "lat": 53.5778407,
+  "lon": 9.9561224
+},
+{
+  "type": "node",
+  "id": 696693540,
+  "lat": 53.5791375,
+  "lon": 9.9462146
+},
+{
+  "type": "node",
+  "id": 696693548,
+  "lat": 53.5792610,
+  "lon": 9.9460824
+},
+{
+  "type": "node",
+  "id": 696693613,
+  "lat": 53.5798855,
+  "lon": 9.9462971
+},
+{
+  "type": "node",
+  "id": 696693763,
+  "lat": 53.5802531,
+  "lon": 9.9477899
+},
+{
+  "type": "node",
+  "id": 738779326,
+  "lat": 53.5823733,
+  "lon": 9.9475337
+},
+{
+  "type": "node",
+  "id": 738779956,
+  "lat": 53.5823781,
+  "lon": 9.9478761
+},
+{
+  "type": "node",
+  "id": 738780986,
+  "lat": 53.5822726,
+  "lon": 9.9476942
+},
+{
+  "type": "node",
+  "id": 738784049,
+  "lat": 53.5822749,
+  "lon": 9.9477427
+},
+{
+  "type": "node",
+  "id": 738784061,
+  "lat": 53.5822852,
+  "lon": 9.9477881
+},
+{
+  "type": "node",
+  "id": 738784080,
+  "lat": 53.5823026,
+  "lon": 9.9478268
+},
+{
+  "type": "node",
+  "id": 738784106,
+  "lat": 53.5823258,
+  "lon": 9.9478557
+},
+{
+  "type": "node",
+  "id": 738784122,
+  "lat": 53.5824031,
+  "lon": 9.9478691
+},
+{
+  "type": "node",
+  "id": 738784132,
+  "lat": 53.5824262,
+  "lon": 9.9478520
+},
+{
+  "type": "node",
+  "id": 738784143,
+  "lat": 53.5824462,
+  "lon": 9.9478257
+},
+{
+  "type": "node",
+  "id": 738784151,
+  "lat": 53.5824616,
+  "lon": 9.9477920
+},
+{
+  "type": "node",
+  "id": 738784165,
+  "lat": 53.5824589,
+  "lon": 9.9476106
+},
+{
+  "type": "node",
+  "id": 738784171,
+  "lat": 53.5824360,
+  "lon": 9.9475692
+},
+{
+  "type": "node",
+  "id": 738784177,
+  "lat": 53.5824064,
+  "lon": 9.9475426
+},
+{
+  "type": "node",
+  "id": 738784200,
+  "lat": 53.5823433,
+  "lon": 9.9475418
+},
+{
+  "type": "node",
+  "id": 738784220,
+  "lat": 53.5822939,
+  "lon": 9.9475996
+},
+{
+  "type": "node",
+  "id": 738784224,
+  "lat": 53.5822790,
+  "lon": 9.9476442
+},
+{
+  "type": "node",
+  "id": 743354846,
+  "lat": 53.5810091,
+  "lon": 9.9525485
+},
+{
+  "type": "node",
+  "id": 743357664,
+  "lat": 53.5816757,
+  "lon": 9.9542666
+},
+{
+  "type": "node",
+  "id": 743358250,
+  "lat": 53.5814803,
+  "lon": 9.9551407
+},
+{
+  "type": "node",
+  "id": 743370101,
+  "lat": 53.5814272,
+  "lon": 9.9553727
+},
+{
+  "type": "node",
+  "id": 743371646,
+  "lat": 53.5823425,
+  "lon": 9.9480392,
+  "tags": {
+    "crossing": "marked",
+    "crossing:island": "yes",
+    "crossing_ref": "zebra",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 744590859,
+  "lat": 53.5813695,
+  "lon": 9.9556297
+},
+{
+  "type": "node",
+  "id": 766984978,
+  "lat": 53.5818830,
+  "lon": 9.9533274
+},
+{
+  "type": "node",
+  "id": 767108765,
+  "lat": 53.5829679,
+  "lon": 9.9509852,
+  "tags": {
+    "ele": "13.8",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 768064317,
+  "lat": 53.5820047,
+  "lon": 9.9410476
+},
+{
+  "type": "node",
+  "id": 768272395,
+  "lat": 53.5821406,
+  "lon": 9.9476790
+},
+{
+  "type": "node",
+  "id": 834385515,
+  "lat": 53.5821724,
+  "lon": 9.9476797,
+  "tags": {
+    "crossing": "marked",
+    "crossing:island": "yes",
+    "crossing_ref": "zebra",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 834385517,
+  "lat": 53.5825766,
+  "lon": 9.9475583,
+  "tags": {
+    "crossing": "marked",
+    "crossing_ref": "zebra",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 834385518,
+  "lat": 53.5823721,
+  "lon": 9.9473804,
+  "tags": {
+    "crossing": "marked",
+    "crossing:island": "no",
+    "crossing_ref": "zebra",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 895345337,
+  "lat": 53.5824497,
+  "lon": 9.9423515
+},
+{
+  "type": "node",
+  "id": 895825811,
+  "lat": 53.5830604,
+  "lon": 9.9440964
+},
+{
+  "type": "node",
+  "id": 918356139,
+  "lat": 53.5770729,
+  "lon": 9.9437441
+},
+{
+  "type": "node",
+  "id": 918358914,
+  "lat": 53.5783053,
+  "lon": 9.9431134
+},
+{
+  "type": "node",
+  "id": 926376710,
+  "lat": 53.5795879,
+  "lon": 9.9451851
+},
+{
+  "type": "node",
+  "id": 926378374,
+  "lat": 53.5796750,
+  "lon": 9.9445901
+},
+{
+  "type": "node",
+  "id": 926383214,
+  "lat": 53.5797726,
+  "lon": 9.9439215
+},
+{
+  "type": "node",
+  "id": 1216781736,
+  "lat": 53.5819881,
+  "lon": 9.9426997
+},
+{
+  "type": "node",
+  "id": 1216781750,
+  "lat": 53.5821771,
+  "lon": 9.9437314
+},
+{
+  "type": "node",
+  "id": 1216781753,
+  "lat": 53.5821944,
+  "lon": 9.9440813
+},
+{
+  "type": "node",
+  "id": 1321559452,
+  "lat": 53.5809274,
+  "lon": 9.9474180
+},
+{
+  "type": "node",
+  "id": 1486131665,
+  "lat": 53.5824717,
+  "lon": 9.9477529
+},
+{
+  "type": "node",
+  "id": 1576522467,
+  "lat": 53.5808687,
+  "lon": 9.9559757
+},
+{
+  "type": "node",
+  "id": 1576522469,
+  "lat": 53.5821203,
+  "lon": 9.9411156
+},
+{
+  "type": "node",
+  "id": 1576522471,
+  "lat": 53.5827158,
+  "lon": 9.9434322
+},
+{
+  "type": "node",
+  "id": 1576522473,
+  "lat": 53.5828083,
+  "lon": 9.9441793,
+  "tags": {
+    "ele": "19.7",
+    "source": "HH-LGV-2015"
+  }
+},
+{
+  "type": "node",
+  "id": 1590669315,
+  "lat": 53.5785237,
+  "lon": 9.9485301
+},
+{
+  "type": "node",
+  "id": 1624438235,
+  "lat": 53.5769179,
+  "lon": 9.9564749
+},
+{
+  "type": "node",
+  "id": 1677612294,
+  "lat": 53.5826228,
+  "lon": 9.9430405
+},
+{
+  "type": "node",
+  "id": 1677612300,
+  "lat": 53.5824649,
+  "lon": 9.9424119
+},
+{
+  "type": "node",
+  "id": 1705786958,
+  "lat": 53.5835675,
+  "lon": 9.9504905
+},
+{
+  "type": "node",
+  "id": 1705835366,
+  "lat": 53.5824327,
+  "lon": 9.9505427
+},
+{
+  "type": "node",
+  "id": 1706185868,
+  "lat": 53.5824922,
+  "lon": 9.9511707
+},
+{
+  "type": "node",
+  "id": 1706209303,
+  "lat": 53.5842582,
+  "lon": 9.9502504
+},
+{
+  "type": "node",
+  "id": 1706239989,
+  "lat": 53.5823529,
+  "lon": 9.9478725
+},
+{
+  "type": "node",
+  "id": 1804937874,
+  "lat": 53.5830999,
+  "lon": 9.9509006
+},
+{
+  "type": "node",
+  "id": 1804937880,
+  "lat": 53.5836369,
+  "lon": 9.9504252
+},
+{
+  "type": "node",
+  "id": 1804937883,
+  "lat": 53.5840884,
+  "lon": 9.9502587
+},
+{
+  "type": "node",
+  "id": 2085888948,
+  "lat": 53.5766612,
+  "lon": 9.9491193,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "highway": "traffic_signals",
+    "tactile_paving": "yes",
+    "traffic_signals:sound": "yes",
+    "traffic_signals:vibration": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2179609590,
+  "lat": 53.5767558,
+  "lon": 9.9428506
+},
+{
+  "type": "node",
+  "id": 2281710031,
+  "lat": 53.5824757,
+  "lon": 9.9477108
+},
+{
+  "type": "node",
+  "id": 2281710038,
+  "lat": 53.5825872,
+  "lon": 9.9476575,
+  "tags": {
+    "crossing": "marked",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2281710056,
+  "lat": 53.5829385,
+  "lon": 9.9475410,
+  "tags": {
+    "crossing": "uncontrolled",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2281710062,
+  "lat": 53.5830036,
+  "lon": 9.9474343
+},
+{
+  "type": "node",
+  "id": 2281710064,
+  "lat": 53.5831297,
+  "lon": 9.9474822
+},
+{
+  "type": "node",
+  "id": 2457124795,
+  "lat": 53.5819612,
+  "lon": 9.9529732
+},
+{
+  "type": "node",
+  "id": 2724384587,
+  "lat": 53.5827524,
+  "lon": 9.9553208
+},
+{
+  "type": "node",
+  "id": 2724384589,
+  "lat": 53.5827641,
+  "lon": 9.9556939
+},
+{
+  "type": "node",
+  "id": 2732767030,
+  "lat": 53.5812396,
+  "lon": 9.9514790
+},
+{
+  "type": "node",
+  "id": 2732767038,
+  "lat": 53.5812989,
+  "lon": 9.9507225
+},
+{
+  "type": "node",
+  "id": 2732767048,
+  "lat": 53.5813163,
+  "lon": 9.9505008
+},
+{
+  "type": "node",
+  "id": 2732767067,
+  "lat": 53.5813392,
+  "lon": 9.9494752
+},
+{
+  "type": "node",
+  "id": 2732767075,
+  "lat": 53.5813795,
+  "lon": 9.9516727
+},
+{
+  "type": "node",
+  "id": 2732767119,
+  "lat": 53.5814431,
+  "lon": 9.9495757
+},
+{
+  "type": "node",
+  "id": 2732768267,
+  "lat": 53.5823061,
+  "lon": 9.9498134
+},
+{
+  "type": "node",
+  "id": 2787403067,
+  "lat": 53.5785417,
+  "lon": 9.9505640,
+  "tags": {
+    "crossing": "uncontrolled",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "no",
+    "traffic_calming": "choker"
+  }
+},
+{
+  "type": "node",
+  "id": 2787403104,
+  "lat": 53.5787191,
+  "lon": 9.9502872,
+  "tags": {
+    "crossing": "uncontrolled",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 2787403436,
+  "lat": 53.5793302,
+  "lon": 9.9527882
+},
+{
+  "type": "node",
+  "id": 2787403493,
+  "lat": 53.5794528,
+  "lon": 9.9524775
+},
+{
+  "type": "node",
+  "id": 2787403525,
+  "lat": 53.5795264,
+  "lon": 9.9521614
+},
+{
+  "type": "node",
+  "id": 2787403545,
+  "lat": 53.5795913,
+  "lon": 9.9488592
+},
+{
+  "type": "node",
+  "id": 2787403615,
+  "lat": 53.5796685,
+  "lon": 9.9489731
+},
+{
+  "type": "node",
+  "id": 2993963268,
+  "lat": 53.5793831,
+  "lon": 9.9459549,
+  "tags": {
+    "crossing": "uncontrolled",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3012490429,
+  "lat": 53.5800528,
+  "lon": 9.9480981
+},
+{
+  "type": "node",
+  "id": 3024053252,
+  "lat": 53.5827738,
+  "lon": 9.9438552
+},
+{
+  "type": "node",
+  "id": 3077362797,
+  "lat": 53.5771833,
+  "lon": 9.9481226
+},
+{
+  "type": "node",
+  "id": 3109010787,
+  "lat": 53.5821702,
+  "lon": 9.9520307,
+  "tags": {
+    "ele": "11.3",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 3109010788,
+  "lat": 53.5821438,
+  "lon": 9.9521500,
+  "tags": {
+    "ele": "11.3",
+    "source": "HH-LGV-2012"
+  }
+},
+{
+  "type": "node",
+  "id": 3109010789,
+  "lat": 53.5828147,
+  "lon": 9.9526130,
+  "tags": {
+    "highway": "turning_circle"
+  }
+},
+{
+  "type": "node",
+  "id": 3183008183,
+  "lat": 53.5798698,
+  "lon": 9.9432550
+},
+{
+  "type": "node",
+  "id": 3324183769,
+  "lat": 53.5786056,
+  "lon": 9.9520316
+},
+{
+  "type": "node",
+  "id": 3324207694,
+  "lat": 53.5803324,
+  "lon": 9.9529015
+},
+{
+  "type": "node",
+  "id": 3324211209,
+  "lat": 53.5811168,
+  "lon": 9.9520706
+},
+{
+  "type": "node",
+  "id": 3356698487,
+  "lat": 53.5767698,
+  "lon": 9.9569174
+},
+{
+  "type": "node",
+  "id": 3374088051,
+  "lat": 53.5775579,
+  "lon": 9.9524833
+},
+{
+  "type": "node",
+  "id": 3436722866,
+  "lat": 53.5794850,
+  "lon": 9.9557045,
+  "tags": {
+    "direction": "forward",
+    "highway": "stop"
+  }
+},
+{
+  "type": "node",
+  "id": 3663818530,
+  "lat": 53.5784292,
+  "lon": 9.9436187
+},
+{
+  "type": "node",
+  "id": 3663818678,
+  "lat": 53.5797860,
+  "lon": 9.9438296
+},
+{
+  "type": "node",
+  "id": 3663818683,
+  "lat": 53.5799382,
+  "lon": 9.9427854
+},
+{
+  "type": "node",
+  "id": 3664305817,
+  "lat": 53.5816605,
+  "lon": 9.9433551
+},
+{
+  "type": "node",
+  "id": 3670198057,
+  "lat": 53.5815877,
+  "lon": 9.9455465
+},
+{
+  "type": "node",
+  "id": 3670198058,
+  "lat": 53.5815952,
+  "lon": 9.9454530
+},
+{
+  "type": "node",
+  "id": 3670239686,
+  "lat": 53.5794767,
+  "lon": 9.9457866,
+  "tags": {
+    "highway": "mini_roundabout"
+  }
+},
+{
+  "type": "node",
+  "id": 3670239703,
+  "lat": 53.5804962,
+  "lon": 9.9473891,
+  "tags": {
+    "traffic_calming": "table"
+  }
+},
+{
+  "type": "node",
+  "id": 3670239704,
+  "lat": 53.5806968,
+  "lon": 9.9472692
+},
+{
+  "type": "node",
+  "id": 3670239707,
+  "lat": 53.5808544,
+  "lon": 9.9473826
+},
+{
+  "type": "node",
+  "id": 3670709829,
+  "lat": 53.5768175,
+  "lon": 9.9430381,
+  "tags": {
+    "check_date": "2021-08-05",
+    "traffic_calming": "table"
+  }
+},
+{
+  "type": "node",
+  "id": 3670709830,
+  "lat": 53.5771457,
+  "lon": 9.9439448
+},
+{
+  "type": "node",
+  "id": 3670709831,
+  "lat": 53.5772111,
+  "lon": 9.9440896
+},
+{
+  "type": "node",
+  "id": 3671455844,
+  "lat": 53.5774841,
+  "lon": 9.9478487,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes",
+    "traffic_signals:sound": "yes",
+    "traffic_signals:vibration": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3671455845,
+  "lat": 53.5775174,
+  "lon": 9.9476723,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes",
+    "traffic_signals:sound": "yes",
+    "traffic_signals:vibration": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3671455846,
+  "lat": 53.5776803,
+  "lon": 9.9478897,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes",
+    "traffic_signals:sound": "yes",
+    "traffic_signals:vibration": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3671455847,
+  "lat": 53.5776920,
+  "lon": 9.9476755,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes",
+    "traffic_signals:sound": "yes",
+    "traffic_signals:vibration": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3683019404,
+  "lat": 53.5773685,
+  "lon": 9.9518006,
+  "tags": {
+    "crossing": "marked",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3688491058,
+  "lat": 53.5781964,
+  "lon": 9.9483139
+},
+{
+  "type": "node",
+  "id": 3695776246,
+  "lat": 53.5783681,
+  "lon": 9.9484265
+},
+{
+  "type": "node",
+  "id": 3695776267,
+  "lat": 53.5797437,
+  "lon": 9.9486126,
+  "tags": {
+    "check_date": "2021-05-07",
+    "traffic_calming": "table"
+  }
+},
+{
+  "type": "node",
+  "id": 3696100931,
+  "lat": 53.5775858,
+  "lon": 9.9516345
+},
+{
+  "type": "node",
+  "id": 3710412059,
+  "lat": 53.5779884,
+  "lon": 9.9532362,
+  "tags": {
+    "button_operated": "yes",
+    "crossing": "traffic_signals",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "no",
+    "traffic_signals:sound": "no",
+    "traffic_signals:vibration": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 3710977598,
+  "lat": 53.5808225,
+  "lon": 9.9559277
+},
+{
+  "type": "node",
+  "id": 3711136411,
+  "lat": 53.5827252,
+  "lon": 9.9511002
+},
+{
+  "type": "node",
+  "id": 3713656205,
+  "lat": 53.5802255,
+  "lon": 9.9548806,
+  "tags": {
+    "check_date": "2022-05-30",
+    "maxwidth": "3.5",
+    "source:maxwidth": "ARCore",
+    "traffic_calming": "choker"
+  }
+},
+{
+  "type": "node",
+  "id": 3713656207,
+  "lat": 53.5807234,
+  "lon": 9.9537062
+},
+{
+  "type": "node",
+  "id": 3713656212,
+  "lat": 53.5807643,
+  "lon": 9.9535622
+},
+{
+  "type": "node",
+  "id": 3713656220,
+  "lat": 53.5809422,
+  "lon": 9.9528266,
+  "tags": {
+    "check_date": "2022-01-22",
+    "crossing": "unmarked",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "no",
+    "traffic_calming": "choker",
+    "width": "3.5"
+  }
+},
+{
+  "type": "node",
+  "id": 3713656632,
+  "lat": 53.5810840,
+  "lon": 9.9515620,
+  "tags": {
+    "check_date": "2021-05-17",
+    "maxwidth": "3.5",
+    "source:maxwidth": "ARCore",
+    "traffic_calming": "choker"
+  }
+},
+{
+  "type": "node",
+  "id": 3713656660,
+  "lat": 53.5813240,
+  "lon": 9.9558182
+},
+{
+  "type": "node",
+  "id": 3713897373,
+  "lat": 53.5823580,
+  "lon": 9.9487148
+},
+{
+  "type": "node",
+  "id": 3713897374,
+  "lat": 53.5823681,
+  "lon": 9.9489483
+},
+{
+  "type": "node",
+  "id": 3715499183,
+  "lat": 53.5785259,
+  "lon": 9.9503812,
+  "tags": {
+    "crossing": "uncontrolled",
+    "highway": "crossing",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 3715499206,
+  "lat": 53.5796097,
+  "lon": 9.9516364
+},
+{
+  "type": "node",
+  "id": 3717519305,
+  "lat": 53.5798152,
+  "lon": 9.9525345
+},
+{
+  "type": "node",
+  "id": 3730963854,
+  "lat": 53.5822129,
+  "lon": 9.9444425
+},
+{
+  "type": "node",
+  "id": 3730963862,
+  "lat": 53.5823128,
+  "lon": 9.9463973
+},
+{
+  "type": "node",
+  "id": 3731707364,
+  "lat": 53.5823952,
+  "lon": 9.9495347,
+  "tags": {
+    "crossing": "unmarked",
+    "crossing:island": "yes",
+    "highway": "crossing",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 4258217704,
+  "lat": 53.5823160,
+  "lon": 9.9475644
+},
+{
+  "type": "node",
+  "id": 4907178962,
+  "lat": 53.5827620,
+  "lon": 9.9557793
+},
+{
+  "type": "node",
+  "id": 5089910859,
+  "lat": 53.5773158,
+  "lon": 9.9518593,
+  "tags": {
+    "crossing": "marked",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5092527448,
+  "lat": 53.5772788,
+  "lon": 9.9520784
+},
+{
+  "type": "node",
+  "id": 5092527453,
+  "lat": 53.5771712,
+  "lon": 9.9519981
+},
+{
+  "type": "node",
+  "id": 5092527457,
+  "lat": 53.5772622,
+  "lon": 9.9519460
+},
+{
+  "type": "node",
+  "id": 5908907751,
+  "lat": 53.5808640,
+  "lon": 9.9450130
+},
+{
+  "type": "node",
+  "id": 6008072757,
+  "lat": 53.5806451,
+  "lon": 9.9468549
+},
+{
+  "type": "node",
+  "id": 6110977245,
+  "lat": 53.5795755,
+  "lon": 9.9458957,
+  "tags": {
+    "crossing": "uncontrolled",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6110977246,
+  "lat": 53.5795300,
+  "lon": 9.9455734,
+  "tags": {
+    "crossing": "uncontrolled",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6110977247,
+  "lat": 53.5793776,
+  "lon": 9.9456710,
+  "tags": {
+    "crossing": "uncontrolled",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6112727177,
+  "lat": 53.5795712,
+  "lon": 9.9452970,
+  "tags": {
+    "bus": "yes",
+    "name": "Methfesselstraße",
+    "network": "HVV",
+    "public_transport": "stop_position"
+  }
+},
+{
+  "type": "node",
+  "id": 6112727178,
+  "lat": 53.5792440,
+  "lon": 9.9461000,
+  "tags": {
+    "bus": "yes",
+    "name": "Methfesselstraße",
+    "network": "HVV",
+    "public_transport": "stop_position"
+  }
+},
+{
+  "type": "node",
+  "id": 6308233295,
+  "lat": 53.5824634,
+  "lon": 9.9511618,
+  "tags": {
+    "crossing": "uncontrolled",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 6309364798,
+  "lat": 53.5829380,
+  "lon": 9.9452940
+},
+{
+  "type": "node",
+  "id": 6309364802,
+  "lat": 53.5830359,
+  "lon": 9.9461357
+},
+{
+  "type": "node",
+  "id": 6309364818,
+  "lat": 53.5829678,
+  "lon": 9.9455504
+},
+{
+  "type": "node",
+  "id": 6525135143,
+  "lat": 53.5774510,
+  "lon": 9.9523005
+},
+{
+  "type": "node",
+  "id": 6537290822,
+  "lat": 53.5772287,
+  "lon": 9.9520211,
+  "tags": {
+    "highway": "mini_roundabout"
+  }
+},
+{
+  "type": "node",
+  "id": 6761620556,
+  "lat": 53.5772838,
+  "lon": 9.9480222
+},
+{
+  "type": "node",
+  "id": 6761620557,
+  "lat": 53.5770867,
+  "lon": 9.9482295,
+  "tags": {
+    "crossing": "unmarked",
+    "crossing:island": "yes",
+    "highway": "crossing",
+    "tactile_paving": "no",
+    "traffic_calming": "island"
+  }
+},
+{
+  "type": "node",
+  "id": 6761620558,
+  "lat": 53.5782856,
+  "lon": 9.9470778
+},
+{
+  "type": "node",
+  "id": 6761620559,
+  "lat": 53.5785594,
+  "lon": 9.9468079
+},
+{
+  "type": "node",
+  "id": 6990483681,
+  "lat": 53.5772903,
+  "lon": 9.9518983,
+  "tags": {
+    "direction": "backward",
+    "highway": "give_way"
+  }
+},
+{
+  "type": "node",
+  "id": 6990483682,
+  "lat": 53.5773056,
+  "lon": 9.9521118,
+  "tags": {
+    "direction": "backward",
+    "highway": "give_way"
+  }
+},
+{
+  "type": "node",
+  "id": 6990483683,
+  "lat": 53.5771316,
+  "lon": 9.9519845,
+  "tags": {
+    "direction": "forward",
+    "highway": "give_way"
+  }
+},
+{
+  "type": "node",
+  "id": 7026938087,
+  "lat": 53.5792872,
+  "lon": 9.9532244
+},
+{
+  "type": "node",
+  "id": 7026938095,
+  "lat": 53.5797662,
+  "lon": 9.9540624
+},
+{
+  "type": "node",
+  "id": 7230545117,
+  "lat": 53.5825189,
+  "lon": 9.9426269
+},
+{
+  "type": "node",
+  "id": 7601943600,
+  "lat": 53.5823361,
+  "lon": 9.9467950
+},
+{
+  "type": "node",
+  "id": 7667949847,
+  "lat": 53.5798209,
+  "lon": 9.9435901
+},
+{
+  "type": "node",
+  "id": 7667949848,
+  "lat": 53.5798137,
+  "lon": 9.9436393
+},
+{
+  "type": "node",
+  "id": 8071223926,
+  "lat": 53.5824307,
+  "lon": 9.9507030
+},
+{
+  "type": "node",
+  "id": 8071223927,
+  "lat": 53.5823425,
+  "lon": 9.9482555
+},
+{
+  "type": "node",
+  "id": 8117169816,
+  "lat": 53.5821311,
+  "lon": 9.9432199
+},
+{
+  "type": "node",
+  "id": 8117179017,
+  "lat": 53.5821613,
+  "lon": 9.9433873
+},
+{
+  "type": "node",
+  "id": 8117179022,
+  "lat": 53.5818816,
+  "lon": 9.9422351
+},
+{
+  "type": "node",
+  "id": 8117179023,
+  "lat": 53.5818742,
+  "lon": 9.9421340
+},
+{
+  "type": "node",
+  "id": 8117179028,
+  "lat": 53.5821396,
+  "lon": 9.9411602
+},
+{
+  "type": "node",
+  "id": 8117179029,
+  "lat": 53.5820902,
+  "lon": 9.9410896
+},
+{
+  "type": "node",
+  "id": 8124469002,
+  "lat": 53.5813774,
+  "lon": 9.9459380,
+  "tags": {
+    "crossing": "unmarked",
+    "highway": "crossing",
+    "tactile_paving": "no",
+    "traffic_calming": "bump"
+  }
+},
+{
+  "type": "node",
+  "id": 8493903131,
+  "lat": 53.5777364,
+  "lon": 9.9476308,
+  "tags": {
+    "crossing": "no",
+    "highway": "traffic_signals",
+    "traffic_signals:direction": "backward"
+  }
+},
+{
+  "type": "node",
+  "id": 8493903132,
+  "lat": 53.5777547,
+  "lon": 9.9479554,
+  "tags": {
+    "crossing": "no",
+    "highway": "traffic_signals",
+    "traffic_signals:direction": "backward"
+  }
+},
+{
+  "type": "node",
+  "id": 8493903133,
+  "lat": 53.5774603,
+  "lon": 9.9475573,
+  "tags": {
+    "crossing": "no",
+    "highway": "traffic_signals",
+    "traffic_signals:direction": "forward"
+  }
+},
+{
+  "type": "node",
+  "id": 8493903134,
+  "lat": 53.5774245,
+  "lon": 9.9479003,
+  "tags": {
+    "crossing": "no",
+    "highway": "traffic_signals",
+    "traffic_signals:direction": "forward"
+  }
+},
+{
+  "type": "node",
+  "id": 8572747188,
+  "lat": 53.5780684,
+  "lon": 9.9533762
+},
+{
+  "type": "node",
+  "id": 8572780619,
+  "lat": 53.5792955,
+  "lon": 9.9555228
+},
+{
+  "type": "node",
+  "id": 8696747862,
+  "lat": 53.5827987,
+  "lon": 9.9533466
+},
+{
+  "type": "node",
+  "id": 8696747872,
+  "lat": 53.5827871,
+  "lon": 9.9539205
+},
+{
+  "type": "node",
+  "id": 8703509169,
+  "lat": 53.5823531,
+  "lon": 9.9419806
+},
+{
+  "type": "node",
+  "id": 8812237410,
+  "lat": 53.5827503,
+  "lon": 9.9562606,
+  "tags": {
+    "button_operated": "no",
+    "crossing": "traffic_signals",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "no",
+    "traffic_signals:sound": "yes",
+    "traffic_signals:vibration": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8812237412,
+  "lat": 53.5827513,
+  "lon": 9.9562157,
+  "tags": {
+    "crossing": "no",
+    "highway": "traffic_signals",
+    "traffic_signals:direction": "backward"
+  }
+},
+{
+  "type": "node",
+  "id": 8938241428,
+  "lat": 53.5824255,
+  "lon": 9.9503529
+},
+{
+  "type": "node",
+  "id": 9102188370,
+  "lat": 53.5832531,
+  "lon": 9.9542286
+},
+{
+  "type": "node",
+  "id": 9332347888,
+  "lat": 53.5803117,
+  "lon": 9.9468211
+},
+{
+  "type": "node",
+  "id": 9332348731,
+  "lat": 53.5798063,
+  "lon": 9.9461946
+},
+{
+  "type": "node",
+  "id": 9332349222,
+  "lat": 53.5768198,
+  "lon": 9.9462664
+},
+{
+  "type": "node",
+  "id": 9783951882,
+  "lat": 53.5800545,
+  "lon": 9.9548030,
+  "tags": {
+    "check_date": "2022-05-30",
+    "maxwidth": "4.7",
+    "source:maxwidth": "ARCore",
+    "traffic_calming": "choker"
+  }
+},
+{
+  "type": "node",
+  "id": 9783951883,
+  "lat": 53.5800430,
+  "lon": 9.9545487,
+  "tags": {
+    "check_date": "2022-05-30",
+    "maxwidth": "5.5",
+    "source:maxwidth": "ARCore",
+    "traffic_calming": "choker"
+  }
+},
+{
+  "type": "node",
+  "id": 9783951884,
+  "lat": 53.5802090,
+  "lon": 9.9545577,
+  "tags": {
+    "check_date": "2022-05-30",
+    "maxwidth": "5.5",
+    "source:maxwidth": "ARCore",
+    "traffic_calming": "choker"
+  }
+},
+{
+  "type": "node",
+  "id": 9783951895,
+  "lat": 53.5789507,
+  "lon": 9.9505782
+},
+{
+  "type": "node",
+  "id": 9783962586,
+  "lat": 53.5831634,
+  "lon": 9.9472314
+},
+{
+  "type": "node",
+  "id": 9826211478,
+  "lat": 53.5822792,
+  "lon": 9.9416967
+},
+{
+  "type": "node",
+  "id": 10000434560,
+  "lat": 53.5769931,
+  "lon": 9.9483441
+},
+{
+  "type": "node",
+  "id": 10000434633,
+  "lat": 53.5778922,
+  "lon": 9.9474735
+},
+{
+  "type": "node",
+  "id": 10000434678,
+  "lat": 53.5784377,
+  "lon": 9.9469279,
+  "tags": {
+    "traffic_calming": "island"
+  }
+},
+{
+  "type": "node",
+  "id": 10004301193,
+  "lat": 53.5787640,
+  "lon": 9.9468206,
+  "tags": {
+    "traffic_calming": "choker"
+  }
+},
+{
+  "type": "node",
+  "id": 10004301194,
+  "lat": 53.5787498,
+  "lon": 9.9467790,
+  "tags": {
+    "crossing": "unmarked",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10004585170,
+  "lat": 53.5784290,
+  "lon": 9.9461419
+},
+{
+  "type": "node",
+  "id": 10103301919,
+  "lat": 53.5812894,
+  "lon": 9.9508437
+},
+{
+  "type": "node",
+  "id": 10249762410,
+  "lat": 53.5800972,
+  "lon": 9.9463704,
+  "tags": {
+    "crossing": "unmarked",
+    "crossing:island": "no",
+    "highway": "crossing",
+    "tactile_paving": "no",
+    "traffic_calming": "choker"
+  }
+},
+{
+  "type": "node",
+  "id": 10646610008,
+  "lat": 53.5773732,
+  "lon": 9.9521912
+},
+{
+  "type": "node",
+  "id": 10646610009,
+  "lat": 53.5776458,
+  "lon": 9.9526368,
+  "tags": {
+    "bus": "yes",
+    "name": "U Osterstraße (Heußweg)",
+    "public_transport": "stop_position"
+  }
+},
+{
+  "type": "way",
+  "id": 5112441,
+  "nodes": [
+    35131338,
+    9783951895,
+    606938548,
+    248886893,
+    606938609,
+    249591335,
+    249591334,
+    3713656632,
+    35131337
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Schwenckestraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "8"
+  }
+},
+{
+  "type": "way",
+  "id": 5112489,
+  "nodes": [
+    249591020,
+    2732767119,
+    297239790,
+    249591021,
+    2732767048,
+    2732767038,
+    10103301919
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Lutterothstraße",
+    "parking:lane:both": "perpendicular",
+    "parking:lane:both:perpendicular": "half_on_kerb",
+    "sidewalk": "both",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "10"
+  }
+},
+{
+  "type": "way",
+  "id": 8156504,
+  "nodes": [
+    27484451,
+    3324183769,
+    248886891,
+    7026938087,
+    32462599
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Telemannstraße",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 8419485,
+  "nodes": [
+    27484447,
+    27484449
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Eichenstraße",
+    "parking:lane:both": "separate",
+    "sidewalk": "both",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "5.5"
+  }
+},
+{
+  "type": "way",
+  "id": 22663106,
+  "nodes": [
+    243077315,
+    683084141,
+    250816057,
+    243077312
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Ottersbekallee",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "parking:lane:left": "diagonal",
+    "parking:lane:left:diagonal": "half_on_kerb",
+    "parking:lane:right": "parallel",
+    "parking:lane:right:parallel": "half_on_kerb",
+    "sidewalk": "both",
+    "surface": "asphalt",
+    "width": "8"
+  }
+},
+{
+  "type": "way",
+  "id": 22663120,
+  "nodes": [
+    27484447,
+    388136632,
+    388136693,
+    27484446,
+    388136680,
+    27484445,
+    388136654,
+    388173452,
+    388173564,
+    27484443,
+    27484442
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Wiesenstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "sidewalk": "both",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 22984406,
+  "nodes": [
+    243077318,
+    243077320,
+    3356698487,
+    1624438235,
+    388173467,
+    243077322,
+    243077315,
+    243077323,
+    167343763,
+    27484447
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Eichenstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "parking:lane:left": "diagonal",
+    "parking:lane:left:diagonal": "half_on_kerb",
+    "parking:lane:right": "parallel",
+    "parking:lane:right:parallel": "half_on_kerb",
+    "sidewalk": "both",
+    "surface": "asphalt",
+    "width": "7.7"
+  }
+},
+{
+  "type": "way",
+  "id": 23064163,
+  "nodes": [
+    248886851,
+    9102188370,
+    248886846
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "unclassified",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Hofloh",
+    "sidewalk": "both",
+    "source:maxspeed": "DE:urban",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "6.2"
+  }
+},
+{
+  "type": "way",
+  "id": 23064168,
+  "nodes": [
+    35131337,
+    2732767075,
+    3109010787
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Schwenckestraße",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 23064170,
+  "nodes": [
+    248886890,
+    3717519305,
+    3324207694,
+    35131825
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "heritage": "4",
+    "heritage:operator": "dsa",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Prätoriusweg",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "ref:dsa": "18876",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "start_date": "1910",
+    "surface": "sett",
+    "width": "6"
+  }
+},
+{
+  "type": "way",
+  "id": 23064171,
+  "nodes": [
+    248886893,
+    3715499206,
+    2787403525,
+    248886890,
+    2787403493,
+    248886892,
+    2787403436,
+    248886891
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "heritage": "4",
+    "heritage:operator": "dsa",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Odenwaldstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "ref:dsa": "18878",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "start_date": "1911",
+    "surface": "sett",
+    "width": "6"
+  }
+},
+{
+  "type": "way",
+  "id": 23089122,
+  "nodes": [
+    3670239686,
+    6110977245,
+    9332348731
+  ],
+  "tags": {
+    "cycleway:both": "lane",
+    "cycleway:both:lane": "advisory",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Methfesselstraße",
+    "parking:lane:both": "parallel",
+    "parking:lane:both:parallel": "street_side",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 23105093,
+  "nodes": [
+    27484449,
+    3710412059,
+    8572747188
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "cycleway:both": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Heußweg",
+    "parking:lane:both": "no",
+    "shoulder": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 23107294,
+  "nodes": [
+    35131338,
+    3715499183,
+    358399574,
+    249467760,
+    249467757,
+    375798651,
+    375724563,
+    385747331,
+    2085888948,
+    249467762
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Schwenckestraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "intermediate",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 23115443,
+  "nodes": [
+    2281710064,
+    2281710062,
+    249554966,
+    834385517
+  ],
+  "tags": {
+    "cycleway:right": "track",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Hagenbeckstraße",
+    "oneway": "yes",
+    "sidewalk": "right",
+    "sidewalk:right:surface": "paving_stones",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 23118726,
+  "nodes": [
+    249236684,
+    2732768267,
+    606933503,
+    249591020
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Hellkamp",
+    "parking:lane:left": "parallel",
+    "parking:lane:left:parallel": "half_on_kerb",
+    "parking:lane:right": "diagonal",
+    "parking:lane:right:diagonal": "half_on_kerb",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "7.8"
+  }
+},
+{
+  "type": "way",
+  "id": 23118727,
+  "nodes": [
+    249591023,
+    606932920,
+    606932927,
+    606932754,
+    606932749,
+    606932708,
+    476345827,
+    249591022
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "30",
+    "maxspeed:type": "DE:zone30",
+    "name": "Lutterothstraße",
+    "parking:lane:both": "perpendicular",
+    "parking:lane:both:perpendicular": "half_on_kerb",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "10"
+  }
+},
+{
+  "type": "way",
+  "id": 23118728,
+  "nodes": [
+    2787403545,
+    2787403615,
+    606938438,
+    249591026,
+    606932612,
+    249591025,
+    249591024,
+    2732767067,
+    297239789,
+    249591023
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "maxspeed:type": "DE:zone30",
+    "name": "Hellkamp",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "8"
+  }
+},
+{
+  "type": "way",
+  "id": 23118766,
+  "nodes": [
+    249591334,
+    249591025
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Selliusstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "6"
+  }
+},
+{
+  "type": "way",
+  "id": 23118767,
+  "nodes": [
+    249591026,
+    249591335
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Clasingstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "6"
+  }
+},
+{
+  "type": "way",
+  "id": 23118823,
+  "nodes": [
+    249591872,
+    10004585170,
+    375724547
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Schopstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "parking:lane:both": "parallel",
+    "parking:lane:both:parallel": "on_street",
+    "sidewalk": "both",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "7"
+  }
+},
+{
+  "type": "way",
+  "id": 23118824,
+  "nodes": [
+    249591876,
+    249591877,
+    249591872,
+    249591878
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Rombergstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "parking:lane:both": "parallel",
+    "parking:lane:both:parallel": "on_street",
+    "sidewalk": "both",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "7"
+  }
+},
+{
+  "type": "way",
+  "id": 23124381,
+  "nodes": [
+    3670709831,
+    249668079
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Grundstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "sidewalk": "both",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 23124458,
+  "nodes": [
+    6537290822,
+    5092527457,
+    385704971,
+    6990483681,
+    250832554,
+    5089910859,
+    3683019404
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Stellinger Weg",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 23124513,
+  "nodes": [
+    249670399,
+    8117179023,
+    8117179022,
+    249670396,
+    1216781736,
+    8117169816,
+    249670395,
+    8117179017,
+    249670394,
+    1216781750,
+    1216781753,
+    3730963854,
+    3730963862,
+    393730842,
+    7601943600,
+    834385518
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "maxspeed:conditional": "30 @ (Mo-Fr 06:00-22:00)",
+    "name": "Eidelstedter Weg",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "good",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 23124590,
+  "nodes": [
+    249671367,
+    8124469002,
+    249671369,
+    249671370,
+    249671371,
+    249671372
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "maxspeed:type": "DE:zone30",
+    "name": "Else-Rauch-Platz",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "sidewalk": "both",
+    "smoothness": "good",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "5.5"
+  }
+},
+{
+  "type": "way",
+  "id": 23861128,
+  "nodes": [
+    258605627,
+    10249762410,
+    258605674,
+    258605675
+  ],
+  "tags": {
+    "cycleway": "no",
+    "heritage": "4",
+    "heritage:operator": "dsa",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "maxspeed:type": "DE:zone30",
+    "name": "Luruper Weg",
+    "parking:lane:both": "diagonal",
+    "parking:lane:both:diagonal": "half_on_kerb",
+    "ref:dsa": "19061",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "start_date": "1910",
+    "surface": "sett",
+    "width": "9"
+  }
+},
+{
+  "type": "way",
+  "id": 26626909,
+  "nodes": [
+    249467767,
+    6308233295,
+    1706185868,
+    293040555,
+    3711136411,
+    767108765,
+    1804937874,
+    443378276,
+    389351057,
+    1705786958,
+    1804937880,
+    249591126,
+    249589855,
+    1804937883,
+    1706209303,
+    249589854
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Julius-Vosseler-Straße",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "excellent",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "6"
+  }
+},
+{
+  "type": "way",
+  "id": 26628666,
+  "nodes": [
+    249670404,
+    3664305817,
+    3670198058,
+    3670198057,
+    249671367
+  ],
+  "tags": {
+    "cycleway": "no",
+    "heritage": "4",
+    "heritage:operator": "dsa",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "maxspeed:type": "DE:zone30",
+    "name": "Lutterothstraße",
+    "oneway": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "excellent",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "10"
+  }
+},
+{
+  "type": "way",
+  "id": 26628670,
+  "nodes": [
+    249671372,
+    6008072757,
+    249236682
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "maxspeed:type": "DE:zone30",
+    "name": "Hartwig-Hesse-Straße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "sidewalk": "right",
+    "sidewalk:right:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "5.5"
+  }
+},
+{
+  "type": "way",
+  "id": 26628688,
+  "nodes": [
+    3670709831,
+    3670709830,
+    918356139,
+    288650575,
+    3670709829,
+    2179609590
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Grundstraße",
+    "oneway": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "5.5"
+  }
+},
+{
+  "type": "way",
+  "id": 28174395,
+  "nodes": [
+    249671372,
+    380540811,
+    5908907751,
+    264037239
+  ],
+  "tags": {
+    "cycleway": "no",
+    "heritage": "4",
+    "heritage:operator": "dsa",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "maxspeed:type": "DE:zone30",
+    "name": "Hartwig-Hesse-Straße",
+    "ref:dsa": "19071",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "start_date": "1909",
+    "surface": "sett",
+    "width": "10"
+  }
+},
+{
+  "type": "way",
+  "id": 28174447,
+  "nodes": [
+    249673700,
+    249671377,
+    3663818683,
+    370528291,
+    3183008183,
+    482290922,
+    370528290,
+    7667949847,
+    7667949848,
+    3663818678,
+    926383214,
+    370528244,
+    370528263,
+    926378374,
+    370528256,
+    370528289
+  ],
+  "tags": {
+    "cycleway:both": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "maxspeed:type": "DE:urban",
+    "name": "Müggenkampstraße",
+    "parking:lane:both": "parallel",
+    "parking:lane:both:parallel": "street_side",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "good",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 28175925,
+  "nodes": [
+    249591022,
+    476346932,
+    768272395,
+    834385515
+  ],
+  "tags": {
+    "cycleway:both": "track",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Methfesselstraße",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source": "gps",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 33174624,
+  "nodes": [
+    249591873,
+    10004301194,
+    10004301193,
+    249591874,
+    249591875,
+    249591843
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Schopstraße",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "parking:lane:both": "parallel",
+    "parking:lane:both:parallel": "on_street",
+    "sidewalk": "both",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "7"
+  }
+},
+{
+  "type": "way",
+  "id": 55955783,
+  "nodes": [
+    1706239989,
+    743371646
+  ],
+  "tags": {
+    "cycleway": "track",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "maxspeed:conditional": "30 @ (Mo-Fr 06:00-22:00)",
+    "name": "Eidelstedter Weg",
+    "sidewalk": "separate",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 59557227,
+  "nodes": [
+    738780986,
+    738784049,
+    738784061,
+    738784080,
+    738784106,
+    1706239989,
+    738779956,
+    738784122,
+    738784132,
+    738784143,
+    738784151,
+    1486131665,
+    2281710031,
+    249554965,
+    738784165,
+    738784171,
+    738784177,
+    738779326,
+    738784200,
+    4258217704,
+    738784220,
+    738784224,
+    738780986
+  ],
+  "tags": {
+    "check_date:cycleway": "2022-12-05",
+    "cycleway:left": "no",
+    "cycleway:right": "track",
+    "highway": "tertiary",
+    "junction": "roundabout",
+    "lanes": "1",
+    "lit": "yes",
+    "maxspeed": "50",
+    "sidewalk:left": "no",
+    "sidewalk:right": "separate",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 59868584,
+  "nodes": [
+    743371646,
+    8071223927,
+    3713897373,
+    3713897374,
+    3731707364,
+    249236684,
+    8938241428,
+    1705835366,
+    8071223926,
+    249467772,
+    249467767
+  ],
+  "tags": {
+    "cycleway": "track",
+    "cycleway:surface": "paving_stones",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "maxspeed:conditional": "30 @ (Mo-Fr 06:00-22:00)",
+    "name": "Eidelstedter Weg",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 144069361,
+  "nodes": [
+    1576522473,
+    895825811
+  ],
+  "tags": {
+    "cycleway:both": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Emmastraße",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source": "gps",
+    "source:width": "ARCore",
+    "surface": "sett",
+    "width": "6"
+  }
+},
+{
+  "type": "way",
+  "id": 144069393,
+  "nodes": [
+    768064317,
+    8117179029,
+    1576522469,
+    8117179028,
+    9826211478,
+    8703509169,
+    895345337,
+    1677612300,
+    7230545117,
+    1677612294,
+    1576522471,
+    3024053252,
+    1576522473,
+    6309364798,
+    6309364818,
+    6309364802,
+    9783962586,
+    292054919
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Steenwisch",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "good",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "7"
+  }
+},
+{
+  "type": "way",
+  "id": 144069405,
+  "nodes": [
+    1576522467,
+    3710977598,
+    476745887,
+    3713656205,
+    264037237,
+    9783951883,
+    7026938095,
+    32462596
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Telemannstraße",
+    "sidewalk": "both",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "10"
+  }
+},
+{
+  "type": "way",
+  "id": 145693819,
+  "nodes": [
+    27229396,
+    3671455846,
+    8493903132,
+    376441346,
+    375793161,
+    3688491058,
+    3695776246,
+    1590669315,
+    375790431,
+    27229394
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Hellkamp",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 158366084,
+  "nodes": [
+    21495487,
+    8812237410,
+    8812237412,
+    4907178962,
+    2724384589,
+    2724384587,
+    248886851,
+    8696747872,
+    8696747862,
+    248886852,
+    3109010789
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "unclassified",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Bötelkamp",
+    "sidewalk": "both",
+    "source:maxspeed": "DE:urban",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "6.5"
+  }
+},
+{
+  "type": "way",
+  "id": 218964041,
+  "nodes": [
+    2281710038,
+    2281710056,
+    440613983,
+    2281710064
+  ],
+  "tags": {
+    "cycleway:right": "track",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Hagenbeckstraße",
+    "oneway": "yes",
+    "sidewalk": "right",
+    "sidewalk:right:surface": "paving_stones",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 220112343,
+  "nodes": [
+    249467767,
+    303987555,
+    3109010787,
+    3109010788,
+    2457124795,
+    766984978,
+    743357664,
+    294117537,
+    743358250,
+    743370101,
+    744590859,
+    3713656660,
+    249467776
+  ],
+  "tags": {
+    "cycleway": "track",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "maxspeed:conditional": "30 @ (Mo-Fr 06:00-22:00)",
+    "name": "Eidelstedter Weg",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "good",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 302050538,
+  "nodes": [
+    9332347888,
+    249236694,
+    249236682
+  ],
+  "tags": {
+    "cycleway:both": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Methfesselstraße",
+    "parking:lane:left": "parallel",
+    "parking:lane:left:parallel": "on_street",
+    "parking:lane:right": "parallel",
+    "parking:lane:right:parallel": "street_side",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 302050539,
+  "nodes": [
+    249236682,
+    3670239704,
+    249467770,
+    3670239707,
+    1321559452,
+    606931922,
+    476346403,
+    249591022
+  ],
+  "tags": {
+    "cycleway:both": "track",
+    "highway": "tertiary",
+    "lanes": "4",
+    "lanes:backward": "2",
+    "lanes:forward": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Methfesselstraße",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt",
+    "turn:lanes:backward": "left|through",
+    "turn:lanes:forward": "through|right"
+  }
+},
+{
+  "type": "way",
+  "id": 332974046,
+  "nodes": [
+    249673704,
+    339959280,
+    339959282,
+    918358914,
+    3663818530,
+    249361734,
+    249668367,
+    249668368,
+    249591878,
+    249668372,
+    249668369,
+    249668370,
+    249668371,
+    6110977247,
+    3670239686
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Methfesselstraße",
+    "sidewalk": "both",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 362820560,
+  "nodes": [
+    249361734,
+    375788540,
+    249668079,
+    375788763,
+    249361759
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Sillemstraße",
+    "parking:lane:left": "perpendicular",
+    "parking:lane:left:perpendicular": "half_on_kerb",
+    "parking:lane:right": "parallel",
+    "parking:lane:right:parallel": "on_street",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "sett"
+  }
+},
+{
+  "type": "way",
+  "id": 362847068,
+  "nodes": [
+    6761620559,
+    375724547,
+    249591873,
+    696693540,
+    6112727178,
+    696693548,
+    2993963268,
+    3670239686
+  ],
+  "tags": {
+    "check_date:cycleway": "2021-09-10",
+    "cycleway:left": "shared_lane",
+    "cycleway:left:lane": "pictogram",
+    "cycleway:right": "lane",
+    "cycleway:right:lane": "advisory",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Osterstraße",
+    "parking:lane:both": "separate",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 367080896,
+  "nodes": [
+    3374088051,
+    10646610009,
+    27484449
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "cycleway:both": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Heußweg",
+    "parking:lane:left": "no",
+    "parking:lane:right": "parallel",
+    "parking:lane:right:parallel": "street_side",
+    "shoulder": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 367080897,
+  "nodes": [
+    6537290822,
+    5092527448,
+    6990483682,
+    385704974,
+    10646610008,
+    6525135143,
+    17479323,
+    3374088051
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "cycleway:both": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Heußweg",
+    "parking:condition:right": "no_stopping",
+    "parking:lane:both": "no",
+    "shoulder": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 367080898,
+  "nodes": [
+    258566445,
+    249376951,
+    385704973,
+    385704972,
+    6990483683,
+    5092527453,
+    6537290822
+  ],
+  "tags": {
+    "cycleway:both": "lane",
+    "cycleway:both:lane": "advisory",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Heußweg",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 367080901,
+  "nodes": [
+    3683019404,
+    3696100931,
+    27484451,
+    361102282,
+    27229395,
+    385848285,
+    2787403067,
+    35131338,
+    2787403104,
+    606938522,
+    27229394,
+    2787403545,
+    249591843,
+    3695776267,
+    3012490429,
+    606931514,
+    696693763,
+    606931511,
+    3670239703,
+    249236682
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Stellinger Weg",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "5.5"
+  }
+},
+{
+  "type": "way",
+  "id": 637255425,
+  "nodes": [
+    35131337,
+    3324211209,
+    743354846,
+    3713656220,
+    35131825,
+    3713656212,
+    3713656207,
+    249671794,
+    9783951884,
+    264037237,
+    9783951882,
+    476667858,
+    475717493,
+    3436722866,
+    243077324
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Lutterothstraße",
+    "parking:lane:both": "perpendicular",
+    "parking:lane:both:perpendicular": "half_on_kerb",
+    "sidewalk": "both",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "10"
+  }
+},
+{
+  "type": "way",
+  "id": 674301857,
+  "nodes": [
+    167343757,
+    167343763
+  ],
+  "tags": {
+    "cycleway": "opposite",
+    "heritage": "4",
+    "heritage:operator": "dsa",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Lastropsweg",
+    "oneway": "yes",
+    "oneway:bicycle": "no",
+    "ref:dsa": "18245",
+    "sidewalk": "both",
+    "start_date": "1909",
+    "surface": "sett"
+  }
+},
+{
+  "type": "way",
+  "id": 720489047,
+  "nodes": [
+    26316246,
+    10000434560,
+    6761620557,
+    3077362797,
+    6761620556
+  ],
+  "tags": {
+    "cycleway:both": "lane",
+    "cycleway:both:lane": "advisory",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Osterstraße",
+    "parking:lane:both": "separate",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 720489048,
+  "nodes": [
+    6761620556,
+    8493903134,
+    3671455844,
+    27229396
+  ],
+  "tags": {
+    "cycleway:left": "shared_lane",
+    "cycleway:left:lane": "pictogram",
+    "cycleway:right": "lane",
+    "cycleway:right:lane": "advisory",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Osterstraße",
+    "parking:lane:both": "separate",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 720489049,
+  "nodes": [
+    27229396,
+    3671455847,
+    8493903131,
+    10000434633,
+    6761620558
+  ],
+  "tags": {
+    "cycleway:left": "lane",
+    "cycleway:left:lane": "advisory",
+    "cycleway:right": "shared_lane",
+    "cycleway:right:lane": "pictogram",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Osterstraße",
+    "parking:lane:both": "separate",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 720489050,
+  "nodes": [
+    6761620558,
+    10000434678,
+    6761620559
+  ],
+  "tags": {
+    "cycleway:both": "lane",
+    "cycleway:both:lane": "advisory",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Osterstraße",
+    "parking:lane:both": "separate",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 914356678,
+  "nodes": [
+    9332349222,
+    375802799,
+    249591876,
+    8493903133,
+    3671455845,
+    27229396
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Hellkamp",
+    "parking:lane:both": "perpendicular",
+    "parking:lane:both:perpendicular": "half_on_kerb",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 923516493,
+  "nodes": [
+    8572747188,
+    249445653
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "cycleway": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Heußweg",
+    "parking:lane:both": "parallel",
+    "parking:lane:both:parallel": "street_side",
+    "sidewalk": "both",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 923516522,
+  "nodes": [
+    249445653,
+    8572780619
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "cycleway": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Heußweg",
+    "parking:lane:both": "parallel",
+    "parking:lane:both:parallel": "street_side",
+    "sidewalk": "both",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1011480596,
+  "nodes": [
+    258605627,
+    9332347888
+  ],
+  "tags": {
+    "cycleway:both": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Methfesselstraße",
+    "parking:lane:both": "no_stopping",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1011480597,
+  "nodes": [
+    9332348731,
+    696693613,
+    258605627
+  ],
+  "tags": {
+    "cycleway:both": "lane",
+    "cycleway:both:lane": "advisory",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Methfesselstraße",
+    "parking:lane:left": "no_stopping",
+    "parking:lane:right": "parallel",
+    "parking:lane:right:parallel": "street_side",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1071074641,
+  "nodes": [
+    834385515,
+    738780986
+  ],
+  "tags": {
+    "cycleway:both": "track",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Methfesselstraße",
+    "sidewalk": "separate",
+    "source": "gps",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1071074648,
+  "nodes": [
+    834385518,
+    738779326
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "maxspeed:conditional": "30 @ (Mo-Fr 06:00-22:00)",
+    "name": "Eidelstedter Weg",
+    "sidewalk": "separate",
+    "smoothness": "good",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1071074649,
+  "nodes": [
+    834385517,
+    738784165
+  ],
+  "tags": {
+    "cycleway:right": "track",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Hagenbeckstraße",
+    "oneway": "yes",
+    "sidewalk:left": "no",
+    "sidewalk:right": "separate",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1071074650,
+  "nodes": [
+    2281710031,
+    2281710038
+  ],
+  "tags": {
+    "cycleway:right": "track",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Hagenbeckstraße",
+    "oneway": "yes",
+    "sidewalk:left": "no",
+    "sidewalk:right": "separate",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1092397981,
+  "nodes": [
+    370528289,
+    926376710,
+    370532319,
+    6112727177,
+    6110977246,
+    3670239686
+  ],
+  "tags": {
+    "cycleway:left": "no",
+    "cycleway:right": "lane",
+    "cycleway:right:lane": "advisory",
+    "highway": "tertiary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "maxspeed:type": "DE:urban",
+    "name": "Müggenkampstraße",
+    "parking:lane:left": "parallel",
+    "parking:lane:left:parallel": "street_side",
+    "parking:lane:right": "no",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "smoothness": "good",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1104088307,
+  "nodes": [
+    10103301919,
+    2732767030,
+    35131337
+  ],
+  "tags": {
+    "cycleway": "no",
+    "highway": "residential",
+    "lane_markings": "no",
+    "lcn_ref": "R10",
+    "lit": "yes",
+    "maxspeed": "30",
+    "name": "Lutterothstraße",
+    "parking:lane:left": "parallel",
+    "parking:lane:left:parallel": "on_street",
+    "parking:lane:right": "perpendicular",
+    "parking:lane:right:perpendicular": "half_on_kerb",
+    "sidewalk": "both",
+    "sidewalk:both:surface": "paving_stones",
+    "source:width": "ARCore",
+    "surface": "asphalt",
+    "width": "10"
+  }
+}
+
+  ]
+}

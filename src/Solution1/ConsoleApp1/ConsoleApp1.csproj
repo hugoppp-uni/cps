@@ -15,8 +15,16 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Geolocation" Version="1.2.1" />
+        <PackageReference Include="JsonDocumentPath" Version="1.0.3" />
         <PackageReference Include="QuickGraph" Version="3.6.61119.7" />
         <PackageReference Include="Xenko.QuickGraph.Graphviz" Version="3.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="res\street.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
