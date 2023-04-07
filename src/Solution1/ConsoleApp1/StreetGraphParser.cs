@@ -17,11 +17,11 @@ public static class StreetGraphParser
     private class OsmNode
     {
         [JsonPropertyName("id")] public required long Id { get; init; }
-        [JsonPropertyName("lat")] public  required double Lat { get; init; }
+        [JsonPropertyName("lat")] public required double Lat { get; init; }
         [JsonPropertyName("lon")] public required double Lon { get; init; }
     }
 
-    public static AdjacencyGraph<StreetNode, StreetEdge> Parse(string json)
+    public static IUndirectedGraph<StreetNode, StreetEdge> Parse(string json)
     {
         var doc = JsonDocument.Parse(json);
 
@@ -42,7 +42,7 @@ public static class StreetGraphParser
             .Select(el => el!)
             .ToList();
 
-        var graph = new AdjacencyGraph<StreetNode, StreetEdge>();
+        var graph = new UndirectedGraph<StreetNode, StreetEdge>();
         graph.AddVertexRange(nodes.Values);
 
         foreach (var osmWay in ways)
@@ -59,13 +59,47 @@ public static class StreetGraphParser
                         Length = GeoCalculator.GetDistance(firstNode.Coordinate, secondNode.Coordinate,
                             distanceUnit: DistanceUnit.Meters),
                         Tags = osmWay.Tags,
-                        SpeedLimit = double.Parse(osmWay.Tags.GetValueOrDefault("maxspeed", "50"))
+                        SpeedLimit = double.Parse(osmWay.Tags.GetValueOrDefault("maxspeed", "50")),
                     };
                     graph.AddEdge(streetEdge);
                 }
             }
         }
 
+        SimplifyGraph(graph);
         return graph;
+    }
+
+    public static void SimplifyGraph(UndirectedGraph<StreetNode, StreetEdge> graph)
+    {
+        for (bool needsRerun = true; needsRerun;)
+        {
+            needsRerun = false;
+            foreach (var node in graph.Vertices.ToList())
+            {
+                if (graph.AdjacentDegree(node) == 2)
+                {
+                    var edge1 = graph.AdjacentEdge(node, 0);
+                    var edge2 = graph.AdjacentEdge(node, 1);
+                    if (edge1.Tags.GetValueOrDefault("name") != edge2.Tags.GetValueOrDefault("name"))
+                        continue;
+
+                    var source = edge1.Source == node ? edge1.Target : edge1.Source;
+                    var target = edge2.Source == node ? edge2.Target : edge2.Source;
+                    var newLength = edge1.Length + edge2.Length;
+                    var newEdge = new StreetEdge()
+                    {
+                        Length = newLength,
+                        Source = source,
+                        Target = target,
+                        Tags = edge1.Tags,
+                        SpeedLimit = edge1.SpeedLimit,
+                    };
+                    graph.RemoveVertex(node);
+                    graph.AddEdge(newEdge);
+                    needsRerun = true;
+                }
+            }
+        }
     }
 }
