@@ -13,7 +13,7 @@ public class PhysicalWorld
     }
 
 
-    private IUndirectedGraph<StreetNode, StreetEdge> Graph { get; }
-    private List<StreetNode> StreetNodes { get; }
-    private List<StreetEdge> StreetEdges { get; }
+    public IUndirectedGraph<StreetNode, StreetEdge> Graph { get; }
+    public IReadOnlyList<StreetNode> StreetNodes { get; }
+    public IReadOnlyList<StreetEdge> StreetEdges { get; }
 }

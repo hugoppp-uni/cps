@@ -1,3 +1,4 @@
+using System.Collections;
 using MQTTnet;
 using MQTTnet.Client;
 using QuickGraph;
@@ -18,6 +19,11 @@ public static class Extensions
             };
         });
         return graphviz ?? throw new Exception();
+    }
+    
+    public static T RandomElement<T>(this IReadOnlyList<T> collection)
+    {
+        return collection[Random.Shared.Next(0, collection.Count)];
     }
 
 
