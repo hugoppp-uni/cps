@@ -63,7 +63,8 @@ public class CarClient : BaseClient
             }
             else
             {
-                Position = new StreetPosition(Path.First(), 0);
+                var overlap = Position.DistanceFromSource - Position.StreetEdge.Length;
+                Position = new StreetPosition(Path.First(), overlap);
                 Path = Path.Skip(1);
             }
             //await PublishPosition(); 
