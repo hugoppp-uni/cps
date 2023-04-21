@@ -12,6 +12,10 @@ public static class Extensions
     {
         var graphviz = graph.ToGraphviz(algorithm =>
         {
+            algorithm.FormatVertex += (sender, args) =>
+            {
+                args.VertexFormatter.Label = $"{args.Vertex.Id}";
+            };
             algorithm.FormatEdge += (sender, args) =>
             {
                 args.EdgeFormatter.Label.Value =
