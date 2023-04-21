@@ -8,7 +8,7 @@ namespace ConsoleApp1;
 
 public static class Extensions
 {
-    public static string ToGraphvizFormatted(this IEdgeListGraph<StreetNode, StreetEdge> graph)
+    public static string ToGraphvizFormatted(this IMutableBidirectionalGraph<StreetNode, StreetEdge> graph)
     {
         var graphviz = graph.ToGraphviz(algorithm =>
         {

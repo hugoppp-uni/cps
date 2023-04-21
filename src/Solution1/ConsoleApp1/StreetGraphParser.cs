@@ -2,6 +2,7 @@ using QuickGraph;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Geolocation;
+using QuickGraph.Serialization.DirectedGraphML;
 
 namespace ConsoleApp1;
 
@@ -21,10 +22,13 @@ public static class StreetGraphParser
         [JsonPropertyName("lon")] public required double Lon { get; init; }
     }
 
-    public static IUndirectedGraph<StreetNode, StreetEdge> Parse(string json)
+    public static IMutableBidirectionalGraph<StreetNode, StreetEdge> Parse(string json)
     {
         var doc = JsonDocument.Parse(json);
 
+        var graph = new BidirectionalGraph<StreetNode, StreetEdge>();
+
+        // parse for street nodes and add to graph
         var nodes = doc.SelectElements("$.elements[?(@.type=='node')]")
             .Where(el => el is not null)
             .Select(el => el!.Value)
@@ -33,7 +37,10 @@ public static class StreetGraphParser
             .Select(el => el!)
             .ToDictionary(el => el.Id,
                 node => new StreetNode() { Id = node.Id, Latitude = node.Lat, Longitude = node.Lon });
+        
+        graph.AddVertexRange(nodes.Values);
 
+        // parse for osm ways
         var ways = doc.SelectElements("$.elements[?(@.type=='way')]")
             .Where(el => el is not null)
             .Select(el => el!.Value)
@@ -42,9 +49,7 @@ public static class StreetGraphParser
             .Select(el => el!)
             .ToList();
 
-        var graph = new UndirectedGraph<StreetNode, StreetEdge>();
-        graph.AddVertexRange(nodes.Values);
-
+        // create street nodes from osm ways and add to graph
         foreach (var osmWay in ways)
         {
             foreach (var (first, second) in osmWay.NodeIds.Zip(osmWay.NodeIds.Skip(1),
@@ -52,7 +57,8 @@ public static class StreetGraphParser
             {
                 if (nodes.TryGetValue(first, out var firstNode) && nodes.TryGetValue(second, out var secondNode))
                 {
-                    var streetEdge = new StreetEdge()
+                    // create street edges
+                    var forwardEdge = new StreetEdge()
                     {
                         Source = firstNode,
                         Target = secondNode,
@@ -61,7 +67,17 @@ public static class StreetGraphParser
                         Tags = osmWay.Tags,
                         SpeedLimit = double.Parse(osmWay.Tags.GetValueOrDefault("maxspeed", "50")),
                     };
-                    graph.AddEdge(streetEdge);
+                    var backwardEdge = new StreetEdge()
+                    {
+                        Source = secondNode,
+                        Target = firstNode,
+                        Length = forwardEdge.Length,
+                        Tags = osmWay.Tags,
+                        SpeedLimit = forwardEdge.SpeedLimit,
+                    };
+                    // add edge to graph
+                    graph.AddEdge(forwardEdge);
+                    graph.AddEdge(backwardEdge);
                 }
             }
         }
@@ -70,33 +86,65 @@ public static class StreetGraphParser
         return graph;
     }
 
-    public static void SimplifyGraph(UndirectedGraph<StreetNode, StreetEdge> graph)
+    public static void SimplifyGraph(IMutableBidirectionalGraph<StreetNode, StreetEdge> graph)
     {
         for (bool needsRerun = true; needsRerun;)
         {
             needsRerun = false;
             foreach (var node in graph.Vertices.ToList())
             {
-                if (graph.AdjacentDegree(node) == 2)
+                // if only 2 streets go in and out of a node it can be simplified to 1 street
+                if (graph.InDegree(node) == 2 && graph.OutDegree(node) == 2)
                 {
-                    var edge1 = graph.AdjacentEdge(node, 0);
-                    var edge2 = graph.AdjacentEdge(node, 1);
-                    if (edge1.Tags.GetValueOrDefault("name") != edge2.Tags.GetValueOrDefault("name"))
+                    // same index -> same street
+                    var in0 = graph.InEdge(node, 0);
+                    var out0 = graph.OutEdge(node, 0);
+                    
+                    var in1 = graph.InEdge(node, 1);
+                    var out1 = graph.OutEdge(node, 1);
+                    
+                    // streets leading into different streets without crossing
+                    if (in0.Tags.GetValueOrDefault("name") != in1.Tags.GetValueOrDefault("name"))
                         continue;
-
-                    var source = edge1.Source == node ? edge1.Target : edge1.Source;
-                    var target = edge2.Source == node ? edge2.Target : edge2.Source;
-                    var newLength = edge1.Length + edge2.Length;
-                    var newEdge = new StreetEdge()
+                    if (out0.Tags.GetValueOrDefault("name") != out1.Tags.GetValueOrDefault("name"))
+                        continue;
+                    if (in0.Tags.GetValueOrDefault("name") != out0.Tags.GetValueOrDefault("name"))
+                        continue;
+                    if (in1.Tags.GetValueOrDefault("name") != out1.Tags.GetValueOrDefault("name"))
+                        continue;
+                    
+                    // new length for new connecting edges
+                    var newLength = in0.Length + in1.Length;
+                    
+                    // find sources and targets for new connecting edges
+                    var forwardSource = in0.Source;
+                    var forwardTarget = out1.Target;
+                    var backwardSource = in1.Source;
+                    var backwardTarget = out0.Target;
+                    
+                    // assemble new connecting edges
+                    var connectingForwardEdge = new StreetEdge()
                     {
                         Length = newLength,
-                        Source = source,
-                        Target = target,
-                        Tags = edge1.Tags,
-                        SpeedLimit = edge1.SpeedLimit,
+                        Source = forwardSource,
+                        Target = forwardTarget,
+                        Tags = in0.Tags,
+                        SpeedLimit = in0.SpeedLimit,
                     };
+                    var connectingBackwardEdge = new StreetEdge()
+                    {
+                        Length = newLength,
+                        Source = backwardSource,
+                        Target = backwardTarget,
+                        Tags = in1.Tags,
+                        SpeedLimit = in1.SpeedLimit,
+                    };
+
+                    // collapse node and add new connecting edges
                     graph.RemoveVertex(node);
-                    graph.AddEdge(newEdge);
+                    graph.AddEdge(connectingForwardEdge);
+                    graph.AddEdge(connectingBackwardEdge);
+                    
                     needsRerun = true;
                 }
             }

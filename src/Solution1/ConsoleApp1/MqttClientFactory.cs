@@ -16,7 +16,7 @@ public class MqttClientFactory
         var mqttClient = MqttFactory.CreateMqttClient();
 
         var mqttClientOptions = new MqttClientOptionsBuilder()
-            .WithTcpServer(Host, 1883)
+            .WithTcpServer(Host, 8883)
             .Build();
 
         await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);

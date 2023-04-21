@@ -2,7 +2,7 @@ using QuickGraph;
 
 namespace ConsoleApp1;
 
-//needs to be thread safe
+// TODO needs to be thread safe
 public class PhysicalWorld
 {
     public PhysicalWorld(IUndirectedGraph<StreetNode, StreetEdge> graph)
