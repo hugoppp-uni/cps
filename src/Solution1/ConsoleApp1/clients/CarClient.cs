@@ -22,7 +22,7 @@ struct StreetPosition
     public override string ToString() => $"{StreetEdge.StreetName} ({DistanceFromSource:F1}m / {StreetEdge.Length:F1}m)";
 
     public StreetEdge StreetEdge { get; }
-    public double DistanceFromSource { get; }
+    public double DistanceFromSource { get; set; }
 }
 
 public class CarClient : BaseClient
@@ -55,9 +55,17 @@ public class CarClient : BaseClient
         }
         else if (Path != null && Path.Any()) // still following path
         {
-            // TODO update position according to tempo on tick
-            Position = new StreetPosition(Path.First(), 0);
-            Path = Path.Skip(1);
+            if (Position.DistanceFromSource < Position.StreetEdge.Length)
+            {
+                // 1 tick = 1 second 
+                Position = new StreetPosition(Position.StreetEdge, Position.DistanceFromSource + MathUtil.KmhToMs(Position.StreetEdge.CurrentMaxSpeed()));
+                Console.WriteLine($"[CAR {Id}]\ttick | {Position.ToString()}");
+            }
+            else
+            {
+                Position = new StreetPosition(Path.First(), 0);
+                Path = Path.Skip(1);
+            }
             //await PublishPosition(); 
         } 
     }
@@ -73,8 +81,6 @@ public class CarClient : BaseClient
         }
         else // path finding failed, i.e. when graph is not fully connected
         {
-            // TODO find new destination 
-            Console.WriteLine("--------------");
             Console.WriteLine($"[CAR {Id}]\tno path found [destination: {Destination.Id}, position: {Position.ToString()}, node: {Position.StreetEdge.Source.Id}]");
             // empty path
             Path = Enumerable.Empty<StreetEdge>();

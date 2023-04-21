@@ -27,7 +27,7 @@ CancellationTokenSource cancellationTokenSource = new();
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
 // init car clients
-var carClient = Enumerable.Range(0, 1)
+var carClient = Enumerable.Range(0, 5)
     .Select(i => CarClient.Create(mqttClientFactory, i, physicalWorld));
 var cars = await Task.WhenAll(carClient);
 

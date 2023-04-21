@@ -9,12 +9,6 @@ public class PhysicalWorld
     {
         Graph = graph;
         StreetNodes = graph.Vertices.ToList();
-        //foreach (var (node, index) in StreetNodes.Select((node, index) => (node, index)))
-        //{
-            //node.Number = index;
-        //}
-
-        
         StreetEdges = graph.Edges.ToList();
     }
 
