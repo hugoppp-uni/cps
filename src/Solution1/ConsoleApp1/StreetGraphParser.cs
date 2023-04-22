@@ -80,13 +80,6 @@ public static class StreetGraphParser
                     // init parking spots
                     forwardEdge.InitParkingSpots();
                     backwardEdge.InitParkingSpots();
-
-                    if (!dbgd)
-                    {
-                        Console.WriteLine(forwardEdge);
-                        Console.WriteLine(backwardEdge);
-                        dbgd = true;
-                    }
                     
                     // add edge to graph
                     graph.AddEdge(forwardEdge);
