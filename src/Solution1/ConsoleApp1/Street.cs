@@ -9,7 +9,7 @@ public record Street
     public int CarCount { get; set; }
     public required double SpeedLimit { get; init; }
     public List<ParkingSpot> ParkingSpots { get; set; } = new List<ParkingSpot>();
-    public double ParkingDensity { get; set; }
+    public double ParkingDensity { get; set; } = 0.8; // default density
     public int NumParkingSpots { get; set; }
     public double ParkingSpotSpacing { get; set; }
 
@@ -20,16 +20,14 @@ public record Street
         return Math.Min(SpeedLimit, MathUtil.GetSafeSpeedMs(freeStreetLength / CarCount));
     }
 
-    public void InitParkingSpots(double parkingSpotDensity)
+    public void InitParkingSpots()
     {
-        if (parkingSpotDensity < 0 || parkingSpotDensity > 1)
+        if (ParkingDensity < 0 || ParkingDensity > 1)
         {
-            throw new ArgumentOutOfRangeException(nameof(parkingSpotDensity), "Value must be between 0 and 1.");
+            throw new ArgumentOutOfRangeException(nameof(ParkingDensity), "Value must be between 0 and 1.");
         }
-
-        ParkingDensity = parkingSpotDensity;
         int maxParkingSpots = (int)Math.Floor(Length / ParkingSpot.Length);
-        NumParkingSpots = (int)Math.Floor(maxParkingSpots * parkingSpotDensity);
+        NumParkingSpots = (int)Math.Floor(maxParkingSpots * ParkingDensity);
         ParkingSpotSpacing = (Length - NumParkingSpots * ParkingSpot.Length) / NumParkingSpots;
         ParkingSpots = Enumerable.Range(0, NumParkingSpots)
             .Select(i => new ParkingSpot(i, (ParkingSpot.Length + ParkingSpotSpacing) * i, Length))

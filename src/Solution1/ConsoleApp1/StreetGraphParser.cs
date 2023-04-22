@@ -78,10 +78,8 @@ public static class StreetGraphParser
                     };
                     
                     // init parking spots
-                    // TODO refactor parking space density
-                    const double DENSITY = 0.8;
-                    forwardEdge.InitParkingSpots(DENSITY);
-                    backwardEdge.InitParkingSpots(DENSITY);
+                    forwardEdge.InitParkingSpots();
+                    backwardEdge.InitParkingSpots();
 
                     if (!dbgd)
                     {
@@ -154,6 +152,10 @@ public static class StreetGraphParser
                         Tags = in1.Tags,
                         SpeedLimit = in1.SpeedLimit,
                     };
+                    
+                    // init parking spots
+                    connectingForwardEdge.InitParkingSpots();
+                    connectingBackwardEdge.InitParkingSpots();
 
                     // collapse node and add new connecting edges
                     graph.RemoveVertex(node);
