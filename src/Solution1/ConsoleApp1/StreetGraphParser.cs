@@ -22,6 +22,7 @@ public static class StreetGraphParser
         [JsonPropertyName("lon")] public required double Lon { get; init; }
     }
 
+    private static bool dbgd = false;
     public static IMutableBidirectionalGraph<StreetNode, StreetEdge> Parse(string json)
     {
         var doc = JsonDocument.Parse(json);
@@ -75,6 +76,20 @@ public static class StreetGraphParser
                         Tags = osmWay.Tags,
                         SpeedLimit = forwardEdge.SpeedLimit,
                     };
+                    
+                    // init parking spots
+                    // TODO refactor parking space density
+                    const double DENSITY = 0.8;
+                    forwardEdge.InitParkingSpots(DENSITY);
+                    backwardEdge.InitParkingSpots(DENSITY);
+
+                    if (!dbgd)
+                    {
+                        Console.WriteLine(forwardEdge);
+                        Console.WriteLine(backwardEdge);
+                        dbgd = true;
+                    }
+                    
                     // add edge to graph
                     graph.AddEdge(forwardEdge);
                     graph.AddEdge(backwardEdge);
