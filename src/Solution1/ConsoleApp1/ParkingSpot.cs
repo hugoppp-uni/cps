@@ -3,16 +3,17 @@
 public class ParkingSpot
 {
     public bool Occupied { get; set; }
-    public static double Length { get; } = 5.0;
+    public double Length { get; }
     public double DistanceFromSource { get; }
     public double StreetLength { get; }
     public int Index { get; }
     
 
-    public ParkingSpot(int index, double distanceFromSource, double streetLength)
+    public ParkingSpot(int index, double distanceFromSource, double streetLength, double length, bool occupied)
     {
+        Length = length;
         StreetLength = streetLength;
-        Occupied = true;
+        Occupied = occupied;
         Index = index;
         DistanceFromSource = distanceFromSource;
     }

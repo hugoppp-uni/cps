@@ -47,15 +47,27 @@ public class CarClient : BaseClient
     
     private ParkingSpot LastParkingSpotPassed { get; set; }
 
-    public override string ToString() => $"[CAR {Id}, {Status}]";
+    // for calculating running avg time spent parking
+    private int TicksSpentParking { get; set; }
+    private int TimesParked { get; set; }
+    private int TicksSpentParkingSum { get; set; }
+    private int TicksSpentParkingRunningAvg { get; set; }
+
+    public override string ToString() => $"[CAR\t{Id},\t{Status}\t]";
 
     private CarClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id) : base(mqttClient)
     {
+        // running avg time spent parking
+        TicksSpentParkingSum = 0;
+        TicksSpentParking = 0;
+        TimesParked = 0;
+        TicksSpentParkingRunningAvg = 0;
+        
         Id = id;
         PhysicalWorld = physicalWorld;
-        Status = CarClientStatus.DRIVING;
         Position = StreetPosition.WithRandomDistance(physicalWorld.StreetEdges.RandomElement());
-        Console.WriteLine($"{this}\tinitial position: {Position.ToString()}");
+        Position.StreetEdge.CarCount++;
+        Console.WriteLine($"{this}\tInitial position: {Position.ToString()}");
         
         UpdateDestination();
     }
@@ -78,6 +90,7 @@ public class CarClient : BaseClient
                 break;
 
             case CarClientStatus.PARKING: // car looking for parking
+                TicksSpentParking++;
                 KeepDriving();
                 if (Position.DistanceFromSource >= Position.StreetEdge.Length)
                 {
@@ -102,67 +115,85 @@ public class CarClient : BaseClient
         }
     }
 
+    private void InitLookingForParking()
+    {
+        TicksSpentParking = 0;
+        Status = CarClientStatus.PARKING;
+        NextStreetToLookForParking();
+    }
+
 
     private void UpdateDestination()
     {
+        Status = CarClientStatus.DRIVING;
         Destination = PhysicalWorld.StreetNodes.RandomElement();
         Console.WriteLine($"{this}\tupdated destination {Destination.Id}");
         UpdatePath();
     }
-
-    private void InitLookingForParking()
-    {
-        Status = CarClientStatus.PARKING;
-        IEnumerable<StreetEdge> outEdges;
-        if (PhysicalWorld.Graph.TryGetOutEdges(Destination, out outEdges))
-        {
-            var ran = outEdges.ToList().RandomElement();
-            Path = new List<StreetEdge>{ran} ;
-            LastParkingSpotPassed = ran.ParkingSpots[0];
-            Console.WriteLine($"{this}\tLooking for parking on {ran.StreetName}");
-            TryParkingLocally();
-        }
-    }
-
+    
     private bool DestinationReached()
     {
         return !Path.Any() && Destination == Position.StreetEdge.Target && Position.DistanceFromSource >= Position.StreetEdge.Length;
     }
 
-    private void KeepDriving()
+    private async void KeepDriving()
     {
         if (Position.DistanceFromSource < Position.StreetEdge.Length) // driving on street
         {
             // 1 tick = 1 second 
             Position = new StreetPosition(Position.StreetEdge, Position.DistanceFromSource + MathUtil.KmhToMs(Position.StreetEdge.CurrentMaxSpeed()));
-            Console.WriteLine($"{this}\ttick | {Position.ToString()}");
+            Console.WriteLine($"{this}\ttick | {Position.ToString()} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
         }
         else // node reached
         {
             var overlap = Position.DistanceFromSource - Position.StreetEdge.Length;
+            Position.StreetEdge.CarCount--;
             Position = new StreetPosition(Path.First(), overlap);
+            Position.StreetEdge.CarCount++;
             Path = Path.Skip(1);
-            Console.WriteLine($"{this}\ttick | {Position.ToString()}");
-        }
+            Console.WriteLine($"{this}\ttick | {Position.ToString()} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+        } 
         //await PublishPosition(); 
     }
 
-    private void TryParkingLocally()
+    private async void TryParkingLocally()
     {
+        if (Position.StreetEdge.ParkingSpots.Count == 0) return;
         int smallestIndexUncheckedSpot = LastParkingSpotPassed.Index;
-        LastParkingSpotPassed = Position.StreetEdge.ParkingSpots[(int)Math.Floor(Position.DistanceFromSource / (ParkingSpot.Length + Position.StreetEdge.ParkingSpotSpacing))];
-        int count = LastParkingSpotPassed.Index - smallestIndexUncheckedSpot;
-            
-        var checkForOccupancy = Position.StreetEdge.ParkingSpots.GetRange(smallestIndexUncheckedSpot, count + 1);
+        int lastPassedIndex = CalculateLastPassedIndex(smallestIndexUncheckedSpot);
+        LastParkingSpotPassed = Position.StreetEdge.ParkingSpots[lastPassedIndex];
+
+        var checkForOccupancy = Position.StreetEdge.ParkingSpots
+            .Skip(smallestIndexUncheckedSpot)
+            .Take(lastPassedIndex - smallestIndexUncheckedSpot + 1);
 
         ParkingSpot availableSpot = checkForOccupancy.LastOrDefault(ps => !ps.Occupied);
         if (availableSpot != null)
         {
             Console.WriteLine($"{this}\tAvailable spot at {availableSpot.DistanceFromSource} on {Position.StreetEdge.StreetName}");
             Position = new StreetPosition(Position.StreetEdge, availableSpot.DistanceFromSource);
+            availableSpot.Occupied = true;
             Status = CarClientStatus.PARKED;
+
+            UpdateParkingTimeStats();
+            await PublishAverageTimeSpentParking();
         }
     }
+
+    private int CalculateLastPassedIndex(int smallestIndexUncheckedSpot)
+    {
+        int lastPassedIndexFromDistance = (int)Math.Floor(Position.DistanceFromSource /
+                                                          (LastParkingSpotPassed.Length + Position.StreetEdge.ParkingSpotSpacing));
+        return Math.Min(lastPassedIndexFromDistance, Position.StreetEdge.ParkingSpots.Count - 1);
+    }
+
+    private void UpdateParkingTimeStats()
+    {
+        TicksSpentParkingSum += TicksSpentParking;
+        TimesParked++;
+        TicksSpentParkingRunningAvg = TicksSpentParkingSum / TimesParked;
+    }
+
 
     private IEnumerable<StreetEdge> GetOutGoingStreets(StreetNode node)
     {
@@ -174,7 +205,6 @@ public class CarClient : BaseClient
         return null!;
     }
 
-    // TODO currently looking for parking while driving around randomly
     public void NextStreetToLookForParking()
     {
         StreetEdge nextStreet;
@@ -186,41 +216,52 @@ public class CarClient : BaseClient
         }
         else
         {
-            // TODO this can be replaced with searching for parking algorithmically
+            // TODO currently looking for parking while driving around randomly, this can be replaced with searching for parking algorithmically
             var outGoingStreets = GetOutGoingStreets(Position.StreetEdge.Target);
             nextStreet = outGoingStreets.ToList().RandomElement();
         }
         Path = new List<StreetEdge>{nextStreet} ;
         LastParkingSpotPassed = nextStreet.ParkingSpots[0];
-        TryParkingLocally();
         Console.WriteLine($"{this}\tLooking for parking on {nextStreet.StreetName}");
     }
 
     private void UpdatePath()
     {
-        // compute shortest path to destination
-        if (PhysicalWorld.Graph.ShortestPathsDijkstra(edge => 100 - edge.SpeedLimit, Position.StreetEdge.Source)
-            .Invoke(Destination, out var path))
+        var shortestPaths = PhysicalWorld.Graph.ShortestPathsDijkstra(
+            edge => 100 - edge.SpeedLimit,
+            Position.StreetEdge.Source);
+    
+        if (shortestPaths.Invoke(Destination, out var path))
         {
             Path = path;
             Console.WriteLine($"{this}\tpath: {string.Join(',', path.Select(p => p.StreetName))}");
         }
-        else // path finding failed, i.e. when graph is not fully connected
+        else
         {
-            Console.WriteLine($"{this}\tno path found [destination: {Destination.Id}, position: {Position.ToString()}, node: {Position.StreetEdge.Source.Id}]");
-            // empty path
-            Path = Enumerable.Empty<StreetEdge>();
-            Status = CarClientStatus.PATHING_FAILED;
+            Console.WriteLine($"{this}\tno path found [destination: {Destination.Id}, position: {Position}, node: {Position.StreetEdge.Source.Id}]");
+            SetPathingFailedStatus();
         }
     }
+
+    private void SetPathingFailedStatus()
+    {
+        Path = Enumerable.Empty<StreetEdge>();
+        Status = CarClientStatus.PATHING_FAILED;
+    }
     
-    // TODO publish car position 
+    // TODO publish data 
+    
     private async Task PublishPosition()
     {
         var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new { CarId = Id, Position }));
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "position", Payload = payload });
     }
 
+    private async Task PublishAverageTimeSpentParking()
+    {
+        var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new { CarId = Id, TicksSpentParkingRunningAvg }));
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "avgTimeSpentParking", Payload = payload });
+    }
 
     public static async Task<CarClient> Create(MqttClientFactory clientFactory, int id,
         PhysicalWorld physicalWorld)

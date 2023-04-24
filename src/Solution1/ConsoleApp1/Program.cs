@@ -3,8 +3,13 @@ using ConsoleApp1;
 using QuickGraph;
 
 // TODO implement parked behaviour (random parking time, then new dest)
-// TODO implement realistic parking grid
-// TODO measure kpis such as average time spent finding parking 
+// TODO implement congestion, getCurrentMaxSpeed()
+// TODO implement critical regions
+// TODO measure kpis 
+    // TODO avg time spent parking
+    // TODO traffic congestion -> avg traffic induced speed reduction
+    // TODO fuel consumption
+    // TODO avg distance from parking space to dest
 
 // parse osm data into graph
 const string ASSETS_PATH = "../../../assets/";
@@ -27,7 +32,7 @@ CancellationTokenSource cancellationTokenSource = new();
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
 // init car clients
-var carClient = Enumerable.Range(0, 1)
+var carClient = Enumerable.Range(0, 50)
     .Select(i => CarClient.Create(mqttClientFactory, i, physicalWorld));
 var cars = await Task.WhenAll(carClient);
 

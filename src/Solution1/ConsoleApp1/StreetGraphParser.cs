@@ -149,7 +149,7 @@ public static class StreetGraphParser
                     // init parking spots
                     connectingForwardEdge.InitParkingSpots();
                     connectingBackwardEdge.InitParkingSpots();
-
+                    
                     // collapse node and add new connecting edges
                     graph.RemoveVertex(node);
                     graph.AddEdge(connectingForwardEdge);
