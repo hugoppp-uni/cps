@@ -173,6 +173,7 @@ public class CarClient : BaseClient
             Console.WriteLine($"{this}\tAvailable spot at {availableSpot.DistanceFromSource} on {Position.StreetEdge.StreetName}");
             Position = new StreetPosition(Position.StreetEdge, availableSpot.DistanceFromSource);
             availableSpot.Occupied = true;
+            Position.StreetEdge.CarCount--;
             Status = CarClientStatus.PARKED;
 
             UpdateParkingTimeStats();
