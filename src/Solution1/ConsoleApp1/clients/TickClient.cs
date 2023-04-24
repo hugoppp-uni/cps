@@ -17,7 +17,7 @@ public class TickClient : BaseClient
         {
             var t1 = Stopwatch.GetTimestamp();
             await MqttClient.PublishAsync(
-                new MqttApplicationMessage() { Topic = "tick", Payload = Encoding.UTF8.GetBytes(_tick++.ToString()) },
+                new MqttApplicationMessage() { Topic = "tickgen/tick", Payload = Encoding.UTF8.GetBytes(_tick++.ToString()) },
                 token);
             var t2 = Stopwatch.GetTimestamp();
 
@@ -53,7 +53,7 @@ public class TickClient : BaseClient
 
     public static async Task<TickClient> Create(MqttClientFactory clientFactory)
     {
-        var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickDelay"));
+        var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick_delay"));
         return new TickClient(client);
     }
 

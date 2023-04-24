@@ -50,11 +50,10 @@ public class CarClient : BaseClient
 
     // for calculating running avg time spent parking
     private int TicksSpentParking { get; set; }
-    private int TimesParked { get; set; }
-    private int TicksSpentParkingSum { get; set; }
-    private int TicksSpentParkingRunningAvg { get; set; }
 
-    public static int MaxParkTime { get; } = 100;
+    public static int MaxParkTime { get; } = 20;
+
+    private ParkingSpot LastOccupied { get; set; }
     
     private int ParkTime { get; set; }
 
@@ -63,10 +62,7 @@ public class CarClient : BaseClient
     private CarClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id) : base(mqttClient)
     {
         // running avg time spent parking
-        TicksSpentParkingSum = 0;
         TicksSpentParking = 0;
-        TimesParked = 0;
-        TicksSpentParkingRunningAvg = 0;
         
         Id = id;
         PhysicalWorld = physicalWorld;
@@ -85,7 +81,6 @@ public class CarClient : BaseClient
         switch (Status)
         {
             case CarClientStatus.PATHING_FAILED: // pathing failed, new dest needed
-                Status = CarClientStatus.DRIVING;
                 UpdateDestination();
                 break;
 
@@ -95,16 +90,7 @@ public class CarClient : BaseClient
                 break;
 
             case CarClientStatus.PARKING: // car looking for parking
-                TicksSpentParking++;
-                KeepDriving();
-                if (Position.DistanceFromSource >= Position.StreetEdge.Length)
-                {
-                    NextStreetToLookForParking();
-                }
-                else
-                {
-                    TryParkingLocally();
-                }
+                LookForParking();
                 break;
 
             case CarClientStatus.DRIVING:
@@ -120,11 +106,27 @@ public class CarClient : BaseClient
         }
     }
 
+    private void LookForParking()
+    {
+        TicksSpentParking++;
+        KeepDriving();
+        if (Position.DistanceFromSource >= Position.StreetEdge.Length)
+        {
+            NextStreetToLookForParking();
+        }
+        else
+        {
+            TryParkingLocally();
+        }
+    }
+
     private void StayParked()
     {
         Console.WriteLine($"{this}\ttick | Parked at {Position} | {ParkTime} ticks remaining");
         if (ParkTime == 0)
         {
+            LastOccupied.Occupied = false;
+            Position.StreetEdge.CarCount++;
             UpdateDestination();
         }
         else
@@ -196,28 +198,40 @@ public class CarClient : BaseClient
     private async void Park(ParkingSpot parkingSpot)
     {
         Position = new StreetPosition(Position.StreetEdge, parkingSpot.DistanceFromSource);
+        LastOccupied = parkingSpot;
         parkingSpot.Occupied = true;
         Position.StreetEdge.CarCount--;
         Status = CarClientStatus.PARKED;
         Random rand = new Random();
         ParkTime = rand.Next(0, MaxParkTime + 1);
 
-        UpdateParkingTimeStats();
-        await PublishAverageTimeSpentParking();
+        double distanceFromDestination = CalculateDistanceFromDestination();
+        await PublishTimeSpentParking();
+        await PublishDistanceFromDestination(distanceFromDestination);
     }
+
+    private double CalculateDistanceFromDestination()
+    {
+        double distance = Position.StreetEdge.Length - Position.DistanceFromSource;
+        var shortestPaths = PhysicalWorld.Graph.ShortestPathsDijkstra(
+            edge => 100 - edge.SpeedLimit,
+            Position.StreetEdge.Source);
+
+        if (shortestPaths.Invoke(Destination, out var path))
+        {
+            Path = path;
+            distance += Path.Sum(streetEdge => streetEdge.Length);
+        } 
+    
+        return distance;
+    }
+
 
     private int CalculateLastPassedIndex(int smallestIndexUncheckedSpot)
     {
         int lastPassedIndexFromDistance = (int)Math.Floor(Position.DistanceFromSource /
                                                           (LastParkingSpotPassed.Length + Position.StreetEdge.ParkingSpotSpacing));
         return Math.Min(lastPassedIndexFromDistance, Position.StreetEdge.ParkingSpots.Count - 1);
-    }
-
-    private void UpdateParkingTimeStats()
-    {
-        TicksSpentParkingSum += TicksSpentParking;
-        TimesParked++;
-        TicksSpentParkingRunningAvg = TicksSpentParkingSum / TimesParked;
     }
 
 
@@ -283,16 +297,22 @@ public class CarClient : BaseClient
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "position", Payload = payload });
     }
 
-    private async Task PublishAverageTimeSpentParking()
+    private async Task PublishDistanceFromDestination(double distanceFromDestination) 
     {
-        var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new { CarId = Id, TicksSpentParkingRunningAvg }));
-        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "avgTimeSpentParking", Payload = payload });
+        var payload = Encoding.UTF8.GetBytes(distanceFromDestination.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/distFromDest", Payload = payload });
+    }
+
+    private async Task PublishTimeSpentParking()
+    {
+        var payload = Encoding.UTF8.GetBytes(TicksSpentParking.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/timeSpentParking", Payload = payload });
     }
 
     public static async Task<CarClient> Create(MqttClientFactory clientFactory, int id,
         PhysicalWorld physicalWorld)
     {
-        var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tick"));
+        var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick"));
         return new CarClient(client, physicalWorld, id);
     }
 }

@@ -10,7 +10,7 @@ public record Street
     public required double SpeedLimit { get; init; }
     public List<ParkingSpot> ParkingSpots { get; set; } = new List<ParkingSpot>();
     public double ParkingDensity { get; set; } = 0.5; // default density
-    public double ParkingFrequency { get; } = 0.05;
+    public double ParkingFrequency { get; } = 0.01;
     public int NumParkingSpots { get; set; }
     public double ParkingSpotSpacing { get; set; }
     public double ParkingSpotLength { get; } = 5.0;

@@ -2,14 +2,11 @@
 using ConsoleApp1;
 using QuickGraph;
 
-// TODO implement parked behaviour (random parking time, then new dest)
-// TODO implement congestion, getCurrentMaxSpeed()
-// TODO implement critical regions
+// TODO implement congestion, getCurrentMaxSpeed() -> eliminate possible race conditions
+// TODO eliminate race conditions
 // TODO measure kpis 
-    // TODO avg time spent parking
     // TODO traffic congestion -> avg traffic induced speed reduction
     // TODO fuel consumption
-    // TODO avg distance from parking space to dest
 
 // parse osm data into graph
 const string ASSETS_PATH = "../../../assets/";
@@ -23,7 +20,8 @@ File.WriteAllText(ASSETS_PATH + "street_graph.dot", graphviz);
 var physicalWorld = new PhysicalWorld(graph);
 
 // init client factory 
-var mqttClientFactory = new MqttClientFactory { Host = "localhost" };
+const int BROKER_PORT = 8883;
+var mqttClientFactory = new MqttClientFactory { Host = "localhost", Port = BROKER_PORT };
 
 // set up cancellation 
 CancellationTokenSource cancellationTokenSource = new();
@@ -32,7 +30,7 @@ CancellationTokenSource cancellationTokenSource = new();
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
 // init car clients
-var carClient = Enumerable.Range(0, 5)
+var carClient = Enumerable.Range(0, 50)
     .Select(i => CarClient.Create(mqttClientFactory, i, physicalWorld));
 var cars = await Task.WhenAll(carClient);
 

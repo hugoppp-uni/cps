@@ -8,6 +8,7 @@ public class MqttClientFactory
 {
     private static readonly MqttFactory MqttFactory = new();
     public required string Host { get; init; }
+    public required int Port { get; init; }
 
     public async Task<IMqttClient> CreateClient(
         Action<MqttClientSubscribeOptionsBuilder>? subscribeOptionsConfig = null
@@ -16,7 +17,7 @@ public class MqttClientFactory
         var mqttClient = MqttFactory.CreateMqttClient();
 
         var mqttClientOptions = new MqttClientOptionsBuilder()
-            .WithTcpServer(Host, 8883)
+            .WithTcpServer(Host, Port)
             .Build();
 
         await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
