@@ -12,7 +12,7 @@ public class ParkingSpot
     public ParkingSpot(int index, double distanceFromSource, double streetLength)
     {
         StreetLength = streetLength;
-        Occupied = false;
+        Occupied = true;
         Index = index;
         DistanceFromSource = distanceFromSource;
     }

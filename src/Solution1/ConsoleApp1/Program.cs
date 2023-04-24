@@ -2,8 +2,8 @@
 using ConsoleApp1;
 using QuickGraph;
 
-// TODO car clients park at free parking spaces in close proximity to their destination
-// TODO after arbitrary amount of time they find a random new destination and repeat the proces
+// TODO implement parked behaviour (random parking time, then new dest)
+// TODO implement realistic parking grid
 // TODO measure kpis such as average time spent finding parking 
 
 // parse osm data into graph
