@@ -1,0 +1,53 @@
+//C-style comments can be added
+
+/* Multi-line comments are
+ * valid too
+ * Note: Lines end with a semicolon
+ */
+
+/* This line defines what kind of graph we're making ('digraph'=directed graph)
+ * and the name of the digraph ('finite_state_machine')
+ */
+ 
+digraph finite_state_machine {
+	//Define the nodes/states in the system and their style here
+
+	
+	/*These are the entry and exit nodes for the system. 
+	 * They are small, solid black circles.
+	 * Both are listed on the same line because they all have the same properties
+	 */
+	 
+	node [shape=circle,label="ENTRY"]ENTRY;
+	
+	//This line defines a new node style: the circle
+
+	node [shape=circle];
+	
+	/* All the nodes defined here will be circles. Additional attributes defined
+	 * for each node will be added on to the attributes listed above.
+	 */
+	 
+	 PATHING_FAILED[label="PATHING_FAILED"];		//Label attributes are placed inside the node
+
+	 PARKED[label="PARKED"];	//Newlines are allowed in labels
+
+	 PARKING[label="PARKING"];
+	 
+	 DRIVING[label="DRIVING"]
+	 
+	 //Below are all of the definition of the edges that connect the nodes
+
+	 //Edges can have labels too
+
+	 ENTRY->DRIVING [label="UpdateDestination()"];
+	 DRIVING->PARKING [label="InitLookingForParking()"]; 
+	 DRIVING->DRIVING [label="KeepDriving()"]
+	 PARKING->PARKED [label="Park()"]
+	 PARKED->DRIVING [label="UpdateDestination()"]
+	 PARKED->PATHING_FAILED[label="UpdateDestination()"]
+	 ENTRY->PATHING_FAILED[label="UpdateDestination()"]
+	 PATHING_FAILED->DRIVING[label="UpdateDestination()"]
+	
+
+}

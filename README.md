@@ -38,3 +38,5 @@ min. 3 Anlagen / physische Elemente (+ Timed Automata):
 ![](docs/car.png)
 
 ![](docs/street-graph.png)
+
+![](docs/carclient_behaviour.png)

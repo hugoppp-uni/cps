@@ -85,7 +85,6 @@ public class CarClient : BaseClient
                 break;
 
             case CarClientStatus.PARKED: // car parked
-                // TODO parked behaviour
                 StayParked();
                 break;
 
