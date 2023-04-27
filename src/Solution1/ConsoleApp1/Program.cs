@@ -4,9 +4,18 @@ using QuickGraph;
 
 // TODO implement congestion, getCurrentMaxSpeed() -> eliminate possible race conditions
 // TODO eliminate race conditions
+// TODO crash test car numbers and tick delay
+// TODO overhaul magic numbers into config
+// TODO expection for broken connection
+// TODO implement tick to daytime mapping for pretty
 // TODO measure kpis 
     // TODO traffic congestion -> avg traffic induced speed reduction
     // TODO fuel consumption
+
+// TODO praking guidance system
+    // TODO regular cars, guided cars, regular parking spaces, guidance parking spaces
+    // TODO compare daytime scenarios
+    // TODO compare different street map scenarios
 
 // parse osm data into graph
 const string ASSETS_PATH = "../../../assets/";
@@ -20,7 +29,7 @@ File.WriteAllText(ASSETS_PATH + "street_graph.dot", graphviz);
 var physicalWorld = new PhysicalWorld(graph);
 
 // init client factory 
-const int BROKER_PORT = 8883;
+const int BROKER_PORT = 1883;
 var mqttClientFactory = new MqttClientFactory { Host = "localhost", Port = BROKER_PORT };
 
 // set up cancellation 
