@@ -22,7 +22,6 @@ public static class StreetGraphParser
         [JsonPropertyName("lon")] public required double Lon { get; init; }
     }
 
-    private static bool dbgd = false;
     public static IMutableBidirectionalGraph<StreetNode, StreetEdge> Parse(string json)
     {
         var doc = JsonDocument.Parse(json);

@@ -6,7 +6,26 @@ public record StreetEdge : Street, IEdge<StreetNode>
 {
     public required StreetNode Source { get; init; }
     public required StreetNode Target { get; init; }
-    public string? StreetName => Tags.GetValueOrDefault("name");
+    // public string? StreetName => Tags.GetValueOrDefault("name");
+    
+    public string? StreetName 
+    {
+        get 
+        {
+            string name = Tags.GetValueOrDefault("name");
+            if (string.IsNullOrEmpty(name))
+            {
+                string junctionString = Tags.GetValueOrDefault("junction");
+                if (junctionString != null)
+                {
+                    return char.ToUpper(junctionString[0]) + junctionString.Substring(1);
+                }
+                return junctionString;
+            } 
+            return name;
+        }
+    }
+
     public required Dictionary<string, string?> Tags { get; init; }
     
     public override string ToString()

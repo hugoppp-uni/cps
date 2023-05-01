@@ -2,7 +2,6 @@ using QuickGraph;
 
 namespace ConsoleApp1;
 
-// TODO needs to be thread safe
 public class PhysicalWorld
 {
     public PhysicalWorld(IMutableBidirectionalGraph<StreetNode, StreetEdge> graph)
@@ -12,7 +11,10 @@ public class PhysicalWorld
         StreetEdges = graph.Edges.ToList();
         foreach (var edge in StreetEdges)
         {
-            edge.InitParkingSpots();
+            if (edge.Tags.ContainsKey("name")) // parking spots on named streets only
+            {
+                edge.InitParkingSpots();
+            }
         }
     }
 

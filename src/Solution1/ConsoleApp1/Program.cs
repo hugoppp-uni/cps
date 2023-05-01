@@ -3,16 +3,12 @@ using ConsoleApp1;
 using QuickGraph;
 
 // TODO implement congestion, getCurrentMaxSpeed() -> eliminate possible race conditions
-// TODO give kreisverkehr names, look into tags to find meaningful representation
-
 // TODO measure kpis 
     // TODO traffic congestion -> avg traffic induced speed reduction || avg car number on to street length (get an idea of how car amount impacts street congestion)
     // TODO fuel consumption
-
 // TODO overhaul magic numbers into config and base on more research to make sim more realistic
 // TODO expection for broken connection
 // TODO implement tick to daytime mapping for pretty
-
 // TODO praking guidance system
     // TODO regular cars, guided cars, regular parking spaces, guidance parking spaces
     // TODO compare daytime scenarios
