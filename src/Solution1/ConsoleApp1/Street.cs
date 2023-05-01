@@ -15,9 +15,12 @@ public record Street
     public double ParkingSpotSpacing { get; set; }
     public double ParkingSpotLength { get; } = 5.0;
 
+    private object _streetLock = new object();
+
     public double CurrentMaxSpeed()
     {
         // TODO this produces negative numbers
+        // TODO lock the street
         /*
         const double carLength = 5;
         double freeStreetLength = Length - CarCount * carLength;
@@ -39,6 +42,64 @@ public record Street
         ParkingSpots = Enumerable.Range(0, NumParkingSpots)
             .Select(i => new ParkingSpot(i, (ParkingSpotLength + ParkingSpotSpacing) * i, Length, ParkingSpotLength, rand.NextDouble() >= ParkingFrequency))
             .ToList();
+    }
+    
+    public (bool parkingFound, int lastPassedOrFoundIndex) TryParkingLocally(double distanceFromSource, int lastPassedIndex)
+    {
+        lock (_streetLock)
+        {
+            if (ParkingSpots.Count == 0) return (false, -1); // street too short to have parking
+            int smallestIndexUncheckedSpot = lastPassedIndex;
+            int newLastPassedOrFoundIndex = CalculateLastPassedIndex(distanceFromSource, lastPassedIndex);
+
+            var checkForOccupancy = ParkingSpots
+                .Skip(smallestIndexUncheckedSpot)
+                .Take(lastPassedIndex - smallestIndexUncheckedSpot + 1);
+
+            ParkingSpot availableSpot = checkForOccupancy.LastOrDefault(ps => !ps.Occupied);
+            bool parkingFound = false;
+            if (availableSpot != null)
+            {
+                // Console.WriteLine($"{this}\tAvailable spot at {availableSpot.DistanceFromSource} on {Position.StreetEdge.StreetName}");
+                availableSpot.Occupied = true;
+                CarCount--;
+                newLastPassedOrFoundIndex = availableSpot.Index;
+                parkingFound = true;
+            }
+            return (parkingFound, newLastPassedOrFoundIndex);
+        }
+    }
+
+    public void FreeParkingSpot(int spotIndex)
+    {
+        lock (_streetLock)
+        {
+            ParkingSpots[spotIndex].Occupied = false;
+            CarCount++;
+        }
+    }
+    
+    private int CalculateLastPassedIndex(double distanceFromSource, int lastPassedIndex)
+    {
+        int lastPassedIndexFromDistance = (int)Math.Floor(distanceFromSource /
+                                                          (ParkingSpots[lastPassedIndex].Length + ParkingSpotSpacing));
+        return Math.Min(lastPassedIndexFromDistance, ParkingSpots.Count - 1);
+    }
+
+    public void IncrementCarCount()
+    {
+        lock (_streetLock)
+        {
+            CarCount++;
+        }
+    }
+    
+    public void DecrementCarCount()
+    {
+        lock (_streetLock)
+        {
+            CarCount--;
+        }
     }
     
     public override string ToString()

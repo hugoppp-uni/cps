@@ -46,14 +46,14 @@ public class CarClient : BaseClient
     private CarClientStatus Status { get; set; }
     
     
-    private ParkingSpot LastParkingSpotPassed { get; set; }
+    private int LastParkingSpotPassedIndex { get; set; }
 
     // for calculating running avg time spent parking
     private int TicksSpentParking { get; set; }
 
-    public static int MaxParkTime { get; } = 20;
+    public static int MaxParkTime { get; } = 500;
 
-    private ParkingSpot LastOccupied { get; set; }
+    private int LastOccupiedIndex { get; set; }
     
     private int ParkTime { get; set; }
 
@@ -67,7 +67,7 @@ public class CarClient : BaseClient
         Id = id;
         PhysicalWorld = physicalWorld;
         Position = StreetPosition.WithRandomDistance(physicalWorld.StreetEdges.RandomElement());
-        Position.StreetEdge.CarCount++;
+        Position.StreetEdge.IncrementCarCount();
         // Console.WriteLine($"{this}\tInitial position: {Position.ToString()}");
         
         UpdateDestination();
@@ -105,7 +105,7 @@ public class CarClient : BaseClient
         }
     }
 
-    private void LookForParking()
+    private async void LookForParking()
     {
         TicksSpentParking++;
         KeepDriving();
@@ -113,9 +113,21 @@ public class CarClient : BaseClient
         {
             NextStreetToLookForParking();
         }
-        else
+        else // try parking locally
         {
-            TryParkingLocally();
+            (bool parkingFound, int newLastPassedOrFound) = Position.StreetEdge.TryParkingLocally(Position.DistanceFromSource, LastParkingSpotPassedIndex);
+            LastParkingSpotPassedIndex = newLastPassedOrFound;
+            if (parkingFound) // available spot found
+            {
+                LastOccupiedIndex = LastParkingSpotPassedIndex;
+                Position = new StreetPosition(Position.StreetEdge, Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource);
+                Status = CarClientStatus.PARKED;
+                Random rand = new Random();
+                ParkTime = rand.Next(0, MaxParkTime + 1);
+                double distanceFromDestination = CalculateDistanceFromDestination();
+                await PublishTimeSpentParking();
+                await PublishDistanceFromDestination(distanceFromDestination);
+            }
         }
     }
 
@@ -124,8 +136,7 @@ public class CarClient : BaseClient
         Console.WriteLine($"{this}\ttick | Parked at {Position} | {ParkTime} ticks remaining");
         if (ParkTime == 0)
         {
-            LastOccupied.Occupied = false;
-            Position.StreetEdge.CarCount++;
+            Position.StreetEdge.FreeParkingSpot(LastOccupiedIndex);
             UpdateDestination();
         }
         else
@@ -166,18 +177,20 @@ public class CarClient : BaseClient
         else // node reached
         {
             var overlap = Position.DistanceFromSource - Position.StreetEdge.Length;
-            Position.StreetEdge.CarCount--;
+            Position.StreetEdge.DecrementCarCount();
             Position = new StreetPosition(Path.First(), overlap);
-            Position.StreetEdge.CarCount++;
+            Position.StreetEdge.IncrementCarCount();
             Path = Path.Skip(1);
             Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
         } 
         //await PublishPosition(); 
     }
 
-    private async void TryParkingLocally()
+    // TODO lock street
+    /*
+    private void TryParkingLocally()
     {
-        if (Position.StreetEdge.ParkingSpots.Count == 0) return;
+        if (Position.StreetEdge.ParkingSpots.Count == 0) return; // street too short to have parking
         int smallestIndexUncheckedSpot = LastParkingSpotPassed.Index;
         int lastPassedIndex = CalculateLastPassedIndex(smallestIndexUncheckedSpot);
         LastParkingSpotPassed = Position.StreetEdge.ParkingSpots[lastPassedIndex];
@@ -194,12 +207,13 @@ public class CarClient : BaseClient
         }
     }
 
+    // TODO lock street
     private async void Park(ParkingSpot parkingSpot)
     {
         Position = new StreetPosition(Position.StreetEdge, parkingSpot.DistanceFromSource);
         LastOccupied = parkingSpot;
         parkingSpot.Occupied = true;
-        Position.StreetEdge.CarCount--;
+        Position.StreetEdge.DecrementCarCount();
         Status = CarClientStatus.PARKED;
         Random rand = new Random();
         ParkTime = rand.Next(0, MaxParkTime + 1);
@@ -208,6 +222,7 @@ public class CarClient : BaseClient
         await PublishTimeSpentParking();
         await PublishDistanceFromDestination(distanceFromDestination);
     }
+    */
 
     private double CalculateDistanceFromDestination()
     {
@@ -226,12 +241,14 @@ public class CarClient : BaseClient
     }
 
 
+    /*
     private int CalculateLastPassedIndex(int smallestIndexUncheckedSpot)
     {
         int lastPassedIndexFromDistance = (int)Math.Floor(Position.DistanceFromSource /
                                                           (LastParkingSpotPassed.Length + Position.StreetEdge.ParkingSpotSpacing));
         return Math.Min(lastPassedIndexFromDistance, Position.StreetEdge.ParkingSpots.Count - 1);
     }
+    */
 
 
     private IEnumerable<StreetEdge> GetOutGoingStreets(StreetNode node)
@@ -260,7 +277,7 @@ public class CarClient : BaseClient
             nextStreet = outGoingStreets.ToList().RandomElement();
         }
         Path = new List<StreetEdge>{nextStreet} ;
-        LastParkingSpotPassed = nextStreet.ParkingSpots[0];
+        LastParkingSpotPassedIndex = 0; 
         // Console.WriteLine($"{this}\tLooking for parking on {nextStreet.StreetName}");
     }
 
@@ -287,8 +304,6 @@ public class CarClient : BaseClient
         Path = Enumerable.Empty<StreetEdge>();
         Status = CarClientStatus.PATHING_FAILED;
     }
-    
-    // TODO publish data 
     
     private async Task PublishPosition()
     {
