@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.VisualBasic;
 using QuickGraph;
 
 namespace ConsoleApp1;
@@ -7,6 +8,7 @@ public record Street
 {
     public required double Length { get; init; }
     public int CarCount { get; set; }
+    public double CarLength { get; } = 5.0;
     public required double SpeedLimit { get; init; }
     public List<ParkingSpot> ParkingSpots { get; set; } = new List<ParkingSpot>();
     public double ParkingDensity { get; set; } = 0.5; // default density
@@ -19,14 +21,16 @@ public record Street
 
     public double CurrentMaxSpeed()
     {
-        // TODO this produces negative numbers
-        // TODO lock the street
-        /*
-        const double carLength = 5;
-        double freeStreetLength = Length - CarCount * carLength;
-        return Math.Min(SpeedLimit, MathUtil.GetSafeSpeedMs(freeStreetLength / CarCount));
-        */
-        return SpeedLimit;
+        lock (_streetLock)
+        {
+            double freeStreetLength = Length - CarCount * CarLength;
+            double recommendedSpeed = MathUtil.GetSafeSpeedMs(freeStreetLength / CarCount);
+            if (recommendedSpeed <= 5)
+            {
+                recommendedSpeed = 5.0;
+            }
+            return Math.Min(SpeedLimit, recommendedSpeed);
+        }
     }
 
     public void InitParkingSpots()

@@ -6,7 +6,6 @@ public record StreetEdge : Street, IEdge<StreetNode>
 {
     public required StreetNode Source { get; init; }
     public required StreetNode Target { get; init; }
-    // public string? StreetName => Tags.GetValueOrDefault("name");
     
     public string? StreetName 
     {
