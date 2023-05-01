@@ -10,6 +10,10 @@ public class PhysicalWorld
         Graph = graph;
         StreetNodes = graph.Vertices.ToList();
         StreetEdges = graph.Edges.ToList();
+        foreach (var edge in StreetEdges)
+        {
+            edge.InitParkingSpots();
+        }
     }
 
 

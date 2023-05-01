@@ -5,7 +5,8 @@ using QuickGraph;
 // TODO implement congestion, getCurrentMaxSpeed() -> eliminate possible race conditions
 // TODO eliminate race conditions
 // TODO crash test car numbers and tick delay
-// TODO overhaul magic numbers into config
+
+// TODO overhaul magic numbers into config and base on more research to make sim more realistic
 // TODO expection for broken connection
 // TODO implement tick to daytime mapping for pretty
 // TODO measure kpis 
@@ -29,7 +30,7 @@ File.WriteAllText(ASSETS_PATH + "street_graph.dot", graphviz);
 var physicalWorld = new PhysicalWorld(graph);
 
 // init client factory 
-const int BROKER_PORT = 1883;
+const int BROKER_PORT = 8883;
 var mqttClientFactory = new MqttClientFactory { Host = "localhost", Port = BROKER_PORT };
 
 // set up cancellation 

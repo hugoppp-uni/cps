@@ -77,10 +77,6 @@ public static class StreetGraphParser
                         SpeedLimit = forwardEdge.SpeedLimit,
                     };
                     
-                    // init parking spots
-                    forwardEdge.InitParkingSpots();
-                    backwardEdge.InitParkingSpots();
-                    
                     // add edge to graph
                     graph.AddEdge(forwardEdge);
                     graph.AddEdge(backwardEdge);
@@ -145,10 +141,6 @@ public static class StreetGraphParser
                         Tags = in1.Tags,
                         SpeedLimit = in1.SpeedLimit,
                     };
-                    
-                    // init parking spots
-                    connectingForwardEdge.InitParkingSpots();
-                    connectingBackwardEdge.InitParkingSpots();
                     
                     // collapse node and add new connecting edges
                     graph.RemoveVertex(node);
