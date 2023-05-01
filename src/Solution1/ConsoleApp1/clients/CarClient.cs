@@ -168,11 +168,12 @@ public class CarClient : BaseClient
 
     private async void KeepDriving()
     {
+        double currentSpeed = Position.StreetEdge.CurrentMaxSpeed();
         if (Position.DistanceFromSource < Position.StreetEdge.Length) // driving on street
         {
             // 1 tick = 1 second 
-            Position = new StreetPosition(Position.StreetEdge, Position.DistanceFromSource + MathUtil.KmhToMs(Position.StreetEdge.CurrentMaxSpeed()));
-            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+            Position = new StreetPosition(Position.StreetEdge, Position.DistanceFromSource + MathUtil.KmhToMs(currentSpeed));
+            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {currentSpeed:F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
         }
         else // node reached
         {
@@ -181,48 +182,16 @@ public class CarClient : BaseClient
             Position = new StreetPosition(Path.First(), overlap);
             Position.StreetEdge.IncrementCarCount();
             Path = Path.Skip(1);
-            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {currentSpeed:F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+            // TODO dont know if this is a good place to publish these 2 kpis, performance decreases
+            double speedReduction = (Position.StreetEdge.SpeedLimit - currentSpeed) / Position.StreetEdge.SpeedLimit * 100;
+            if (speedReduction != 0)
+            {
+                await PublishSpeedReduction(currentSpeed); 
+            }
+            await PublishCarCount(Position.StreetEdge.CarCount);
         } 
-        //await PublishPosition(); 
     }
-
-    // TODO lock street
-    /*
-    private void TryParkingLocally()
-    {
-        if (Position.StreetEdge.ParkingSpots.Count == 0) return; // street too short to have parking
-        int smallestIndexUncheckedSpot = LastParkingSpotPassed.Index;
-        int lastPassedIndex = CalculateLastPassedIndex(smallestIndexUncheckedSpot);
-        LastParkingSpotPassed = Position.StreetEdge.ParkingSpots[lastPassedIndex];
-
-        var checkForOccupancy = Position.StreetEdge.ParkingSpots
-            .Skip(smallestIndexUncheckedSpot)
-            .Take(lastPassedIndex - smallestIndexUncheckedSpot + 1);
-
-        ParkingSpot availableSpot = checkForOccupancy.LastOrDefault(ps => !ps.Occupied);
-        if (availableSpot != null)
-        {
-            // Console.WriteLine($"{this}\tAvailable spot at {availableSpot.DistanceFromSource} on {Position.StreetEdge.StreetName}");
-            Park(availableSpot);
-        }
-    }
-
-    // TODO lock street
-    private async void Park(ParkingSpot parkingSpot)
-    {
-        Position = new StreetPosition(Position.StreetEdge, parkingSpot.DistanceFromSource);
-        LastOccupied = parkingSpot;
-        parkingSpot.Occupied = true;
-        Position.StreetEdge.DecrementCarCount();
-        Status = CarClientStatus.PARKED;
-        Random rand = new Random();
-        ParkTime = rand.Next(0, MaxParkTime + 1);
-
-        double distanceFromDestination = CalculateDistanceFromDestination();
-        await PublishTimeSpentParking();
-        await PublishDistanceFromDestination(distanceFromDestination);
-    }
-    */
 
     private double CalculateDistanceFromDestination()
     {
@@ -239,17 +208,6 @@ public class CarClient : BaseClient
     
         return distance;
     }
-
-
-    /*
-    private int CalculateLastPassedIndex(int smallestIndexUncheckedSpot)
-    {
-        int lastPassedIndexFromDistance = (int)Math.Floor(Position.DistanceFromSource /
-                                                          (LastParkingSpotPassed.Length + Position.StreetEdge.ParkingSpotSpacing));
-        return Math.Min(lastPassedIndexFromDistance, Position.StreetEdge.ParkingSpots.Count - 1);
-    }
-    */
-
 
     private IEnumerable<StreetEdge> GetOutGoingStreets(StreetNode node)
     {
@@ -305,10 +263,16 @@ public class CarClient : BaseClient
         Status = CarClientStatus.PATHING_FAILED;
     }
     
-    private async Task PublishPosition()
+    private async Task PublishCarCount(int carCount)
     {
-        var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new { CarId = Id, Position }));
-        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "position", Payload = payload });
+        var payload = Encoding.UTF8.GetBytes(carCount.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/carCount", Payload = payload });
+    }
+    
+    private async Task PublishSpeedReduction(double speedReduction)
+    {
+        var payload = Encoding.UTF8.GetBytes(speedReduction.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/speedReduction", Payload = payload });
     }
 
     private async Task PublishDistanceFromDestination(double distanceFromDestination) 

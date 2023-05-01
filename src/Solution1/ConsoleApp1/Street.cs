@@ -9,6 +9,7 @@ public record Street
     public required double Length { get; init; }
     public int CarCount { get; set; }
     public double CarLength { get; } = 5.0;
+    public double LowerSpeedLimit { get; } = 5.0;
     public required double SpeedLimit { get; init; }
     public List<ParkingSpot> ParkingSpots { get; set; } = new List<ParkingSpot>();
     public double ParkingDensity { get; set; } = 0.5; // default density
@@ -25,9 +26,9 @@ public record Street
         {
             double freeStreetLength = Length - CarCount * CarLength;
             double recommendedSpeed = MathUtil.GetSafeSpeedMs(freeStreetLength / CarCount);
-            if (recommendedSpeed <= 5)
+            if (recommendedSpeed <= LowerSpeedLimit)
             {
-                recommendedSpeed = 5.0;
+                recommendedSpeed = LowerSpeedLimit;
             }
             return Math.Min(SpeedLimit, recommendedSpeed);
         }
