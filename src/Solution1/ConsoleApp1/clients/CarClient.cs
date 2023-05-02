@@ -45,13 +45,16 @@ public abstract class CarClient : BaseClient
     protected StreetNode Destination { get; set; }
 
     protected CarClientStatus Status { get; set; }
+    
+    protected bool Logging { get; set; }
 
     public override string ToString() => $"[CAR\t{Id},\t{Status}\t]";
 
-    protected CarClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id) : base(mqttClient)
+    protected CarClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id, bool logging) : base(mqttClient)
     {
         Id = id;
         PhysicalWorld = physicalWorld;
+        Logging = logging;
         
         // init position
         Position = StreetPosition.WithRandomDistance(physicalWorld.StreetEdges.RandomElement());
@@ -106,24 +109,32 @@ public abstract class CarClient : BaseClient
         }
     }
 
-    private async Task HandleNodeReached()
+    protected abstract Task HandleNodeReached();
+
+    protected void TurnOnNextStreetEdge()
     {
         var overlap = Position.DistanceFromSource - Position.StreetEdge.Length;
         Position.StreetEdge.DecrementCarCount();
         Position = new StreetPosition(Path.First(), overlap);
         Position.StreetEdge.IncrementCarCount();
         Path = Path.Skip(1);
-        Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
-
-        // TODO performance issues, find better way to publish traffic situation
-        // await PublishTrafficKpis();
+        
+        if (Logging)
+        {
+            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+        }
     }
 
     private void UpdatePosition()
     {
         double speed = Position.StreetEdge.CurrentMaxSpeed();
         Position = new StreetPosition(Position.StreetEdge, Position.DistanceFromSource + MathUtil.KmhToMs(speed));
-        Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {speed:F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+        
+        if (Logging)
+        {
+            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {speed:F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+        }
+        
     }
 
     protected void UpdateDestination()
@@ -142,28 +153,20 @@ public abstract class CarClient : BaseClient
         if (shortestPaths.Invoke(Destination, out var path))
         {
             Path = path;
-            Console.WriteLine($"{this}\tpath: {string.Join(',', path.Select(p => p.StreetName))}");
+            if (Logging)
+            {
+                Console.WriteLine($"{this}\tpath: {string.Join(',', path.Select(p => p.StreetName))}");
+            }
         }
         else
         {
-            Console.WriteLine($"{this}\tno path found [destination: {Destination.Id}, position: {Position}, node: {Position.StreetEdge.Source.Id}]");
+            if (Logging)
+            {
+                Console.WriteLine($"{this}\tno path found [destination: {Destination.Id}, position: {Position}, node: {Position.StreetEdge.Source.Id}]");
+            }
             Path = Enumerable.Empty<StreetEdge>();
             Status = CarClientStatus.PATHING_FAILED;
         }
-    }
-    
-    // ----------------------------------- PUBLISH KPIs ----------------------------------- 
-
-    private async Task PublishTrafficKpis()
-    {
-        // car count
-        var payload = Encoding.UTF8.GetBytes(Position.StreetEdge.CarCount.ToString());
-        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/carCount", Payload = payload });
-        
-        // speed reduction
-        double speedReduction = 100 - ((Position.StreetEdge.CurrentMaxSpeed() / Position.StreetEdge.SpeedLimit) * 100);
-        payload = Encoding.UTF8.GetBytes(speedReduction.ToString());
-        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/speedReduction", Payload = payload });
     }
     
 }

@@ -2,9 +2,6 @@
 using ConsoleApp1;
 using QuickGraph;
 
-// TODO make sim more realistic, small portion of cars search for parking, big portion just drives around, spawns and despawns randomly
-    // TODO refactor this piece of shit code  
-
 // TODO expection for broken connection
 // TODO implement tick to daytime mapping for pretty
 // TODO overhaul magic numbers into config and base on more research to make sim more realistic
@@ -37,12 +34,12 @@ var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellati
 
 // init cruisers 
 var cruiserClients = Enumerable.Range(0, 200)
-    .Select(i => CruiserClient.Create(mqttClientFactory, i, physicalWorld));
+    .Select(i => CruiserClient.Create(mqttClientFactory, i, physicalWorld, false));
 var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
-var parkerClients = Enumerable.Range(0, 10)
-    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld));
+var parkerClients = Enumerable.Range(0, 50)
+    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, true));
 var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'

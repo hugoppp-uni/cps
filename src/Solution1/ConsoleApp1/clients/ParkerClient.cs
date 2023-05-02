@@ -9,23 +9,23 @@ public class ParkerClient: CarClient
 {
     private double FuelConsumptionRate { get; } = 6.5; // liters per 100 km, average according to German Federal Environment Agency (UBA)
     private int Co2EmissionRate { get; } = 131; // grams per km, average according to German Federal Environment Agency (UBA)
-    private const int MaxParkTime = 500;
+    private const int MaxParkTime = 50;
     private double DistanceTravelledParking { get; set; }
     private int ParkTime { get; set; }
     private int TicksSpentParking { get; set; } = 0;
     private int LastOccupiedIndex { get; set; }
     private int LastParkingSpotPassedIndex { get; set; }
     
-    protected ParkerClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id) : base(mqttClient, physicalWorld, id) {}
+    protected ParkerClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id, bool logging) : base(mqttClient, physicalWorld, id, logging) {}
     
     /*
      * Creation through factory
      */
     public static async Task<CarClient> Create(MqttClientFactory clientFactory, int id,
-        PhysicalWorld physicalWorld)
+        PhysicalWorld physicalWorld, bool logging)
     {
         var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick"));
-        return new ParkerClient(client, physicalWorld, id);
+        return new ParkerClient(client, physicalWorld, id, logging);
     }
     
     /**
@@ -77,7 +77,10 @@ public class ParkerClient: CarClient
     
     private void HandleParked()
     {
-        Console.WriteLine($"{this}\ttick | Parked at {Position} | {ParkTime} ticks remaining");
+        if (Logging)
+        {
+            Console.WriteLine($"{this}\ttick | Parked at {Position} | {ParkTime} ticks remaining");
+        }
         if (ParkTime == 0)
         {
             ResetAfterParking();
@@ -120,6 +123,12 @@ public class ParkerClient: CarClient
         return Position.DistanceFromSource >= Position.StreetEdge.Length;
     }
     
+    protected override async Task HandleNodeReached()
+    {
+        TurnOnNextStreetEdge();
+        await PublishTrafficKpis();
+    }
+    
     private async Task ParkCar()
     {
         LastOccupiedIndex = LastParkingSpotPassedIndex;
@@ -134,6 +143,18 @@ public class ParkerClient: CarClient
     }
     
     // ----------------------------------- PUBLISH KPIs ----------------------------------- 
+    
+    private async Task PublishTrafficKpis()
+    {
+        // car count
+        var payload = Encoding.UTF8.GetBytes(Position.StreetEdge.CarCount.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/carCount", Payload = payload });
+        
+        // speed reduction
+        double speedReduction = 100 - ((Position.StreetEdge.CurrentMaxSpeed() / Position.StreetEdge.SpeedLimit) * 100);
+        payload = Encoding.UTF8.GetBytes(speedReduction.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/speedReduction", Payload = payload });
+    }
     
     private async Task PublishParkingKpis()
     {
