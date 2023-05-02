@@ -2,12 +2,13 @@
 using ConsoleApp1;
 using QuickGraph;
 
-// TODO measure kpis 
-    // TODO fuel consumption (while parking)
-    // TODO CO2 emmisions (avg in US 200 g/km)
+// TODO make sim more realistic, small portion of cars search for parking, big portion just drives around, spawns and despawns randomly
+    // TODO refactor this piece of shit code  
+
 // TODO expection for broken connection
 // TODO implement tick to daytime mapping for pretty
 // TODO overhaul magic numbers into config and base on more research to make sim more realistic
+
 // TODO praking guidance system
     // TODO regular cars, guided cars, regular parking spaces, guidance parking spaces
     // TODO compare daytime scenarios
@@ -35,7 +36,7 @@ CancellationTokenSource cancellationTokenSource = new();
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
 // init car clients
-var carClient = Enumerable.Range(0, 100)
+var carClient = Enumerable.Range(0, 50)
     .Select(i => CarClient.Create(mqttClientFactory, i, physicalWorld));
 var cars = await Task.WhenAll(carClient);
 

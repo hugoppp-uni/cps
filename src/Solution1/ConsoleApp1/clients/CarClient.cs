@@ -44,8 +44,11 @@ public class CarClient : BaseClient
     private StreetNode Destination { get; set; }
 
     private CarClientStatus Status { get; set; }
-    
-    
+
+    private double FuelConsumptionRate { get; } = 6.5; // liters per 100 km, average according to German Federal Environment Agency (UBA)
+    private int CO2EmissionRate { get; } = 131; // grams per km, average according to German Federal Environment Agency (UBA)
+    private double DistanceTravelledParking { get; set; }
+
     private int LastParkingSpotPassedIndex { get; set; }
 
     // for calculating running avg time spent parking
@@ -124,9 +127,13 @@ public class CarClient : BaseClient
                 Status = CarClientStatus.PARKED;
                 Random rand = new Random();
                 ParkTime = rand.Next(0, MaxParkTime + 1);
-                double distanceFromDestination = CalculateDistanceFromDestination();
+                DistanceTravelledParking += Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource;
+                
+                await PublishDistanceTravelledParking();
+                await PublishFuelConsumptionParking();
+                await PublishCO2EmissionsParking();
                 await PublishTimeSpentParking();
-                await PublishDistanceFromDestination(distanceFromDestination);
+                await PublishDistanceFromDestination();
             }
         }
     }
@@ -136,6 +143,7 @@ public class CarClient : BaseClient
         Console.WriteLine($"{this}\ttick | Parked at {Position} | {ParkTime} ticks remaining");
         if (ParkTime == 0)
         {
+            DistanceTravelledParking = 0;
             Position.StreetEdge.FreeParkingSpot(LastOccupiedIndex);
             UpdateDestination();
         }
@@ -183,12 +191,10 @@ public class CarClient : BaseClient
             Position.StreetEdge.IncrementCarCount();
             Path = Path.Skip(1);
             Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {currentSpeed:F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+            
             // TODO dont know if this is a good place to publish these 2 kpis, performance decreases
-            double speedReduction = (Position.StreetEdge.SpeedLimit - currentSpeed) / Position.StreetEdge.SpeedLimit * 100;
-            if (speedReduction != 0)
-            {
-                await PublishSpeedReduction(currentSpeed); 
-            }
+            double speedReduction = 100 - ((currentSpeed / Position.StreetEdge.SpeedLimit) * 100);
+            await PublishSpeedReduction(speedReduction); 
             await PublishCarCount(Position.StreetEdge.CarCount);
         } 
     }
@@ -221,6 +227,7 @@ public class CarClient : BaseClient
 
     public void NextStreetToLookForParking()
     {
+        DistanceTravelledParking += Position.StreetEdge.Length;
         StreetEdge nextStreet;
         if (DestinationReached())
         {
@@ -230,7 +237,7 @@ public class CarClient : BaseClient
         }
         else
         {
-            // TODO currently looking for parking while driving around randomly, this can be replaced with searching for parking algorithmically
+            // TODO currently looking for parking while driving around randomly, this can be replaced with heuristically searching for parking 
             var outGoingStreets = GetOutGoingStreets(Position.StreetEdge.Target);
             nextStreet = outGoingStreets.ToList().RandomElement();
         }
@@ -275,11 +282,33 @@ public class CarClient : BaseClient
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/speedReduction", Payload = payload });
     }
 
-    private async Task PublishDistanceFromDestination(double distanceFromDestination) 
+    private async Task PublishDistanceFromDestination() 
     {
+        double distanceFromDestination = CalculateDistanceFromDestination();
         var payload = Encoding.UTF8.GetBytes(distanceFromDestination.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/distFromDest", Payload = payload });
     }
+    
+    private async Task PublishDistanceTravelledParking()
+    {
+        var payload = Encoding.UTF8.GetBytes(DistanceTravelledParking.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/distTravelledParking", Payload = payload });
+    }
+    
+    private async Task PublishFuelConsumptionParking()
+    {
+        double totalFuelConsumptionParking = (DistanceTravelledParking / 1000) * (FuelConsumptionRate / 100);
+        var payload = Encoding.UTF8.GetBytes(totalFuelConsumptionParking.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/fuelConsumption", Payload = payload });
+    }
+    
+    private async Task PublishCO2EmissionsParking()
+    {
+        int totalCO2EmissionsParking = (int)((DistanceTravelledParking / 1000) * CO2EmissionRate);
+        var payload = Encoding.UTF8.GetBytes(totalCO2EmissionsParking.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/parkingEmissions", Payload = payload });
+    }
+    
 
     private async Task PublishTimeSpentParking()
     {
