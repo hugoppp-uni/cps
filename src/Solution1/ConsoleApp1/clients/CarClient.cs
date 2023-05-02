@@ -63,6 +63,14 @@ public abstract class CarClient : BaseClient
 
     protected void HandlePathingFailed()
     {
+        RespawnAtRandom();
+    }
+
+    protected void RespawnAtRandom()
+    {
+        Position.StreetEdge.DecrementCarCount();
+        Position = StreetPosition.WithRandomDistance(PhysicalWorld.StreetEdges.RandomElement());
+        Position.StreetEdge.IncrementCarCount();
         UpdateDestination();
     }
 

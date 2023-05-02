@@ -36,7 +36,7 @@ CancellationTokenSource cancellationTokenSource = new();
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
 // init cruisers 
-var cruiserClients = Enumerable.Range(0, 50)
+var cruiserClients = Enumerable.Range(0, 200)
     .Select(i => CruiserClient.Create(mqttClientFactory, i, physicalWorld));
 var cruisers = await Task.WhenAll(cruiserClients);
 

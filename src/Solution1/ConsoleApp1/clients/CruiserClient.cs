@@ -38,7 +38,7 @@ public class CruiserClient: CarClient
 
     protected override void HandleDestinationReached()
     {
-        // TODO implement cruiser behaviour
+        UpdateDestination();
     }
     
 }
