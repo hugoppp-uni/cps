@@ -65,7 +65,6 @@ public record Street
             bool parkingFound = false;
             if (availableSpot != null)
             {
-                // Console.WriteLine($"{this}\tAvailable spot at {availableSpot.DistanceFromSource} on {Position.StreetEdge.StreetName}");
                 availableSpot.Occupied = true;
                 CarCount--;
                 newLastPassedOrFoundIndex = availableSpot.Index;
