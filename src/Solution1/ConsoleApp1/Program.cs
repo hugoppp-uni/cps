@@ -35,10 +35,15 @@ CancellationTokenSource cancellationTokenSource = new();
 // start tick client
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
-// init car clients
-var carClient = Enumerable.Range(0, 50)
-    .Select(i => CarClient.Create(mqttClientFactory, i, physicalWorld));
-var cars = await Task.WhenAll(carClient);
+// init cruisers 
+var cruiserClients = Enumerable.Range(0, 50)
+    .Select(i => CruiserClient.Create(mqttClientFactory, i, physicalWorld));
+var cruisers = await Task.WhenAll(cruiserClients);
+
+// init parkers 
+var parkerClients = Enumerable.Range(0, 10)
+    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld));
+var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'
 while (Console.ReadKey().Key != ConsoleKey.Q)
@@ -47,5 +52,6 @@ while (Console.ReadKey().Key != ConsoleKey.Q)
 cancellationTokenSource.Cancel();
 
 // wait for rest
-await Task.WhenAll(cars.Select(c => c.Disconnect()));
+await Task.WhenAll(cruisers.Select(c => c.Disconnect()));
+await Task.WhenAll(parkers.Select(c => c.Disconnect()));
 await tickClientTask;
