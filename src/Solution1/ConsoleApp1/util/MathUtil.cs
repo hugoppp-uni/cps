@@ -13,9 +13,9 @@ public class MathUtil
         return speedMs * SafetyDeltaSeconds;
     }
 
-    public static double GetSafeSpeedMs(double distance)
+    public static double GetSafeSpeedMs(double distance, double lowerLimit = 1.38) //5kmh
     {
         //v = d / t
-        return distance / SafetyDeltaSeconds;
+        return Math.Max(lowerLimit, distance / SafetyDeltaSeconds);
     }
 }

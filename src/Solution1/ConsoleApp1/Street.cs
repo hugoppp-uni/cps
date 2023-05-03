@@ -9,7 +9,6 @@ public record Street
     public required double Length { get; init; }
     public int CarCount { get; set; }
     public double CarLength { get; } = 5.0;
-    public double LowerSpeedLimit { get; } = 5.0;
     public required double SpeedLimit { get; init; }
     public List<ParkingSpot> ParkingSpots { get; set; } = new List<ParkingSpot>();
     public double ParkingDensity { get; set; } = 0.5; // default density
@@ -18,18 +17,13 @@ public record Street
     public double ParkingSpotSpacing { get; set; }
     public double ParkingSpotLength { get; } = 5.0;
 
-    private object _streetLock = new object();
 
     public double CurrentMaxSpeed()
     {
-        lock (_streetLock)
+        lock (this)
         {
             double freeStreetLength = Length - CarCount * CarLength;
             double recommendedSpeed = MathUtil.GetSafeSpeedMs(freeStreetLength / CarCount);
-            if (recommendedSpeed <= LowerSpeedLimit)
-            {
-                recommendedSpeed = LowerSpeedLimit;
-            }
             return Math.Min(SpeedLimit, recommendedSpeed);
         }
     }
@@ -51,7 +45,7 @@ public record Street
     
     public (bool parkingFound, int lastPassedOrFoundIndex) TryParkingLocally(double distanceFromSource, int lastPassedIndex)
     {
-        lock (_streetLock)
+        lock (this)
         {
             if (ParkingSpots.Count == 0) return (false, -1); // street too short to have parking
             int smallestIndexUncheckedSpot = lastPassedIndex;
@@ -76,7 +70,7 @@ public record Street
 
     public void FreeParkingSpot(int spotIndex)
     {
-        lock (_streetLock)
+        lock (this)
         {
             ParkingSpots[spotIndex].Occupied = false;
             CarCount++;
@@ -92,7 +86,7 @@ public record Street
 
     public void IncrementCarCount()
     {
-        lock (_streetLock)
+        lock (this)
         {
             CarCount++;
         }
@@ -100,7 +94,7 @@ public record Street
     
     public void DecrementCarCount()
     {
-        lock (_streetLock)
+        lock (this)
         {
             CarCount--;
         }
