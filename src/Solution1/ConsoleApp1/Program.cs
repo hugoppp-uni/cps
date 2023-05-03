@@ -1,31 +1,30 @@
-﻿using System.Runtime.InteropServices;
-using ConsoleApp1;
+﻿using ConsoleApp1;
 using ConsoleApp1.clients;
-using QuickGraph;
 
 // TODO expection for broken connection
 // TODO implement tick to daytime mapping for pretty
 // TODO overhaul magic numbers into config and base on more research to make sim more realistic
 
 // TODO praking guidance system
-    // TODO regular cars, guided cars, regular parking spaces, guidance parking spaces
-    // TODO compare daytime scenarios
-    // TODO compare different street map scenarios
+// TODO regular cars, guided cars, regular parking spaces, guidance parking spaces
+// TODO compare daytime scenarios
+// TODO compare different street map scenarios
+
+const string assetsPath = "../../../assets/";
+const int brokerPort = 1883;
 
 // parse osm data into graph
-const string ASSETS_PATH = "../../../assets/";
-var graph = StreetGraphParser.Parse(File.ReadAllText(ASSETS_PATH + "street.json"));
+var graph = StreetGraphParser.Parse(File.ReadAllText(Path.Combine(assetsPath, "street.json")));
 
 // generate dot file of graph
-var graphviz = graph.ToGraphvizFormatted();//.Replace("->", "--");
-File.WriteAllText(ASSETS_PATH + "street_graph.dot", graphviz);
+var graphviz = graph.ToGraphvizFormatted(); 
+File.WriteAllText(Path.Combine(assetsPath, "street_graph.dot"), graphviz);
 
 // init sim
 var physicalWorld = new PhysicalWorld(graph);
 
 // init client factory 
-const int BROKER_PORT = 8883;
-var mqttClientFactory = new MqttClientFactory { Host = "localhost", Port = BROKER_PORT };
+var mqttClientFactory = new MqttClientFactory { Host = "localhost", Port = brokerPort };
 
 // set up cancellation 
 CancellationTokenSource cancellationTokenSource = new();
@@ -47,6 +46,7 @@ var parkers = await Task.WhenAll(parkerClients);
 while (Console.ReadKey().Key != ConsoleKey.Q)
 {
 }
+
 cancellationTokenSource.Cancel();
 
 // wait for rest
