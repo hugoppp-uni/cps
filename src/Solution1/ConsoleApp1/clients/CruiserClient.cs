@@ -23,11 +23,11 @@ public class CruiserClient: CarClient
     {
         switch (Status)
         {
-            case CarClientStatus.PATHING_FAILED: // pathing failed to destination failed and has to be redone
+            case CarClientStatus.PathingFailed: // pathing failed to destination failed and has to be redone
                 HandlePathingFailed();
                 break;
 
-            case CarClientStatus.DRIVING: // car is driving according to the shortest path to their random destination
+            case CarClientStatus.Driving: // car is driving according to the shortest path to their random destination
                 await HandleDriving();
                 break;
             

@@ -24,10 +24,10 @@ public struct StreetPosition
 
 public enum CarClientStatus
 {
-    DRIVING,
-    PARKING,
-    PARKED,
-    PATHING_FAILED
+    Driving,
+    Parking,
+    Parked,
+    PathingFailed
 }
 
 public abstract class CarClient : BaseClient
@@ -49,6 +49,7 @@ public abstract class CarClient : BaseClient
         Id = id;
         PhysicalWorld = physicalWorld;
         Logging = logging;
+        Path = Enumerable.Empty<StreetEdge>();
         
         // init position
         Position = StreetPosition.WithRandomDistance(physicalWorld.StreetEdges.RandomElement());
@@ -133,7 +134,7 @@ public abstract class CarClient : BaseClient
 
     protected void UpdateDestination()
     {
-        Status = CarClientStatus.DRIVING;
+        Status = CarClientStatus.Driving;
         Destination = PhysicalWorld.StreetNodes.RandomElement();
         UpdatePath();
     }
@@ -159,7 +160,7 @@ public abstract class CarClient : BaseClient
                 Console.WriteLine($"{this}\tno path found [destination: {Destination.Id}, position: {Position}, node: {Position.StreetEdge.Source.Id}]");
             }
             Path = Enumerable.Empty<StreetEdge>();
-            Status = CarClientStatus.PATHING_FAILED;
+            Status = CarClientStatus.PathingFailed;
         }
     }
     

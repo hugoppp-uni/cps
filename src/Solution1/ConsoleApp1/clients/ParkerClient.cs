@@ -35,19 +35,19 @@ public class ParkerClient: CarClient
     {
         switch (Status)
         {
-            case CarClientStatus.PATHING_FAILED: // pathing failed to destination failed and has to be redone
+            case CarClientStatus.PathingFailed: // pathing failed to destination failed and has to be redone
                 HandlePathingFailed();
                 break;
 
-            case CarClientStatus.PARKED: // car is parked for a random amount of ticks
+            case CarClientStatus.Parked: // car is parked for a random amount of ticks
                 HandleParked();
                 break;
 
-            case CarClientStatus.PARKING: // car is driving around randomly looking for a available parking spot
+            case CarClientStatus.Parking: // car is driving around randomly looking for a available parking spot
                 await HandleParking();
                 break;
 
-            case CarClientStatus.DRIVING: // car is driving according to the shortest path to their random destination
+            case CarClientStatus.Driving: // car is driving according to the shortest path to their random destination
                 await HandleDriving();
                 break;
             
@@ -60,7 +60,7 @@ public class ParkerClient: CarClient
     {
         // init looking for parking
         TicksSpentParking = 0;
-        Status = CarClientStatus.PARKING;
+        Status = CarClientStatus.Parking;
         NextStreetToLookForParking();
     }
     
@@ -133,7 +133,7 @@ public class ParkerClient: CarClient
     {
         LastOccupiedIndex = LastParkingSpotPassedIndex;
         Position = new StreetPosition(Position.StreetEdge, Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource);
-        Status = CarClientStatus.PARKED;
+        Status = CarClientStatus.Parked;
         Random rand = new Random();
         ParkTime = rand.Next(0, MaxParkTime + 1);
         DistanceTravelledParking += Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource;
