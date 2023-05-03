@@ -3,7 +3,7 @@ using System.Text;
 using MQTTnet;
 using MQTTnet.Client;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.clients;
 
 public class TickClient : BaseClient
 {

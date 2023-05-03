@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using ConsoleApp1;
+using ConsoleApp1.clients;
 using QuickGraph;
 
 // TODO expection for broken connection

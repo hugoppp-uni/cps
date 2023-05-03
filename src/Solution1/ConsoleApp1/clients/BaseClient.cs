@@ -1,6 +1,6 @@
 using MQTTnet.Client;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.clients;
 
 public abstract class BaseClient
 {

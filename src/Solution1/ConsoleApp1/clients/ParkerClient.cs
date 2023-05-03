@@ -3,7 +3,7 @@ using MQTTnet;
 using MQTTnet.Client;
 using QuickGraph.Algorithms;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.clients;
 
 public class ParkerClient: CarClient
 {

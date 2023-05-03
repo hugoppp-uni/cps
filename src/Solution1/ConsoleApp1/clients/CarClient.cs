@@ -1,13 +1,7 @@
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Text.Json;
-using MQTTnet;
 using MQTTnet.Client;
-using QuickGraph;
 using QuickGraph.Algorithms;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.clients;
 
 public struct StreetPosition
 {
