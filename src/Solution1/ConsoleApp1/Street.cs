@@ -1,7 +1,3 @@
-using System.Text;
-using Microsoft.VisualBasic;
-using QuickGraph;
-
 namespace ConsoleApp1;
 
 public record Street
@@ -34,16 +30,19 @@ public record Street
         {
             throw new ArgumentOutOfRangeException(nameof(ParkingDensity), "Value must be between 0 and 1.");
         }
+
         int maxParkingSpots = (int)Math.Floor(Length / ParkingSpotLength);
         NumParkingSpots = (int)Math.Floor(maxParkingSpots * ParkingDensity);
         ParkingSpotSpacing = (Length - NumParkingSpots * ParkingSpotLength) / NumParkingSpots;
         Random rand = new Random();
         ParkingSpots = Enumerable.Range(0, NumParkingSpots)
-            .Select(i => new ParkingSpot(i, (ParkingSpotLength + ParkingSpotSpacing) * i, Length, ParkingSpotLength, rand.NextDouble() >= ParkingFrequency))
+            .Select(i => new ParkingSpot(i, (ParkingSpotLength + ParkingSpotSpacing) * i, Length, ParkingSpotLength,
+                rand.NextDouble() >= ParkingFrequency))
             .ToList();
     }
-    
-    public (bool parkingFound, int lastPassedOrFoundIndex) TryParkingLocally(double distanceFromSource, int lastPassedIndex)
+
+    public (bool parkingFound, int lastPassedOrFoundIndex) TryParkingLocally(double distanceFromSource,
+        int lastPassedIndex)
     {
         lock (this)
         {
@@ -55,16 +54,14 @@ public record Street
                 .Skip(smallestIndexUncheckedSpot)
                 .Take(lastPassedIndex - smallestIndexUncheckedSpot + 1);
 
-            ParkingSpot availableSpot = checkForOccupancy.LastOrDefault(ps => !ps.Occupied);
-            bool parkingFound = false;
-            if (availableSpot != null)
-            {
-                availableSpot.Occupied = true;
-                CarCount--;
-                newLastPassedOrFoundIndex = availableSpot.Index;
-                parkingFound = true;
-            }
-            return (parkingFound, newLastPassedOrFoundIndex);
+            ParkingSpot? availableSpot = checkForOccupancy.LastOrDefault(ps => !ps.Occupied);
+            if (availableSpot == null)
+                return (false, newLastPassedOrFoundIndex);
+
+            availableSpot.Occupied = true;
+            CarCount--;
+            newLastPassedOrFoundIndex = availableSpot.Index;
+            return (true, newLastPassedOrFoundIndex);
         }
     }
 
@@ -76,7 +73,7 @@ public record Street
             CarCount++;
         }
     }
-    
+
     private int CalculateLastPassedIndex(double distanceFromSource, int lastPassedIndex)
     {
         int lastPassedIndexFromDistance = (int)Math.Floor(distanceFromSource /
@@ -91,7 +88,7 @@ public record Street
             CarCount++;
         }
     }
-    
+
     public void DecrementCarCount()
     {
         lock (this)
@@ -99,15 +96,14 @@ public record Street
             CarCount--;
         }
     }
-    
+
     public override string ToString()
     {
         string parkingInfo = ParkingSpots.Count == 0
             ? "No parking."
             : $"Parking spots ({ParkingSpots.Count}): \n{string.Join("\n", ParkingSpots.Select(p => p.ToString()))}";
 
-        return $"Length: {Length}, Car count: {CarCount}, Speed limit: {SpeedLimit}, Parking Density: {ParkingDensity}, Parking Spacing: {ParkingSpotSpacing:F2}\n{parkingInfo}\n";
+        return
+            $"Length: {Length}, Car count: {CarCount}, Speed limit: {SpeedLimit}, Parking Density: {ParkingDensity}, Parking Spacing: {ParkingSpotSpacing:F2}\n{parkingInfo}\n";
     }
-
-
 }
