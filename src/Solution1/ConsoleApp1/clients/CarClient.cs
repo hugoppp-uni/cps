@@ -147,10 +147,10 @@ public abstract class CarClient : BaseClient
     
         if (shortestPaths.Invoke(Destination, out var path))
         {
-            Path = path;
+            Path = path.ToList();
             if (Logging)
             {
-                Console.WriteLine($"{this}\tpath: {string.Join(',', path.Select(p => p.StreetName))}");
+                Console.WriteLine($"{this}\tpath: {string.Join(',', Path.Select(p => p.StreetName))}");
             }
         }
         else
