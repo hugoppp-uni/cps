@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using MQTTnet;
 using MQTTnet.Client;
 using QuickGraph.Algorithms;
@@ -15,17 +17,26 @@ public class ParkerClient: CarClient
     private int TicksSpentParking { get; set; } = 0;
     private int LastOccupiedIndex { get; set; }
     private int LastParkingSpotPassedIndex { get; set; }
+    private ParkingSpot? ReservedSpot { get; set; }
     
-    protected ParkerClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id, bool logging) : base(mqttClient, physicalWorld, id, logging) {}
-    
+    private bool SupportsPgs { get; set; }
+    public ParkingGuidanceSystem Pgs { get; set; }
+
+    protected ParkerClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, int id,
+        bool supportsPgs, bool logging) : base(mqttClient, physicalWorld, id, logging)
+    {
+        Pgs = pgs;
+        SupportsPgs = supportsPgs;
+    }
+
     /*
      * Creation through factory
      */
     public static async Task<CarClient> Create(MqttClientFactory clientFactory, int id,
-        PhysicalWorld physicalWorld, bool logging)
+        PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, bool supportsPgs, bool logging)
     {
         var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick"));
-        return new ParkerClient(client, physicalWorld, id, logging);
+        return new ParkerClient(client, physicalWorld, pgs, id, supportsPgs, logging);
     }
     
     /**
@@ -55,6 +66,43 @@ public class ParkerClient: CarClient
                 throw new InvalidOperationException($"{this}\tInvalid status: {Status}");
         }
     }
+    
+    protected async override void UpdateDestination()
+    {
+        Status = CarClientStatus.Driving;
+        if (SupportsPgs)
+        {
+            var destination = PhysicalWorld.StreetNodes.RandomElement();
+            var pathResponse = Pgs.RequestGuidanceFromServer(Position, destination);
+            // todo handle response
+            Path = pathResponse.PathToReservedParkingSpot;
+            ReservedSpot = pathResponse.ReservedParkingSpot;
+        }
+        else
+        {
+            Destination = PhysicalWorld.StreetNodes.RandomElement();
+            UpdatePath();
+        }
+    }
+    
+    protected override void TurnOnNextStreetEdge()
+    {
+        var overlap = Position.DistanceFromSource - Position.StreetEdge.Length;
+        Position.StreetEdge.DecrementCarCount();
+        Position = new StreetPosition(Path.First(), overlap);
+        Position.StreetEdge.IncrementCarCount();
+        Path = Path.Skip(1);
+        if (Logging)
+        {
+            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+        }
+        
+        if (ReservedSpot != null && !Path.Any())
+        {
+            Status = CarClientStatus.Parking;
+        }
+    }
+
     
     protected override void HandleDestinationReached()
     {
@@ -107,10 +155,19 @@ public class ParkerClient: CarClient
             DistanceTravelledParking += Position.StreetEdge.Length;
             NextStreetToLookForParking();
         }
-        else 
+        else
         {
-            (bool parkingFound, int newLastPassedOrFound) = Position.StreetEdge.TryParkingLocally(Position.DistanceFromSource, LastParkingSpotPassedIndex);
-            LastParkingSpotPassedIndex = newLastPassedOrFound;
+            bool parkingFound = false;
+            if (ReservedSpot != null)
+            {
+                parkingFound = Position.DistanceFromSource >= ReservedSpot.DistanceFromSource;
+                LastParkingSpotPassedIndex = ReservedSpot.Index;
+            }
+            else
+            {
+                (parkingFound, int newLastPassedOrFound) = Position.StreetEdge.TryParkingLocally(Position.DistanceFromSource, LastParkingSpotPassedIndex);
+                LastParkingSpotPassedIndex = newLastPassedOrFound;
+            }
             if (parkingFound) // available spot found
             {
                 await ParkCar();
@@ -137,6 +194,11 @@ public class ParkerClient: CarClient
         Random rand = new Random();
         ParkTime = rand.Next(0, MaxParkTime + 1);
         DistanceTravelledParking += Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource;
+
+        if (SupportsPgs)
+        {
+            Console.WriteLine("Successfully parked with PGS...");
+        }
 
         await PublishParkingKpis();
         await PublishEnvironmentKpis();

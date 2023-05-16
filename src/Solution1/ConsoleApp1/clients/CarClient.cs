@@ -87,20 +87,9 @@ public abstract class CarClient : BaseClient
 
     protected abstract Task HandleNodeReached();
 
-    protected void TurnOnNextStreetEdge()
-    {
-        var overlap = Position.DistanceFromSource - Position.StreetEdge.Length;
-        Position.StreetEdge.DecrementCarCount();
-        Position = new StreetPosition(Path.First(), overlap);
-        Position.StreetEdge.IncrementCarCount();
-        Path = Path.Skip(1);
-        
-        if (Logging)
-        {
-            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
-        }
-    }
 
+    protected abstract void TurnOnNextStreetEdge();
+    
     private void UpdatePosition()
     {
         double speed = Position.StreetEdge.CurrentMaxSpeed();
@@ -113,14 +102,10 @@ public abstract class CarClient : BaseClient
         
     }
 
-    protected void UpdateDestination()
-    {
-        Status = CarClientStatus.Driving;
-        Destination = PhysicalWorld.StreetNodes.RandomElement();
-        UpdatePath();
-    }
+    protected abstract void UpdateDestination();
 
-    private void UpdatePath()
+
+    protected void UpdatePath()
     {
         var shortestPaths = PhysicalWorld.Graph.ShortestPathsDijkstra(
             edge => 100 - edge.SpeedLimit,

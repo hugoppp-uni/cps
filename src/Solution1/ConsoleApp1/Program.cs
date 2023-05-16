@@ -5,6 +5,8 @@ using ConsoleApp1.clients;
 // TODO implement tick to daytime mapping for pretty
 // TODO overhaul magic numbers into config and base on more research to make sim more realistic
 
+// TODO kpi: distance driven to parking spot / distance from source to destination
+
 // TODO praking guidance system
 // TODO regular cars, guided cars, regular parking spaces, guidance parking spaces
 // TODO compare daytime scenarios
@@ -33,13 +35,14 @@ CancellationTokenSource cancellationTokenSource = new();
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
 // init cruisers 
-var cruiserClients = Enumerable.Range(0, 200)
+var cruiserClients = Enumerable.Range(0, 100)
     .Select(i => CruiserClient.Create(mqttClientFactory, i, physicalWorld, false));
 var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
-var parkerClients = Enumerable.Range(0, 50)
-    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, true));
+ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, true);
+var parkerClients = Enumerable.Range(0, 10)
+    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, pgs, true, false));
 var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'

@@ -35,6 +35,27 @@ public class CruiserClient: CarClient
                 throw new InvalidOperationException($"{this}\tInvalid status: {Status}");
         }
     }
+    
+    protected override void TurnOnNextStreetEdge()
+    {
+        var overlap = Position.DistanceFromSource - Position.StreetEdge.Length;
+        Position.StreetEdge.DecrementCarCount();
+        Position = new StreetPosition(Path.First(), overlap);
+        Position.StreetEdge.IncrementCarCount();
+        Path = Path.Skip(1);
+        
+        if (Logging)
+        {
+            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
+        }
+    }
+    
+    protected override void UpdateDestination()
+    {
+        Status = CarClientStatus.Driving;
+        Destination = PhysicalWorld.StreetNodes.RandomElement();
+        UpdatePath();
+    }
 
     protected override void HandleDestinationReached()
     {
