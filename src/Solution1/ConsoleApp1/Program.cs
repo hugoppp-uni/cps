@@ -1,5 +1,9 @@
 ﻿using ConsoleApp1;
 using ConsoleApp1.clients;
+using ConsoleApp1.pgs;
+using ConsoleApp1.sim;
+using ConsoleApp1.sim.graph;
+using ConsoleApp1.util;
 
 // TODO: implement breadth first parking spot search
 // TODO: implement parking guidance switch
@@ -37,7 +41,7 @@ var cruiserClients = Enumerable.Range(0, 100)
 var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
-ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, true);
+ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new NearestParkingStrategy(), true);
 var parkerClients = Enumerable.Range(0, 10)
     .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, pgs, true, true));
 var parkers = await Task.WhenAll(parkerClients);

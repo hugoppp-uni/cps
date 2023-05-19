@@ -1,6 +1,6 @@
 using QuickGraph;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.sim.graph;
 
 public record StreetEdge : Street, IEdge<StreetNode>
 {

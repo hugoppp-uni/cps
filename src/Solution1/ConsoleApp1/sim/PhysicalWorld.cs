@@ -1,6 +1,7 @@
+using ConsoleApp1.sim.graph;
 using QuickGraph;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.sim;
 
 public class PhysicalWorld
 {

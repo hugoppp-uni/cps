@@ -1,50 +1,25 @@
-﻿using QuickGraph;
+﻿using ConsoleApp1.sim;
+using ConsoleApp1.sim.graph;
+using QuickGraph;
 using QuickGraph.Algorithms;
 
-namespace ConsoleApp1;
-
-public record PathResponse(IEnumerable<StreetEdge> PathToReservedParkingSpot, ParkingSpot ReservedParkingSpot);
-
-public interface IParkingStrategy
-{
-    public ParkingSpot FindParkingSpot(PhysicalWorld world, StreetNode destination);
-}
-
-public class NearestParkingStrategy: IParkingStrategy
-{
-    public ParkingSpot FindParkingSpot(PhysicalWorld world, StreetNode destination)
-    {
-        // TODO: algorithm
-        var outEdges = world.Graph.OutEdges(destination);
-        var inEdges = world.Graph.InEdges(destination);
-        var adjacentEdges = outEdges.Concat(inEdges);
-
-        var freeSpot = adjacentEdges
-            .FirstOrDefault(edge => edge.ParkingSpots.Any(spot => !spot.Occupied))?
-            .ParkingSpots.FirstOrDefault(spot => !spot.Occupied);
-
-        if (freeSpot is null)
-        {
-            return null!;
-        }
-        
-        return freeSpot;
-    }
-}
+namespace ConsoleApp1.pgs;
 
 public class ParkingGuidanceSystem 
 {
     public PhysicalWorld World { get; set; }
     public bool Logging { get; set; }
 
-    private IParkingStrategy _parkingStrategy = new NearestParkingStrategy();
+    private IParkingStrategy _parkingStrategy;
 
     private Func<StreetEdge, double> _searchEdgeWeights = edge => 100 - edge.SpeedLimit;
     
-    public ParkingGuidanceSystem(PhysicalWorld physicalWorld, bool logging)
+    public ParkingGuidanceSystem(PhysicalWorld physicalWorld, IParkingStrategy parkingStrategy,
+        bool logging)
     {
         Logging = logging;
         World = physicalWorld;
+        _parkingStrategy = parkingStrategy;
     }
 
     public PathResponse RequestGuidanceFromServer(StreetPosition position, StreetNode destination)

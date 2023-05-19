@@ -1,4 +1,6 @@
-namespace ConsoleApp1;
+using ConsoleApp1.sim.graph;
+
+namespace ConsoleApp1.sim;
 
 public struct StreetPosition
 {

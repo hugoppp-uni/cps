@@ -2,7 +2,7 @@ using MQTTnet;
 using MQTTnet.Client;
 using QuickGraph;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.clients;
 
 public class MqttClientFactory
 {

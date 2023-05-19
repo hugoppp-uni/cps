@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using Geolocation;
 using QuickGraph.Serialization.DirectedGraphML;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.sim.graph;
 
 public static class StreetGraphParser
 {

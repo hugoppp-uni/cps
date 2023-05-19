@@ -1,10 +1,11 @@
 using System.Collections;
+using ConsoleApp1.sim.graph;
 using MQTTnet;
 using MQTTnet.Client;
 using QuickGraph;
 using QuickGraph.Graphviz;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.util;
 
 public static class Extensions
 {

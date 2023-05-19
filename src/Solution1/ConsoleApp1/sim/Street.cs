@@ -1,4 +1,6 @@
-namespace ConsoleApp1;
+using ConsoleApp1.util;
+
+namespace ConsoleApp1.sim;
 
 public record Street
 {
