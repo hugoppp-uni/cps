@@ -6,7 +6,8 @@ using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
 // TODO: implement parking guidance switch
-// TODO: kpi: distance driven to parking spot / distance from source to destination
+// TODO: handle MQTT connection errors
+// TODO: kpi: distance driven to parking spot / distance from source to destination ! REPLACE W/ DISTANCE TRAVELLED PARKING
 
 // TODO: refactor CarClient, ParkerClient and CruiserClient into composition
 // TODO: compare daytime scenarios
@@ -35,14 +36,14 @@ CancellationTokenSource cancellationTokenSource = new();
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
 // init cruisers 
-var cruiserClients = Enumerable.Range(0, 100)
+var cruiserClients = Enumerable.Range(0, 250)
     .Select(i => CruiserClient.Create(mqttClientFactory, i, physicalWorld, false));
 var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
 ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new NearestParkingStrategy(), true);
-var parkerClients = Enumerable.Range(0, 10)
-    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, pgs, true, true));
+var parkerClients = Enumerable.Range(0, 50)
+    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, pgs, false, true));
 var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'

@@ -13,6 +13,11 @@ namespace ConsoleApp1.clients;
 
 public class ParkerClient: CarClient
 {
+    // traffic metrics
+    private double _speedReductionRunningAvg;
+    private double _speedReductionSum;
+    private long _speedReductionCount;
+    
     private double FuelConsumptionRate { get; } = 6.5; // liters per 100 km, average according to German Federal Environment Agency (UBA)
     private int Co2EmissionRate { get; } = 131; // grams per km, average according to German Federal Environment Agency (UBA)
     private const int MaxParkTime = 50;
@@ -154,6 +159,7 @@ public class ParkerClient: CarClient
     private void ResetAfterParking()
     {
         DistanceTravelledParking = 0;
+        ResetTrafficMetrics();
         Position.StreetEdge.FreeParkingSpot(LastOccupiedIndex);
         UpdateDestination();
     }
@@ -195,7 +201,22 @@ public class ParkerClient: CarClient
     protected override async Task HandleNodeReached()
     {
         TurnOnNextStreetEdge();
-        await PublishTrafficKpis();
+        UpdateTrafficMetrics();
+    }
+
+    private void UpdateTrafficMetrics()
+    {
+        double speedReductionP = 100 - ((Position.StreetEdge.CurrentMaxSpeed() / Position.StreetEdge.SpeedLimit) * 100);
+        _speedReductionSum += speedReductionP;
+        _speedReductionCount++;
+        _speedReductionRunningAvg = _speedReductionSum / _speedReductionCount;
+    }
+    
+    private void ResetTrafficMetrics()
+    {
+        _speedReductionRunningAvg = 0;
+        _speedReductionCount = 0;
+        _speedReductionSum = 0;
     }
     
     private async Task ParkCar()
@@ -207,6 +228,7 @@ public class ParkerClient: CarClient
         ParkTime = rand.Next(0, MaxParkTime + 1);
         DistanceTravelledParking += Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource;
 
+        await PublishTrafficKpis();
         await PublishParkingKpis();
         await PublishEnvironmentKpis();
     }
@@ -215,13 +237,8 @@ public class ParkerClient: CarClient
     
     private async Task PublishTrafficKpis()
     {
-        // car count
-        var payload = Encoding.UTF8.GetBytes(Position.StreetEdge.CarCount.ToString());
-        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/carCount", Payload = payload });
-        
         // speed reduction
-        double speedReduction = 100 - ((Position.StreetEdge.CurrentMaxSpeed() / Position.StreetEdge.SpeedLimit) * 100);
-        payload = Encoding.UTF8.GetBytes(speedReduction.ToString());
+        var payload = Encoding.UTF8.GetBytes(_speedReductionRunningAvg.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "kpi/speedReduction", Payload = payload });
     }
     
