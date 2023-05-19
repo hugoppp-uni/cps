@@ -5,6 +5,7 @@ using ConsoleApp1.clients;
 // TODO: implement parking guidance switch
 // TODO: kpi: distance driven to parking spot / distance from source to destination
 
+// TODO: refactor CarClient, ParkerClient and CruiserClient into composition
 // TODO: compare daytime scenarios
 // TODO: compare different street map scenarios
 

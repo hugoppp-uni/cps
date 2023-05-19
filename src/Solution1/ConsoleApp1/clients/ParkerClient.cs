@@ -202,11 +202,6 @@ public class ParkerClient: CarClient
         ParkTime = rand.Next(0, MaxParkTime + 1);
         DistanceTravelledParking += Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource;
 
-        if (SupportsPgs)
-        {
-            Console.WriteLine("Successfully parked with PGS...");
-        }
-
         await PublishParkingKpis();
         await PublishEnvironmentKpis();
     }
