@@ -5,7 +5,6 @@ using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
-// TODO: implement breadth first parking spot search
 // TODO: implement parking guidance switch
 // TODO: kpi: distance driven to parking spot / distance from source to destination
 
