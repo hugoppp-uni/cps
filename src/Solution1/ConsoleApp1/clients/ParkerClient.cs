@@ -168,8 +168,8 @@ public class ParkerClient: CarClient
         }
         else
         {
-            bool parkingFound = false;
-            if (ReservedSpot != null)
+            bool parkingFound;
+            if (ReservedSpot != null && SupportsPgs)
             {
                 parkingFound = Position.DistanceFromSource >= ReservedSpot.DistanceFromSource;
                 LastParkingSpotPassedIndex = ReservedSpot.Index;
