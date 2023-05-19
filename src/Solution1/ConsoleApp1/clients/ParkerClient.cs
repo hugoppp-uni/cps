@@ -17,10 +17,10 @@ public class ParkerClient: CarClient
     private double _speedReductionRunningAvg;
     private double _speedReductionSum;
     private long _speedReductionCount;
-    
-    private double FuelConsumptionRate { get; } = 6.5; // liters per 100 km, average according to German Federal Environment Agency (UBA)
-    private int Co2EmissionRate { get; } = 131; // grams per km, average according to German Federal Environment Agency (UBA)
-    private const int MaxParkTime = 50;
+
+    private const double FuelConsumptionRate = 6.5;  // liters per 100 km, average according to German Federal Environment Agency (UBA)
+    private const int Co2EmissionRate = 131; // grams per km, average according to German Federal Environment Agency (UBA)
+    private const int MaxParkTime = 500;
     private double DistanceTravelledParking { get; set; }
     private int ParkTime { get; set; }
     private int TicksSpentParking { get; set; } = 0;
