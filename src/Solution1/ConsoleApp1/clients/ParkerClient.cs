@@ -80,6 +80,7 @@ public class ParkerClient: CarClient
             PathResponse? pathResponse = Pgs.RequestGuidanceFromServer(Position, destination);
             if (pathResponse is null)
             {
+                // TODO: this generates a new dest, implement behaviour in case of not finding a parking spot
                 Status = CarClientStatus.PathingFailed;
             }
             else
