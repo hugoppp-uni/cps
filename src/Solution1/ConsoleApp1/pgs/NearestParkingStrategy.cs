@@ -11,10 +11,6 @@ public class NearestParkingStrategy: IParkingStrategy
 {
     public ParkingSpot FindParkingSpot(PhysicalWorld world, StreetNode destination)
     {
-        var outEdges = world.Graph.OutEdges(destination);
-        var inEdges = world.Graph.InEdges(destination);
-        var adjacentEdges = outEdges.Concat(inEdges);
-
         var visited = new HashSet<StreetEdge>();
         var queue = new Queue<StreetNode>();
         queue.Enqueue(destination);
@@ -22,6 +18,10 @@ public class NearestParkingStrategy: IParkingStrategy
         while (queue.Count > 0)
         {
             var currentNode = queue.Dequeue();
+            var outEdges = world.Graph.OutEdges(currentNode);
+            var inEdges = world.Graph.InEdges(currentNode);
+            var adjacentEdges = outEdges.Concat(inEdges);
+            
             foreach (var edge in adjacentEdges)
             {
                 // filter unoccupied spots and sort by distance from source ascending
