@@ -26,6 +26,15 @@ public record Street
         }
     }
 
+    public double CurrentCoverDuration()
+    {
+        lock (this)
+        {
+            double timeS = Length / MathUtil.KmhToMs(CurrentMaxSpeed());
+            return timeS;
+        }
+    }
+
     public (bool parkingFound, int lastPassedOrFoundIndex) TryParkingLocally(double distanceFromSource,
         int lastPassedIndex)
     {
