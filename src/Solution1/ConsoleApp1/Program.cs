@@ -1,16 +1,12 @@
 ﻿using ConsoleApp1;
 using ConsoleApp1.clients;
 
-// TODO expection for broken connection
-// TODO implement tick to daytime mapping for pretty
-// TODO overhaul magic numbers into config and base on more research to make sim more realistic
+// TODO: implement breadth first parking spot search
+// TODO: implement parking guidance switch
+// TODO: kpi: distance driven to parking spot / distance from source to destination
 
-// TODO kpi: distance driven to parking spot / distance from source to destination
-
-// TODO praking guidance system
-// TODO regular cars, guided cars, regular parking spaces, guidance parking spaces
-// TODO compare daytime scenarios
-// TODO compare different street map scenarios
+// TODO: compare daytime scenarios
+// TODO: compare different street map scenarios
 
 const string assetsPath = "../../../assets/";
 const int brokerPort = 1883;
