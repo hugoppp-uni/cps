@@ -5,6 +5,7 @@ using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
+// TODO: fix system behaviour where all parker clients get stuck in PARKING (publish sim meta data to home like: total parking spots, total available etc.)
 // TODO: kpi: distance driven to parking spot / distance from source to destination ! REPLACE W/ DISTANCE TRAVELLED PARKING
 // TODO: implement parking guidance switch
 // TODO: handle MQTT connection errors
