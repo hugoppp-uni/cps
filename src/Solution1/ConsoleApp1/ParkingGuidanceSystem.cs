@@ -18,9 +18,16 @@ public class NearestParkingStrategy: IParkingStrategy
         var outEdges = world.Graph.OutEdges(destination);
         var inEdges = world.Graph.InEdges(destination);
         var adjacentEdges = outEdges.Concat(inEdges);
-        var edgeWithUnoccupied = adjacentEdges.FirstOrDefault(edge => edge.ParkingSpots.Any(spot => !spot.Occupied));
-        if (edgeWithUnoccupied == null) return null!; // TODO: in this case breadth search would continue 
-        var freeSpot = edgeWithUnoccupied.ParkingSpots.FirstOrDefault(spot => !spot.Occupied); // TODO: handle null
+
+        var freeSpot = adjacentEdges
+            .FirstOrDefault(edge => edge.ParkingSpots.Any(spot => !spot.Occupied))?
+            .ParkingSpots.FirstOrDefault(spot => !spot.Occupied);
+
+        if (freeSpot is null)
+        {
+            return null!;
+        }
+        
         return freeSpot;
     }
 }
@@ -42,30 +49,34 @@ public class ParkingGuidanceSystem
 
     public PathResponse RequestGuidanceFromServer(StreetPosition position, StreetNode destination)
     {
-        var freeSpot = _parkingStrategy.FindParkingSpot(World, destination);
-        if (freeSpot == null) return null!; // TODO: in this case there is no free spot in the graph
-        StreetEdge edgeWithUnoccupied = World.ParkingSpotMap.GetValueOrDefault(freeSpot);
-        if (edgeWithUnoccupied == null) return null!; //TODO: edge is not in the map
-        freeSpot.Occupied = true;
-        
-        // TODO: find path with traffic congestion heuristic
-        var shortestPaths = World.Graph.ShortestPathsDijkstra(
-            _searchEdgeWeights,
-            position.StreetEdge.Source);
-    
-        if (shortestPaths.Invoke(edgeWithUnoccupied.Source, out var path))
+        ParkingSpot freeSpot = _parkingStrategy.FindParkingSpot(World, destination);
+        if (freeSpot is null) // no free parking spot found
         {
-            return new PathResponse(path.Append(edgeWithUnoccupied).ToList(), freeSpot);
-        }
-        else
-        {
-            // Path = Enumerable.Empty<StreetEdge>();
-            return null!; // TODO: in this case there is no pathing to the found spot
+            return null!; 
         }
         
-        // find path to parking spot with traffic congestion heuristic
-        // return path k
-        return null!;
+        // get edge with free spot from map
+        if (World.ParkingSpotMap.TryGetValue(freeSpot, out var edgeWithFreeSpot))
+        {
+            // occupy free spot
+            freeSpot.Occupied = true;
+            
+            // path to free spot
+            var shortestPaths = World.Graph.ShortestPathsDijkstra(
+                _searchEdgeWeights,
+                position.StreetEdge.Source);
+        
+            if (shortestPaths.Invoke(edgeWithFreeSpot.Source, out var path))
+            {
+                return new PathResponse(path.Append(edgeWithFreeSpot).ToList(), freeSpot);
+            }
+
+            // pathing failed 
+            return null!; 
+        }
+
+        // edge not in the map
+        throw new KeyNotFoundException("Incoherent parking spot map");
     }
     
 }

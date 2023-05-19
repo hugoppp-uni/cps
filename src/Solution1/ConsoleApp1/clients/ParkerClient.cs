@@ -73,8 +73,8 @@ public class ParkerClient: CarClient
         if (SupportsPgs)
         {
             var destination = PhysicalWorld.StreetNodes.RandomElement();
-            var pathResponse = Pgs.RequestGuidanceFromServer(Position, destination);
-            if (pathResponse == null)
+            PathResponse? pathResponse = Pgs.RequestGuidanceFromServer(Position, destination);
+            if (pathResponse is null)
             {
                 Status = CarClientStatus.PathingFailed;
             }
