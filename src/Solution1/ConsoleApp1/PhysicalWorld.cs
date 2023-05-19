@@ -9,17 +9,16 @@ public class PhysicalWorld
         Graph = graph;
         StreetNodes = graph.Vertices.ToList();
         StreetEdges = graph.Edges.ToList();
-        foreach (var edge in StreetEdges)
-        {
-            if (edge.Tags.ContainsKey("name")) // parking spots on named streets only
-            {
-                edge.InitParkingSpots();
-            }
-        }
+        
+        StreetEdges
+            .Where(edge => edge.Tags.ContainsKey("name"))
+            .ToList()
+            .ForEach(edge => edge.InitParkingSpots(ParkingSpotMap));
     }
-
 
     public IMutableBidirectionalGraph<StreetNode, StreetEdge> Graph { get; }
     public IReadOnlyList<StreetNode> StreetNodes { get; }
     public IReadOnlyList<StreetEdge> StreetEdges { get; }
+    
+    public Dictionary<ParkingSpot, StreetEdge> ParkingSpotMap { get; } = new();
 }

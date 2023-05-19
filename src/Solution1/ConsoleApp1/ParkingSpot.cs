@@ -17,5 +17,7 @@ public class ParkingSpot
         Index = index;
         DistanceFromSource = distanceFromSource;
     }
-    public override string ToString() => $"[{Index}] Occupied: {Occupied}, Position: {DistanceFromSource}/{StreetLength}"; 
+
+    public override string ToString() => $"[{Index}] Occupied: {Occupied}, Position: {DistanceFromSource}/{StreetLength}";
+
 }

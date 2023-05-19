@@ -74,9 +74,16 @@ public class ParkerClient: CarClient
         {
             var destination = PhysicalWorld.StreetNodes.RandomElement();
             var pathResponse = Pgs.RequestGuidanceFromServer(Position, destination);
-            // todo handle response
-            Path = pathResponse.PathToReservedParkingSpot;
-            ReservedSpot = pathResponse.ReservedParkingSpot;
+            if (pathResponse == null)
+            {
+                Status = CarClientStatus.PathingFailed;
+            }
+            else
+            {
+                Path = pathResponse.PathToReservedParkingSpot;
+                ReservedSpot = pathResponse.ReservedParkingSpot;
+            }
+            
         }
         else
         {

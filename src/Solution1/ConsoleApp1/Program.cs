@@ -42,7 +42,7 @@ var cruisers = await Task.WhenAll(cruiserClients);
 // init parkers 
 ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, true);
 var parkerClients = Enumerable.Range(0, 10)
-    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, pgs, true, false));
+    .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, pgs, true, true));
 var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'

@@ -24,6 +24,11 @@ public abstract class CarClient : BaseClient
     protected bool Logging { get; set; }
 
     public override string ToString() => $"[CAR\t{Id},\t{Status}\t]";
+    
+    protected abstract void HandleDestinationReached();
+    protected abstract Task HandleNodeReached();
+    protected abstract void TurnOnNextStreetEdge();
+    protected abstract void UpdateDestination();
 
     protected CarClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id, bool logging) : base(mqttClient)
     {
@@ -65,7 +70,6 @@ public abstract class CarClient : BaseClient
         }
     }
     
-    protected abstract void HandleDestinationReached();
     
     private bool DestinationReached()
     {
@@ -84,11 +88,6 @@ public abstract class CarClient : BaseClient
             await HandleNodeReached();
         }
     }
-
-    protected abstract Task HandleNodeReached();
-
-
-    protected abstract void TurnOnNextStreetEdge();
     
     private void UpdatePosition()
     {
@@ -101,9 +100,6 @@ public abstract class CarClient : BaseClient
         }
         
     }
-
-    protected abstract void UpdateDestination();
-
 
     protected void UpdatePath()
     {
