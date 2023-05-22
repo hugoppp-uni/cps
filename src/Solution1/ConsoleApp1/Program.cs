@@ -5,6 +5,7 @@ using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
+// TODO: LOTS OF NEGATIVE CAR COUNT VALUES
 // TODO: kpi: distance driven to parking spot / distance from source to destination ! REPLACE W/ DISTANCE TRAVELLED PARKING
 // TODO: fix congestion
 
