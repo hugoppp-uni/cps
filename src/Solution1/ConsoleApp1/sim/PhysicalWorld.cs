@@ -5,7 +5,7 @@ namespace ConsoleApp1.sim;
 
 public class PhysicalWorld
 {
-    public PhysicalWorld(IMutableBidirectionalGraph<StreetNode, StreetEdge> graph, int cruiserCount, int parkerCount)
+    public PhysicalWorld(IMutableBidirectionalGraph<StreetNode, StreetEdge> graph, int parkerCount, int cruiserCount)
     {
         Graph = graph;
         StreetNodes = graph.Vertices.ToList();
