@@ -1,6 +1,6 @@
 ﻿namespace ConsoleApp1.clients;
 
-public enum CarClientStatus
+public enum CarStatus
 {
     Driving,
     Parking,

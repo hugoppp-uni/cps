@@ -16,6 +16,7 @@ public record Street
     public static double ParkingSpotLength { get; } = 5.0;
 
 
+    // todo
     public double CurrentMaxSpeed()
     {
         lock (this)

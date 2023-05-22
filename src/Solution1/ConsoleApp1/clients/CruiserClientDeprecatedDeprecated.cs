@@ -4,18 +4,18 @@ using MQTTnet.Client;
 
 namespace ConsoleApp1.clients;
 
-public class CruiserClient: CarClient
+public class CruiserClientDeprecatedDeprecated: CarClientDeprecated
 {
-    protected CruiserClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id, bool logging) : base(mqttClient, physicalWorld, id, logging) {}
+    protected CruiserClientDeprecatedDeprecated(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id, bool logging) : base(mqttClient, physicalWorld, id, logging) {}
     
     /*
      * Creation through factory
      */
-    public static async Task<CarClient> Create(MqttClientFactory clientFactory, int id,
+    public static async Task<CarClientDeprecated> Create(MqttClientFactory clientFactory, int id,
         PhysicalWorld physicalWorld, bool logging)
     {
         var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick"));
-        return new CruiserClient(client, physicalWorld, id, logging);
+        return new CruiserClientDeprecatedDeprecated(client, physicalWorld, id, logging);
     }
     
     /**
@@ -25,11 +25,11 @@ public class CruiserClient: CarClient
     {
         switch (Status)
         {
-            case CarClientStatus.PathingFailed: // pathing failed to destination failed and has to be redone
+            case CarStatus.PathingFailed: // pathing failed to destination failed and has to be redone
                 HandlePathingFailed();
                 break;
 
-            case CarClientStatus.Driving: // car is driving according to the shortest path to their random destination
+            case CarStatus.Driving: // car is driving according to the shortest path to their random destination
                 await HandleDriving();
                 break;
             
@@ -54,7 +54,7 @@ public class CruiserClient: CarClient
     
     protected override void UpdateDestination()
     {
-        Status = CarClientStatus.Driving;
+        Status = CarStatus.Driving;
         Destination = PhysicalWorld.StreetNodes.RandomElement();
         UpdatePath();
     }

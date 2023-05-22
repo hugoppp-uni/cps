@@ -43,18 +43,29 @@ int simDataPublishInterval = 20;
 var physicalWorld = new PhysicalWorld(graph, parkerCount, cruiserCount);
 
 // sim meta data
-var simDataTask = await SimDataClient.Create(mqttClientFactory, physicalWorld, simDataPublishInterval);
+//var simDataTask = await SimDataClient.Create(mqttClientFactory, physicalWorld, simDataPublishInterval);
 
+ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new NearestParkingStrategy(), false);
 // init cruisers 
+/*
 var cruiserClients = Enumerable.Range(0, cruiserCount)
     .Select(i => CruiserClient.Create(mqttClientFactory, i, physicalWorld, false));
 var cruisers = await Task.WhenAll(cruiserClients);
+*/
+var cruiserClients = Enumerable.Range(0, cruiserCount)
+    .Select(i => CarClient.Create(mqttClientFactory, new CruiserClientBehaviour(), physicalWorld, pgs, i, false));
+var cruisers = await Task.WhenAll(cruiserClients);
+
+var parkerClients = Enumerable.Range(0, parkerCount)
+    .Select(i => CarClient.Create(mqttClientFactory, new RandomParkerClientBehaviour(), physicalWorld, pgs, i, true));
+var parkers = await Task.WhenAll(parkerClients);
 
 // init parkers 
-ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new NearestParkingStrategy(), false);
+/*
 var parkerClients = Enumerable.Range(0, parkerCount)
     .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, pgs, true, true));
 var parkers = await Task.WhenAll(parkerClients);
+*/
 
 // cancel with 'q'
 while (Console.ReadKey().Key != ConsoleKey.Q)

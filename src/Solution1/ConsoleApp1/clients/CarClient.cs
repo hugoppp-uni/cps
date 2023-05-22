@@ -1,123 +1,86 @@
+﻿using ConsoleApp1.pgs;
 using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 using MQTTnet.Client;
-using QuickGraph.Algorithms;
 
 namespace ConsoleApp1.clients;
 
-public abstract class CarClient : BaseClient
+public class CarClient: BaseClient
 {
-    protected int Id { get; }
-    protected PhysicalWorld PhysicalWorld { get; }
-    protected StreetPosition Position { get; set; }
-    protected IEnumerable<StreetEdge> Path { get; set; }
-    protected StreetNode Destination { get; set; }
-
-    protected CarClientStatus Status { get; set; }
-    
-    protected bool Logging { get; set; }
-
-    public override string ToString() => $"[CAR\t{Id},\t{Status}\t]";
-    
-    protected abstract void HandleDestinationReached();
-    protected abstract Task HandleNodeReached();
-    protected abstract void TurnOnNextStreetEdge();
-    protected abstract void UpdateDestination();
-
-    protected CarClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, int id, bool logging) : base(mqttClient)
+    protected CarClient(IMqttClient mqttClient, ICarClientBehaviour behaviour, PhysicalWorld world, ParkingGuidanceSystem pgs, int id, bool logging) : base(mqttClient)
     {
-        Id = id;
-        PhysicalWorld = physicalWorld;
-        Logging = logging;
-        Path = Enumerable.Empty<StreetEdge>();
-        
-        // init position
-        Position = StreetPosition.WithRandomDistance(physicalWorld.StreetEdges.RandomElement());
-        Position.StreetEdge.IncrementCarCount();
+        Behaviour = behaviour;
+        var kpiManager = new KpiManager(mqttClient, Car);
+        Car = new MockCar(id, world, kpiManager, logging);
+        Pgs = pgs;
         
         // get initial dest
-        UpdateDestination();
+        Car.Status = CarStatus.Driving;
+        Car.KpiManager.Reset();
+        Behaviour.UpdateDestination(Car);
     }
 
-    protected void HandlePathingFailed()
-    {
-        RespawnAtRandom();
-    }
+    public ParkingGuidanceSystem Pgs { get; set; }
 
-    protected void RespawnAtRandom()
-    {
-        Position.StreetEdge.DecrementCarCount();
-        Position = StreetPosition.WithRandomDistance(PhysicalWorld.StreetEdges.RandomElement());
-        Position.StreetEdge.IncrementCarCount();
-        UpdateDestination();
-    }
+    private ICarClientBehaviour Behaviour { get; set; }
 
-    protected async Task HandleDriving()
-    {
-        if (DestinationReached()) // car reached destination after driving
-        {
-            HandleDestinationReached();
-        }
-        else 
-        {
-            await DriveAccordingToPath();
-        }
-    }
+    public MockCar Car { get; set; }
     
-    
-    private bool DestinationReached()
+    /*
+     * Creation through factory
+     */
+    public static async Task<CarClient> Create(MqttClientFactory clientFactory, ICarClientBehaviour behaviour,
+        PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, int id, bool logging)
     {
-        return !Path.Any() && Destination == Position.StreetEdge.Target &&
-               Position.DistanceFromSource >= Position.StreetEdge.Length;
+        var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick"));
+        return new CarClient(client, behaviour, physicalWorld, pgs, id, logging);
     }
 
-    protected async Task DriveAccordingToPath()
+    /**
+     * Main state machine
+     */
+    protected override async Task MqttClientOnApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
     {
-        if (Position.DistanceFromSource < Position.StreetEdge.Length) // driving on street
+        switch (Car.Status)
         {
-            UpdatePosition();
-        }
-        else
-        {
-            await HandleNodeReached();
-        }
-    }
-    
-    private void UpdatePosition()
-    {
-        double speed = Position.StreetEdge.CurrentMaxSpeed();
-        Position = new StreetPosition(Position.StreetEdge, Position.DistanceFromSource + MathUtil.KmhToMs(speed));
-        
-        if (Logging)
-        {
-            Console.WriteLine($"{this}\ttick | {Position.ToString()} | dest: {Destination.Id} | car count: {Position.StreetEdge.CarCount} | driving at {speed:F2}kmh/{Position.StreetEdge.SpeedLimit:F2}kmh");
-        }
-        
-    }
+            case CarStatus.PathingFailed:
+                Car.Status = CarStatus.Driving;
+                Car.RespawnAtRandom();
+                Behaviour.UpdateDestination(Car);
+                break;
+            
+            case CarStatus.Driving: 
+                if (Car.DestinationReached()) 
+                {
+                    Car.Status = CarStatus.Parking;
+                }
+                else 
+                {
+                    Behaviour.DriveAlongPath(Car);
+                }
+                break;
 
-    protected void UpdatePath()
-    {
-        var shortestPaths = PhysicalWorld.Graph.ShortestPathsDijkstra(
-            edge => 100 - edge.SpeedLimit,
-            Position.StreetEdge.Source);
-    
-        if (shortestPaths.Invoke(Destination, out var path))
-        {
-            Path = path.ToList();
-            if (Logging)
-            {
-                Console.WriteLine($"{this}\tpath: {string.Join(',', Path.Select(p => p.StreetName))}");
-            }
-        }
-        else
-        {
-            if (Logging)
-            {
-                Console.WriteLine($"{this}\tno path found [destination: {Destination.Id}, position: {Position}, node: {Position.StreetEdge.Source.Id}]");
-            }
-            Path = Enumerable.Empty<StreetEdge>();
-            Status = CarClientStatus.PathingFailed;
+            case CarStatus.Parking:
+                Car.KpiManager.TicksSpentParking++;
+                Behaviour.SeekParkingSpot(Car);
+                new CruiserClientBehaviour().DriveAlongPath(Car);
+                if (Behaviour.AttemptLocalParking(Car))
+                {
+                    Car.Status = CarStatus.Parked;
+                }
+                break;
+            
+            case CarStatus.Parked:
+                if (!Behaviour.StayParked(Car))
+                {
+                    Car.Status = CarStatus.Driving;
+                    Behaviour.UpdateDestination(Car);
+                }
+                break;
+            
+            default:
+                throw new InvalidOperationException($"{this}\tInvalid status: {Car.Status}");
         }
     }
     

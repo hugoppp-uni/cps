@@ -11,7 +11,7 @@ using QuickGraph.Algorithms;
 
 namespace ConsoleApp1.clients;
 
-public class ParkerClient: CarClient
+public class ParkerClientDeprecatedDeprecated: CarClientDeprecated
 {
     // traffic metrics
     private double _speedReductionRunningAvg;
@@ -31,7 +31,7 @@ public class ParkerClient: CarClient
     private bool SupportsPgs { get; set; }
     public ParkingGuidanceSystem Pgs { get; set; }
 
-    protected ParkerClient(IMqttClient mqttClient, PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, int id,
+    protected ParkerClientDeprecatedDeprecated(IMqttClient mqttClient, PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, int id,
         bool supportsPgs, bool logging) : base(mqttClient, physicalWorld, id, logging)
     {
         Pgs = pgs;
@@ -41,11 +41,11 @@ public class ParkerClient: CarClient
     /*
      * Creation through factory
      */
-    public static async Task<CarClient> Create(MqttClientFactory clientFactory, int id,
+    public static async Task<CarClientDeprecated> Create(MqttClientFactory clientFactory, int id,
         PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, bool supportsPgs, bool logging)
     {
         var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick"));
-        return new ParkerClient(client, physicalWorld, pgs, id, supportsPgs, logging);
+        return new ParkerClientDeprecatedDeprecated(client, physicalWorld, pgs, id, supportsPgs, logging);
     }
     
     /**
@@ -55,19 +55,19 @@ public class ParkerClient: CarClient
     {
         switch (Status)
         {
-            case CarClientStatus.PathingFailed: // pathing failed to destination failed and has to be redone
+            case CarStatus.PathingFailed: // pathing failed to destination failed and has to be redone
                 HandlePathingFailed();
                 break;
 
-            case CarClientStatus.Parked: // car is parked for a random amount of ticks
+            case CarStatus.Parked: // car is parked for a random amount of ticks
                 HandleParked();
                 break;
 
-            case CarClientStatus.Parking: // car is driving around randomly looking for a available parking spot
+            case CarStatus.Parking: // car is driving around randomly looking for a available parking spot
                 await HandleParking();
                 break;
 
-            case CarClientStatus.Driving: // car is driving according to the shortest path to their random destination
+            case CarStatus.Driving: // car is driving according to the shortest path to their random destination
                 await HandleDriving();
                 break;
             
@@ -78,7 +78,7 @@ public class ParkerClient: CarClient
     
     protected async override void UpdateDestination()
     {
-        Status = CarClientStatus.Driving;
+        Status = CarStatus.Driving;
         if (SupportsPgs)
         {
             var destination = PhysicalWorld.StreetNodes.RandomElement();
@@ -86,7 +86,7 @@ public class ParkerClient: CarClient
             if (pathResponse is null)
             {
                 // TODO: this generates a new dest, implement behaviour in case of not finding a parking spot
-                Status = CarClientStatus.PathingFailed;
+                Status = CarStatus.PathingFailed;
             }
             else
             {
@@ -116,7 +116,7 @@ public class ParkerClient: CarClient
         
         if (ReservedSpot != null && !Path.Any())
         {
-            Status = CarClientStatus.Parking;
+            Status = CarStatus.Parking;
         }
     }
 
@@ -125,7 +125,7 @@ public class ParkerClient: CarClient
     {
         // init looking for parking
         TicksSpentParking = 0;
-        Status = CarClientStatus.Parking;
+        Status = CarStatus.Parking;
         NextStreetToLookForParking();
     }
     
@@ -225,7 +225,7 @@ public class ParkerClient: CarClient
     {
         LastOccupiedIndex = LastParkingSpotPassedIndex;
         Position = new StreetPosition(Position.StreetEdge, Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource);
-        Status = CarClientStatus.Parked;
+        Status = CarStatus.Parked;
         PhysicalWorld.DecrementUnoccupiedSpotCount();
         Random rand = new Random();
         ParkTime = rand.Next(0, MaxParkTime + 1);
