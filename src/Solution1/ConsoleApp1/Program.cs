@@ -5,10 +5,6 @@ using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
-// TODO: ask AI for conig: explain system behaviour, say you want it realistic and how to find the best config for the listed parametres and different daytime scenarios
-// TODO: ask AI for for more scenarios
-// TODO: compare daytime scenarios
-
 // TODO: kpi: distance driven to parking spot / distance from source to destination ! REPLACE W/ DISTANCE TRAVELLED PARKING
 // TODO: fix congestion
 
@@ -19,7 +15,7 @@ using ConsoleApp1.util;
 // TODO: handle MQTT connection errors
 
 // TODO: refactor CarClient, ParkerClient and CruiserClient into composition
-// TODO: compare different street map scenarios
+// TODO: compare different street map scenarios (parameters)
 
 const string assetsPath = "../../../assets/";
 const int brokerPort = 1883;
