@@ -76,12 +76,13 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
     {
         if(car.Logging)
             Console.WriteLine($"{car}\ttick | Parked at {car.Position} | {car.ParkTime} ticks remaining");
-        if (car.ParkTime == 0)
+        if (car.ParkTime <= 0)
         {
             car.ResetAfterParking();
+            return false;
         }
         car.ParkTime--;
-        return car.ParkTime > 0;
+        return true;
     }
     
 }
