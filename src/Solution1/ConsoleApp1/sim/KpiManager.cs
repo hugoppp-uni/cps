@@ -40,12 +40,17 @@ public class KpiManager
         SpeedReductionSum = 0;
     }
 
-    byte[] Encode(string obj)
+    public async Task Publish(Kpi kpi)
+    {
+        await _mqttClient.PublishAsync(new MqttApplicationMessage { Topic = kpi.Topic, Payload = kpi.Payload });
+    }
+
+    public byte[] Encode(string obj)
     {
         return Encoding.UTF8.GetBytes(obj);
     }
 
-    public void Publish()
+    public void PublishAll()
     {
         // calc the rest
         double distanceFromDestination = _car.Position.StreetEdge.Length - _car.Position.DistanceFromSource;
@@ -63,17 +68,11 @@ public class KpiManager
         int totalCo2EmissionsParking = (int)((DistanceTravelledParking / 1000) * Co2EmissionRate);
         
         // add all 
-        _kpis.Add(new Kpi("kpi/distFromDest", Encode(distanceFromDestination.ToString())));
-        _kpis.Add(new Kpi("kpi/distTravelledParking", Encode(DistanceTravelledParking.ToString())));
-        _kpis.Add(new Kpi("kpi/timeSpentParking", Encode(TicksSpentParking.ToString())));
-        _kpis.Add(new Kpi("kpi/speedReduction", Encode(SpeedReductionRunningAvg.ToString())));
-        _kpis.Add(new Kpi("kpi/fuelConsumption", Encode(totalFuelConsumptionParking.ToString())));
-        _kpis.Add(new Kpi("kpi/parkingEmissions", Encode(totalCo2EmissionsParking.ToString())));
-        
-        // publish
-        _kpis.ForEach(kpi =>
-        {
-            _mqttClient.PublishAsync(new MqttApplicationMessage { Topic = kpi.Topic, Payload = kpi.Payload });
-        });
+        Publish(new Kpi("kpi/distFromDest", Encode(distanceFromDestination.ToString())));
+        Publish(new Kpi("kpi/distTravelledParking", Encode(DistanceTravelledParking.ToString())));
+        Publish(new Kpi("kpi/timeSpentParking", Encode(TicksSpentParking.ToString())));
+        Publish(new Kpi("kpi/speedReduction", Encode(SpeedReductionRunningAvg.ToString())));
+        Publish(new Kpi("kpi/fuelConsumption", Encode(totalFuelConsumptionParking.ToString())));
+        Publish(new Kpi("kpi/parkingEmissions", Encode(totalCo2EmissionsParking.ToString())));
     }
 }

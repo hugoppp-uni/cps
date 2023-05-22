@@ -38,6 +38,7 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
 
     public bool AttemptLocalParking(MockCar car)
     {
+        // TODO make method safe
         var previousPosition = car.Position.DistanceFromSource - MathUtil.KmhToMs(car.Position.StreetEdge.CurrentMaxSpeed());
         Stack<ParkingSpot> passedParkingSpots = new Stack<ParkingSpot>(
             car.Position.StreetEdge.ParkingSpots
@@ -63,7 +64,7 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         car.World.DecrementUnoccupiedSpotCount();
         car.KpiManager.DistanceTravelledParking += car.Position.DistanceFromSource;
             
-        //car.KpiManager.Publish(); // TODO this makes all cars stuck in parking
+        // car.KpiManager.PublishAll(); TODO publish kpis with async and await
         return true;
     }
 
@@ -75,7 +76,7 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         {
             car.ResetAfterParking();
         }
-        //car.ParkTime--;
+        car.ParkTime--;
         return car.ParkTime > 0;
     }
     
