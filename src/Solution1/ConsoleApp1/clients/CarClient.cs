@@ -6,14 +6,6 @@ using QuickGraph.Algorithms;
 
 namespace ConsoleApp1.clients;
 
-public enum CarClientStatus
-{
-    Driving,
-    Parking,
-    Parked,
-    PathingFailed
-}
-
 public abstract class CarClient : BaseClient
 {
     protected int Id { get; }
