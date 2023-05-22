@@ -51,17 +51,21 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         }
 
         if (passedParkingSpots.Count == 0) return false;
+        
+        // occupy
         var nearestUnoccupiedSpot = passedParkingSpots.Peek();
+        car.OccupiedSpot = nearestUnoccupiedSpot;
+        car.OccupiedSpot.Occupied = true;
         
         // physically park
         car.Position = new StreetPosition(car.Position.StreetEdge, nearestUnoccupiedSpot.DistanceFromSource);
         
-        nearestUnoccupiedSpot.Occupied = true;
         car.Position.StreetEdge.DecrementCarCount();
         Random rand = new Random();
         car.ParkTime = rand.Next(0, MockCar.MaxParkTime + 1);
         
         car.World.DecrementUnoccupiedSpotCount();
+        car.World.IncrementParkEvents();
         car.KpiManager.DistanceTravelledParking += car.Position.DistanceFromSource;
             
         // car.KpiManager.PublishAll(); TODO publish kpis with async and await

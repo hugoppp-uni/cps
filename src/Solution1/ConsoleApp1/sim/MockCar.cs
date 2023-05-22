@@ -55,7 +55,6 @@ public class MockCar
     public void ResetAfterParking()
     {
         OccupiedSpot.Occupied = false;
-        OccupiedSpot = null!;
         Position.StreetEdge.IncrementCarCount();
 
         // kpi

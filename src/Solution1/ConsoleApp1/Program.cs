@@ -43,7 +43,7 @@ int simDataPublishInterval = 20;
 var physicalWorld = new PhysicalWorld(graph, parkerCount, cruiserCount);
 
 // sim meta data
-//var simDataTask = await SimDataClient.Create(mqttClientFactory, physicalWorld, simDataPublishInterval);
+var simDataTask = await SimDataClient.Create(mqttClientFactory, physicalWorld, simDataPublishInterval);
 
 ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new NearestParkingStrategy(), false);
 // init cruisers 
