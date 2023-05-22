@@ -13,7 +13,7 @@ public class ParkingGuidanceSystem
     private IParkingStrategy _parkingStrategy;
 
     private Func<StreetEdge, double> _speedLimitEdgeWeights = edge => 100 - edge.SpeedLimit;
-    private Func<StreetEdge, double> _congestionEdgeWeights = edge => edge.CurrentCoverDuration(); // todo this doesnt work for some reason
+    private Func<StreetEdge, double> _congestionEdgeWeights = edge => 1 / edge.CurrentCoverDuration(); 
     private Func<StreetEdge, double> _searchEdgeWeights;
     
     public ParkingGuidanceSystem(PhysicalWorld physicalWorld, IParkingStrategy parkingStrategy,
@@ -21,8 +21,9 @@ public class ParkingGuidanceSystem
     {
         Logging = logging;
         World = physicalWorld;
+        
         _parkingStrategy = parkingStrategy;
-        _searchEdgeWeights = _speedLimitEdgeWeights;
+        _searchEdgeWeights = _congestionEdgeWeights;
     }
 
     public PathResponse RequestGuidanceFromServer(StreetPosition position, StreetNode destination)

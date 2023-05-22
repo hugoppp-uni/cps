@@ -25,23 +25,28 @@ public record StreetEdge : Street, IEdge<StreetNode>
         }
     }
     
-    public void InitParkingSpots(Dictionary<ParkingSpot, StreetEdge> parkingSpotMap)
+    public int InitParkingSpots(Dictionary<ParkingSpot, StreetEdge> parkingSpotMap)
     {
         int maxParkingSpots = (int)Math.Floor(Length / ParkingSpotLength);
-        NumParkingSpots = (int)Math.Floor(maxParkingSpots * ParkingDensity);
+        NumParkingSpots = (int)Math.Floor(maxParkingSpots * ParkingSpotDensity);
         ParkingSpotSpacing = (Length - NumParkingSpots * ParkingSpotLength) / NumParkingSpots;
         Random rand = new Random();
 
+        UnoccupiedSpotCount = 0;
         ParkingSpots = Enumerable.Range(0, NumParkingSpots)
             .Select(i =>
             {
                 double distanceFromSource = (ParkingSpotLength + ParkingSpotSpacing) * i;
-                bool occupied = rand.NextDouble() >= ParkingFrequency;
+                bool occupied = rand.NextDouble() >= InitialParkingSpotOccupancyRate;
+                if (!occupied) UnoccupiedSpotCount++;
                 return new ParkingSpot(i, distanceFromSource, Length, ParkingSpotLength, occupied);
             }).ToList();
         
         ParkingSpots.ForEach(parkingSpot => parkingSpotMap.Add(parkingSpot, this));
+        return ParkingSpots.Count;
     }
+
+    public int UnoccupiedSpotCount { get; set; }
 
     public required Dictionary<string, string?> Tags { get; init; }
     

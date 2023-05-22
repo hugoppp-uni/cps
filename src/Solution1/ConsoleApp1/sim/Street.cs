@@ -6,14 +6,14 @@ public record Street
 {
     public required double Length { get; init; }
     public int CarCount { get; set; }
-    public double CarLength { get; } = 5.0;
+    public static double CarLength { get; } = 5.0;
     public required double SpeedLimit { get; init; }
     public List<ParkingSpot> ParkingSpots { get; set; } = new List<ParkingSpot>();
-    public double ParkingDensity { get; set; } = 0.5; // between 0 and 1
-    public double ParkingFrequency { get; } = 0.02;
+    public static double ParkingSpotDensity { get; set; } = 0.5; // between 0 and 1
+    public static double InitialParkingSpotOccupancyRate { get; } = 0.02;
     public int NumParkingSpots { get; set; }
     public double ParkingSpotSpacing { get; set; }
-    public double ParkingSpotLength { get; } = 5.0;
+    public static double ParkingSpotLength { get; } = 5.0;
 
 
     public double CurrentMaxSpeed()
@@ -98,6 +98,6 @@ public record Street
             : $"Parking spots ({ParkingSpots.Count}): \n{string.Join("\n", ParkingSpots.Select(p => p.ToString()))}";
 
         return
-            $"Length: {Length}, Car count: {CarCount}, Speed limit: {SpeedLimit}, Parking Density: {ParkingDensity}, Parking Spacing: {ParkingSpotSpacing:F2}\n{parkingInfo}\n";
+            $"Length: {Length}, Car count: {CarCount}, Speed limit: {SpeedLimit}, Parking Density: {ParkingSpotDensity}, Parking Spacing: {ParkingSpotSpacing:F2}\n{parkingInfo}\n";
     }
 }

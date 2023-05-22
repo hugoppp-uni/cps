@@ -5,14 +5,20 @@ using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
-// TODO: fix system behaviour where all parker clients get stuck in PARKING (publish sim meta data to home like: total parking spots, total available etc.)
+// TODO: ask AI for conig: explain system behaviour, say you want it realistic and how to find the best config for the listed parametres and different daytime scenarios
+// TODO: ask AI for for more scenarios
+// TODO: compare daytime scenarios
+
 // TODO: kpi: distance driven to parking spot / distance from source to destination ! REPLACE W/ DISTANCE TRAVELLED PARKING
+// TODO: fix congestion
+
+// TODO: implement PGS as server with MQTT communication
+// TODO: implement ParkingSpaceClient and reserving service for realistic PGS
+
 // TODO: implement parking guidance switch
 // TODO: handle MQTT connection errors
-// TODO: overhaul config magic numbers (parking density, parking frequency, cruiser count, parker count, max park time) maybe change at runtime
 
 // TODO: refactor CarClient, ParkerClient and CruiserClient into composition
-// TODO: compare daytime scenarios
 // TODO: compare different street map scenarios
 
 const string assetsPath = "../../../assets/";
@@ -25,9 +31,6 @@ var graph = StreetGraphParser.Parse(File.ReadAllText(Path.Combine(assetsPath, "s
 var graphviz = graph.ToGraphvizFormatted(); 
 File.WriteAllText(Path.Combine(assetsPath, "street_graph.dot"), graphviz);
 
-// init sim
-var physicalWorld = new PhysicalWorld(graph);
-
 // init client factory 
 var mqttClientFactory = new MqttClientFactory { Host = "localhost", Port = brokerPort };
 
@@ -37,14 +40,23 @@ CancellationTokenSource cancellationTokenSource = new();
 // start tick client
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
+// sim
+const int parkerCount = 50;
+const int cruiserCount = 250;
+int simDataPublishInterval = 20;
+var physicalWorld = new PhysicalWorld(graph, parkerCount, cruiserCount);
+
+// sim meta data
+var simDataTask = await SimDataClient.Create(mqttClientFactory, physicalWorld, simDataPublishInterval);
+
 // init cruisers 
-var cruiserClients = Enumerable.Range(0, 250)
+var cruiserClients = Enumerable.Range(0, cruiserCount)
     .Select(i => CruiserClient.Create(mqttClientFactory, i, physicalWorld, false));
 var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
-ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new NearestParkingStrategy(), true);
-var parkerClients = Enumerable.Range(0, 50)
+ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new NearestParkingStrategy(), false);
+var parkerClients = Enumerable.Range(0, parkerCount)
     .Select(i => ParkerClient.Create(mqttClientFactory, i, physicalWorld, pgs, true, true));
 var parkers = await Task.WhenAll(parkerClients);
 

@@ -161,6 +161,7 @@ public class ParkerClient: CarClient
         DistanceTravelledParking = 0;
         ResetTrafficMetrics();
         Position.StreetEdge.FreeParkingSpot(LastOccupiedIndex);
+        PhysicalWorld.IncrementUnoccupiedSpotCount();
         UpdateDestination();
     }
     
@@ -188,6 +189,7 @@ public class ParkerClient: CarClient
             }
             if (parkingFound) // available spot found
             {
+                PhysicalWorld.IncrementParkEvents();
                 await ParkCar();
             }
         }
@@ -224,6 +226,7 @@ public class ParkerClient: CarClient
         LastOccupiedIndex = LastParkingSpotPassedIndex;
         Position = new StreetPosition(Position.StreetEdge, Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource);
         Status = CarClientStatus.Parked;
+        PhysicalWorld.DecrementUnoccupiedSpotCount();
         Random rand = new Random();
         ParkTime = rand.Next(0, MaxParkTime + 1);
         DistanceTravelledParking += Position.StreetEdge.ParkingSpots[LastOccupiedIndex].DistanceFromSource;
