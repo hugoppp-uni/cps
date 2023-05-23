@@ -60,8 +60,11 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         
         // physically park
         car.Position = new StreetPosition(car.Position.StreetEdge, nearestUnoccupiedSpot.DistanceFromSource);
-        
-        // todo car.Position.StreetEdge.DecrementCarCount();
+
+        lock (car.Position.StreetEdge)
+        {
+            car.Position.StreetEdge.DecrementCarCount();
+        }
         
         Random rand = new Random();
         car.ParkTime = rand.Next(0, MockCar.MaxParkTime + 1);
@@ -71,8 +74,11 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         car.KpiManager.DistanceTravelledParking += car.Position.DistanceFromSource;
             
         // car.KpiManager.PublishAll(); TODO publish kpis with async and await
+
+        // debug race condition
+        var carsParked =  car.World.InitialSpotCount - car.World.UnoccupiedSpotCount;
         var sum =car.World.StreetEdges.Sum(edge => edge.CarCount);
-        Console.WriteLine($"sum: {sum}");
+        Console.WriteLine($"sum: {sum + carsParked}");
         
         return true;
     }

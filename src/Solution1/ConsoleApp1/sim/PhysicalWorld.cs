@@ -19,6 +19,7 @@ public class PhysicalWorld
                 edge.InitParkingSpots(ParkingSpotMap);
                 UnoccupiedSpotCount += edge.UnoccupiedSpotCount;
             });
+        InitialSpotCount = UnoccupiedSpotCount;
 
         // sim data 
         CruiserCount = cruiserCount;
@@ -29,6 +30,7 @@ public class PhysicalWorld
 
     }
 
+    public int InitialSpotCount { get; set; }
     public int UnoccupiedSpotCount { get; set; }
     
     public void IncrementParkEvents()

@@ -47,16 +47,25 @@ public class MockCar
     
     public void RespawnAtRandom()
     {
-        // todo Position.StreetEdge.DecrementCarCount();
-        Position = StreetPosition.WithRandomDistance(World.StreetEdges.RandomElement());
-        // todo Position.StreetEdge.IncrementCarCount();
+        lock (Position.StreetEdge)
+        {
+            var previousPosition = Position;
+            Position = StreetPosition.WithRandomDistance(World.StreetEdges.RandomElement());
+            lock (Position.StreetEdge)
+            {
+                previousPosition.StreetEdge.DecrementCarCount();
+                Position.StreetEdge.IncrementCarCount();
+            }
+        }
     }
 
     public void ResetAfterParking()
     {
-        OccupiedSpot.Occupied = false;
-        
-        // todo Position.StreetEdge.IncrementCarCount();
+        lock (Position.StreetEdge)
+        {
+            OccupiedSpot.Occupied = false;
+            Position.StreetEdge.IncrementCarCount();
+        }
 
         // kpi
         KpiManager.Reset();
