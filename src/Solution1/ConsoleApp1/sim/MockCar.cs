@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using ConsoleApp1.pgs;
 using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
@@ -19,6 +20,7 @@ public class MockCar
     public StreetNode Destination { get; set; }
 
     public ParkingSpot OccupiedSpot { get; set; } = null!;
+    public ParkingGuidanceSystem pgs { get; set; }
     public CarStatus Status { get; set; }
     public bool Logging { get; set; }
     public const int MaxParkTime = 500;
@@ -43,12 +45,13 @@ public class MockCar
     }
 
     public override string ToString() => $"[CAR\t{Id},\t{Status}\t]";
-    public MockCar(int id, PhysicalWorld world, bool logging)
+    public MockCar(int id, PhysicalWorld world, ParkingGuidanceSystem parkingGuidanceSystem, bool logging)
     {
         Id = id;
         World = world;
         Path = Enumerable.Empty<StreetEdge>();
         Logging = logging;
+        Pgs = parkingGuidanceSystem;
         
         Kpis = new Dictionary<string, double>();
         
@@ -61,6 +64,24 @@ public class MockCar
         Position = StreetPosition.WithRandomDistance(world.StreetEdges.RandomElement());
         Position.StreetEdge.IncrementCarCount();
     }
+
+    public ParkingGuidanceSystem Pgs { get; set; }
+
+    public void Park()
+    {
+        Position = new StreetPosition(Position.StreetEdge, OccupiedSpot.DistanceFromSource);
+        lock (Position.StreetEdge)
+        {
+            Position.StreetEdge.DecrementCarCount();
+        }
+        Random rand = new Random();
+        ParkTime = rand.Next(0, MaxParkTime + 1);
+        World.DecrementUnoccupiedSpotCount();
+        World.IncrementParkEvents();
+        DistanceTravelled += Position.DistanceFromSource;
+        UpdateAllKpis();
+    }
+
     public void UpdateAllKpis()
     {
         // travel distance to destination distance ratio
@@ -146,6 +167,8 @@ public class MockCar
     {
         lock (Position.StreetEdge)
         {
+            UpdateTrafficKpis();
+            
             var overlap = Position.DistanceFromSource - Position.StreetEdge.Length;
             var previousPosition = Position;
             Position = new StreetPosition(next, overlap);
@@ -156,5 +179,34 @@ public class MockCar
             }
             Path = Path.Skip(1);
         }
+    }
+
+    public bool TryUpdatePath()
+    {
+        // update path
+        var shortestPaths = World.Graph.ShortestPathsDijkstra(
+            edge => 100 - edge.SpeedLimit,
+            Position.StreetEdge.Source);
+    
+        if (shortestPaths.Invoke(Destination, out var path))
+        {
+            Path = path.ToList();
+            
+            // calculate distance to destination
+            DistanceToDestination = Position.StreetEdge.Length - Position.DistanceFromSource;
+            DistanceToDestination += Path.Sum(edge => edge.Length);
+            return true;
+        }
+        
+        Path = Enumerable.Empty<StreetEdge>();
+        return false;
+    }
+
+    public void UpdateTrafficKpis()
+    {
+        double speedReductionP = 100 - ((Position.StreetEdge.CurrentMaxSpeed() / Position.StreetEdge.SpeedLimit) * 100);
+        SpeedReductionSum += speedReductionP;
+        SpeedReductionCount++;
+        SpeedReductionRunningAvg = SpeedReductionSum / SpeedReductionCount;
     }
 }

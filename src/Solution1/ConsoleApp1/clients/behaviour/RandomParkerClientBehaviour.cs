@@ -21,10 +21,8 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         if (car.TargetNodeReached())
         {
             // update kpis upon reached node
+            car.UpdateTrafficKpis();
             car.DistanceTravelled += car.Position.StreetEdge.Length;
-            double speedReductionP = 100 - ((car.Position.StreetEdge.CurrentMaxSpeed() / car.Position.StreetEdge.SpeedLimit) * 100);
-            car.SpeedReductionSum += speedReductionP;
-            car.SpeedReductionCount++;
             
             // turn on next random street to look for parking
             StreetEdge nextStreet;
@@ -48,31 +46,15 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         {
             passedParkingSpots.Pop();
         }
-
-        // no free parking spot
         if (passedParkingSpots.Count == 0) return false;
+        var nearestUnoccupiedSpot = passedParkingSpots.Peek();
         
         // occupy
-        var nearestUnoccupiedSpot = passedParkingSpots.Peek();
         car.OccupiedSpot = nearestUnoccupiedSpot;
         car.OccupiedSpot.Occupied = true;
         
         // physically park
-        car.Position = new StreetPosition(car.Position.StreetEdge, nearestUnoccupiedSpot.DistanceFromSource);
-
-        lock (car.Position.StreetEdge)
-        {
-            car.Position.StreetEdge.DecrementCarCount();
-        }
-        
-        Random rand = new Random();
-        car.ParkTime = rand.Next(0, MockCar.MaxParkTime + 1);
-        
-        car.World.DecrementUnoccupiedSpotCount();
-        car.World.IncrementParkEvents();
-        car.DistanceTravelled += car.Position.DistanceFromSource;
-            
-        car.UpdateAllKpis(); 
+        car.Park();
         return true;
     }
 

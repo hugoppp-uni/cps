@@ -15,7 +15,7 @@ public class CarClient: BaseClient
         Behaviour = behaviour;
 
         CallCount = 0;
-        Car = new MockCar(id, world, logging);
+        Car = new MockCar(id, world, pgs, logging);
         
         Pgs = pgs;
         

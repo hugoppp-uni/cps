@@ -28,34 +28,37 @@ public class ParkingGuidanceSystem
 
     public PathResponse RequestGuidanceFromServer(StreetPosition position, StreetNode destination)
     {
-        ParkingSpot freeSpot = _parkingStrategy.FindParkingSpot(World, destination);
-        if (freeSpot is null) // no free parking spot found
+        lock (this)
         {
-            return null!; 
-        }
-        
-        // get edge with free spot from map
-        if (World.ParkingSpotMap.TryGetValue(freeSpot, out var edgeWithFreeSpot))
-        {
-            // occupy free spot
-            freeSpot.Occupied = true;
-            
-            // path to free spot
-            var shortestPaths = World.Graph.ShortestPathsDijkstra(
-                _searchEdgeWeights,
-                position.StreetEdge.Source);
-        
-            if (shortestPaths.Invoke(edgeWithFreeSpot.Source, out var path))
+            ParkingSpot freeSpot = _parkingStrategy.FindParkingSpot(World, destination);
+            if (freeSpot is null) // no free parking spot found
             {
-                return new PathResponse(path.Append(edgeWithFreeSpot).ToList(), freeSpot);
+                return null!; 
+            }
+            
+            // get edge with free spot from map
+            if (World.ParkingSpotMap.TryGetValue(freeSpot, out var edgeWithFreeSpot))
+            {
+                // occupy free spot
+                freeSpot.Occupied = true;
+                
+                // path to free spot
+                var shortestPaths = World.Graph.ShortestPathsDijkstra(
+                    _searchEdgeWeights,
+                    position.StreetEdge.Source);
+            
+                if (shortestPaths.Invoke(edgeWithFreeSpot.Source, out var path))
+                {
+                    return new PathResponse(path.Append(edgeWithFreeSpot).ToList(), freeSpot);
+                }
+
+                // pathing failed 
+                return null!; 
             }
 
-            // pathing failed 
-            return null!; 
+            // edge not in the map
+            throw new KeyNotFoundException("Incoherent parking spot map");
         }
-
-        // edge not in the map
-        throw new KeyNotFoundException("Incoherent parking spot map");
     }
     
 }

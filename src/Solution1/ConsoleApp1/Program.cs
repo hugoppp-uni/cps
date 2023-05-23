@@ -5,23 +5,10 @@ using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
-// TODO:
-    // - speed reduction
-    // - distance einsparung
-    // - distfromdest
-    // - Co2 einsparung
-
-// TODO: LOTS OF NEGATIVE CAR COUNT VALUES
-// TODO: kpi: distance driven to parking spot / distance from source to destination ! REPLACE W/ DISTANCE TRAVELLED PARKING
-// TODO: fix congestion
-
-// TODO: implement PGS as server with MQTT communication
-// TODO: implement ParkingSpaceClient and reserving service for realistic PGS
-
 // TODO: implement parking guidance switch
 // TODO: handle MQTT connection errors
-
-// TODO: refactor CarClient, ParkerClient and CruiserClient into composition
+// TODO: implement PGS as server with MQTT communication
+// TODO: implement ParkingSpaceClient and reserving service for realistic PGS
 // TODO: compare different street map scenarios (parameters)
 
 const string assetsPath = "../../../assets/";
@@ -62,7 +49,7 @@ var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
 var parkerClients = Enumerable.Range(0, parkerCount)
-    .Select(i => CarClient.Create(mqttClientFactory, new RandomParkerClientBehaviour(), physicalWorld, pgs, i, true));
+    .Select(i => CarClient.Create(mqttClientFactory, new PgsParkerClientBehaviour(), physicalWorld, pgs, i, true));
 var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'

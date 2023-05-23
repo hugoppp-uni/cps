@@ -1,4 +1,9 @@
-﻿namespace ConsoleApp1.clients;
+﻿using ConsoleApp1.pgs;
+using ConsoleApp1.sim;
+using ConsoleApp1.sim.graph;
+using ConsoleApp1.util;
+
+namespace ConsoleApp1.clients;
 
 public class PgsParkerClientBehaviour: ICarClientBehaviour
 {
@@ -8,24 +13,41 @@ public class PgsParkerClientBehaviour: ICarClientBehaviour
     }
 
     public void UpdateDestination(MockCar car)
-    {
-        // TODO
+    { 
+        // call to calculate path to destination
+        car.Destination = car.World.StreetNodes.RandomElement();
+        if (!car.TryUpdatePath())
+        {
+            car.Status = CarStatus.PathingFailed;
+            return;
+        }
         
-        throw new NotImplementedException();
+        PathResponse? pathRespone = car.Pgs.RequestGuidanceFromServer(car.Position, car.Destination);
+        if (pathRespone is null)
+        {
+            // TODO: this generates new dest, implement behaviour in case of not finding parking spot
+            car.Status = CarStatus.PathingFailed;
+            return;
+        }
+        
+        car.Path = pathRespone.PathToReservedParkingSpot;
+        car.Destination = car.World.ParkingSpotMap[pathRespone.ReservedParkingSpot].Target;
+        
+        // reserve spot
+        car.OccupiedSpot = pathRespone.ReservedParkingSpot;
+        car.OccupiedSpot.Occupied = true;
     }
 
     public void SeekParkingSpot(MockCar car)
     {
-        // TODO
-        
-        throw new NotImplementedException();
+        car.Path = new List<StreetEdge> { car.World.ParkingSpotMap[car.OccupiedSpot] } ;
     }
 
-    public Task<bool> AttemptLocalParking(MockCar car)
+    public async Task<bool> AttemptLocalParking(MockCar car)
     {
-        // TODO 
-        
-        throw new NotImplementedException();
+        if (car.Position.DistanceFromSource < car.OccupiedSpot.DistanceFromSource) return false;
+        car.Park();
+        return true;
     }
 
     public bool StayParked(MockCar car)
