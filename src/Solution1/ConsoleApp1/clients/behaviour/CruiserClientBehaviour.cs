@@ -21,12 +21,7 @@ public class CruiserClientBehaviour: ICarClientBehaviour
         else
         {
             // turn on next street
-            var overlap = car.Position.DistanceFromSource - car.Position.StreetEdge.Length;
-            car.Position.StreetEdge.DecrementCarCount();
-            car.Position = new StreetPosition(car.Path.First(), overlap);
-            car.Position.StreetEdge.IncrementCarCount();
-            car.Path = car.Path.Skip(1);
-            
+            car.Turn(car.Path.First());
             if(car.Logging)
                 Console.WriteLine($"{car}\ttick | {car.Position.ToString()} | dest: {car.Destination.Id} | car count: {car.Position.StreetEdge.CarCount} | driving at {car.Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{car.Position.StreetEdge.SpeedLimit:F2}kmh");
         }

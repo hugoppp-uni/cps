@@ -21,14 +21,12 @@ public class KpiManager
     public double DistanceTravelledParking { get; set; }
     
     private readonly IMqttClient _mqttClient;
-    private MockCar _car;
-    private List<Kpi> _kpis;
+    private readonly MockCar _car;
 
     public KpiManager(IMqttClient mqttClient, MockCar car)
     {
         _mqttClient = mqttClient;
         _car = car;
-        _kpis = new List<Kpi>();
     }
 
     public void Reset()
@@ -45,12 +43,7 @@ public class KpiManager
         await _mqttClient.PublishAsync(new MqttApplicationMessage { Topic = kpi.Topic, Payload = kpi.Payload });
     }
 
-    public byte[] Encode(string obj)
-    {
-        return Encoding.UTF8.GetBytes(obj);
-    }
-
-    public void PublishAll()
+    public async Task PublishAll()
     {
         // calc the rest
         double distanceFromDestination = _car.Position.StreetEdge.Length - _car.Position.DistanceFromSource;
@@ -68,11 +61,11 @@ public class KpiManager
         int totalCo2EmissionsParking = (int)((DistanceTravelledParking / 1000) * Co2EmissionRate);
         
         // add all 
-        Publish(new Kpi("kpi/distFromDest", Encode(distanceFromDestination.ToString())));
-        Publish(new Kpi("kpi/distTravelledParking", Encode(DistanceTravelledParking.ToString())));
-        Publish(new Kpi("kpi/timeSpentParking", Encode(TicksSpentParking.ToString())));
-        Publish(new Kpi("kpi/speedReduction", Encode(SpeedReductionRunningAvg.ToString())));
-        Publish(new Kpi("kpi/fuelConsumption", Encode(totalFuelConsumptionParking.ToString())));
-        Publish(new Kpi("kpi/parkingEmissions", Encode(totalCo2EmissionsParking.ToString())));
+        await Publish(new Kpi("kpi/distFromDest", Encoding.UTF8.GetBytes(distanceFromDestination.ToString())));
+        await Publish(new Kpi("kpi/distTravelledParking", Encoding.UTF8.GetBytes(DistanceTravelledParking.ToString())));
+        await Publish(new Kpi("kpi/timeSpentParking", Encoding.UTF8.GetBytes(TicksSpentParking.ToString())));
+        await Publish(new Kpi("kpi/speedReduction", Encoding.UTF8.GetBytes(SpeedReductionRunningAvg.ToString())));
+        await Publish(new Kpi("kpi/fuelConsumption", Encoding.UTF8.GetBytes(totalFuelConsumptionParking.ToString())));
+        await Publish(new Kpi("kpi/parkingEmissions", Encoding.UTF8.GetBytes(totalCo2EmissionsParking.ToString())));
     }
 }

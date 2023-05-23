@@ -58,7 +58,7 @@ var cruiserClients = Enumerable.Range(0, cruiserCount)
 var cruisers = await Task.WhenAll(cruiserClients);
 
 var parkerClients = Enumerable.Range(0, parkerCount)
-    .Select(i => CarClient.Create(mqttClientFactory, new RandomParkerClientBehaviour(), physicalWorld, pgs, i, true));
+    .Select(i => CarClient.Create(mqttClientFactory, new RandomParkerClientBehaviour(), physicalWorld, pgs, i, false));
 var parkers = await Task.WhenAll(parkerClients);
 
 // init parkers 

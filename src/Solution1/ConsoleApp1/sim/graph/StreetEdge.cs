@@ -25,6 +25,7 @@ public record StreetEdge : Street, IEdge<StreetNode>
         }
     }
     
+    public int UnoccupiedSpotCount { get; set; }
     public void InitParkingSpots(Dictionary<ParkingSpot, StreetEdge> parkingSpotMap)
     {
         int maxParkingSpots = (int)Math.Floor(Length / ParkingSpotLength);
@@ -45,7 +46,6 @@ public record StreetEdge : Street, IEdge<StreetNode>
         ParkingSpots.ForEach(parkingSpot => parkingSpotMap.Add(parkingSpot, this));
     }
 
-    public int UnoccupiedSpotCount { get; set; }
 
     public required Dictionary<string, string?> Tags { get; init; }
     

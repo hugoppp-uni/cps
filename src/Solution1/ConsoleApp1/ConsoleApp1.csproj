@@ -28,4 +28,10 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="clients\ParkerClientDeprecatedDeprecated.cs" />
+      <Compile Remove="clients\CruiserClientDeprecatedDeprecated.cs" />
+      <Compile Remove="clients\CarClientDeprecated.cs" />
+    </ItemGroup>
+
 </Project>

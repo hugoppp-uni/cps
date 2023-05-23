@@ -50,6 +50,7 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
             passedParkingSpots.Pop();
         }
 
+        // no free parking spot
         if (passedParkingSpots.Count == 0) return false;
         
         // occupy
@@ -60,7 +61,8 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         // physically park
         car.Position = new StreetPosition(car.Position.StreetEdge, nearestUnoccupiedSpot.DistanceFromSource);
         
-        car.Position.StreetEdge.DecrementCarCount();
+        // todo car.Position.StreetEdge.DecrementCarCount();
+        
         Random rand = new Random();
         car.ParkTime = rand.Next(0, MockCar.MaxParkTime + 1);
         
@@ -69,6 +71,9 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         car.KpiManager.DistanceTravelledParking += car.Position.DistanceFromSource;
             
         // car.KpiManager.PublishAll(); TODO publish kpis with async and await
+        var sum =car.World.StreetEdges.Sum(edge => edge.CarCount);
+        Console.WriteLine($"sum: {sum}");
+        
         return true;
     }
 

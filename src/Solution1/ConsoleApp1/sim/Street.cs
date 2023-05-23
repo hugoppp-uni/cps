@@ -1,3 +1,4 @@
+using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
 namespace ConsoleApp1.sim;
@@ -5,8 +6,11 @@ namespace ConsoleApp1.sim;
 public record Street
 {
     public required double Length { get; init; }
-    public int CarCount { get; set; }
     public static double CarLength { get; } = 5.0;
+
+
+    public int CarCount { get; set; }
+    
     public required double SpeedLimit { get; init; }
     public List<ParkingSpot> ParkingSpots { get; set; } = new List<ParkingSpot>();
     public static double ParkingSpotDensity { get; set; } = 0.5; // between 0 and 1
@@ -19,7 +23,7 @@ public record Street
     // todo
     public double CurrentMaxSpeed()
     {
-        lock (this)
+        lock(this)
         {
             double freeStreetLength = Length - CarCount * CarLength;
             double recommendedSpeed = MathUtil.GetSafeSpeedMs(freeStreetLength / CarCount);
@@ -36,6 +40,7 @@ public record Street
         }
     }
 
+    /*
     public (bool parkingFound, int lastPassedOrFoundIndex) TryParkingLocally(double distanceFromSource,
         int lastPassedIndex)
     {
@@ -65,8 +70,9 @@ public record Street
         lock (this)
         {
             ParkingSpots[spotIndex].Occupied = false;
-            CarCount++;
         }
+
+        Interlocked.Increment(ref _carCount);
     }
 
     private int CalculateLastPassedIndex(double distanceFromSource, int lastPassedIndex)
@@ -75,6 +81,9 @@ public record Street
                                                           (ParkingSpots[lastPassedIndex].Length + ParkingSpotSpacing));
         return Math.Min(lastPassedIndexFromDistance, ParkingSpots.Count - 1);
     }
+    */
+    
+    
 
     public void IncrementCarCount()
     {
