@@ -11,7 +11,7 @@ namespace ConsoleApp1.clients;
 
 public record Kpi(string Topic, byte[] Payload);
 
-public class MockCar
+public class CarData
 {
     private int Id { get; }
     public PhysicalWorld World { get; }
@@ -45,7 +45,7 @@ public class MockCar
     }
 
     public override string ToString() => $"[CAR\t{Id},\t{Status}\t]";
-    public MockCar(int id, PhysicalWorld world, ParkingGuidanceSystem parkingGuidanceSystem, bool logging)
+    public CarData(int id, PhysicalWorld world, ParkingGuidanceSystem parkingGuidanceSystem, bool logging)
     {
         Id = id;
         World = world;

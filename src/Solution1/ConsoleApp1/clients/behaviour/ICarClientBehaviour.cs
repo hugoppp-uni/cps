@@ -4,10 +4,10 @@ namespace ConsoleApp1.clients;
 
 public interface ICarClientBehaviour
 {
-    public void DriveAlongPath(MockCar car);
-    public void UpdateDestination(MockCar car);
-    public void SeekParkingSpot(MockCar car);
-    public Task<bool> AttemptLocalParking(MockCar car);
-    public bool StayParked(MockCar car);
+    public void DriveAlongPath(CarData carData);
+    public void UpdateDestination(CarData carData);
+    public void SeekParkingSpot(CarData carData);
+    public Task<bool> AttemptLocalParking(CarData carData);
+    public bool StayParked(CarData carData);
 
 }

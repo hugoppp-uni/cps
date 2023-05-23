@@ -7,49 +7,49 @@ namespace ConsoleApp1.clients;
 
 public class CruiserClientBehaviour: ICarClientBehaviour
 {
-    public void DriveAlongPath(MockCar car)
+    public void DriveAlongPath(CarData carData)
     {
-        if (car.Position.DistanceFromSource < car.Position.StreetEdge.Length) // driving on street
+        if (carData.Position.DistanceFromSource < carData.Position.StreetEdge.Length) // driving on street
         {
             // update position
-            double speed = car.Position.StreetEdge.CurrentMaxSpeed();
-            car.Position = new StreetPosition(car.Position.StreetEdge, car.Position.DistanceFromSource + MathUtil.KmhToMs(speed));
+            double speed = carData.Position.StreetEdge.CurrentMaxSpeed();
+            carData.Position = new StreetPosition(carData.Position.StreetEdge, carData.Position.DistanceFromSource + MathUtil.KmhToMs(speed));
 
-            if (car.Logging)
+            if (carData.Logging)
             {
-                Console.WriteLine($"{car}\ttick | {car.Position.ToString()} | dest: {car.Destination.Id} | car count: {car.Position.StreetEdge.CarCount} | driving at {speed:F2}kmh/{car.Position.StreetEdge.SpeedLimit:F2}kmh");
+                Console.WriteLine($"{carData}\ttick | {carData.Position.ToString()} | dest: {carData.Destination.Id} | car count: {carData.Position.StreetEdge.CarCount} | driving at {speed:F2}kmh/{carData.Position.StreetEdge.SpeedLimit:F2}kmh");
             }
         }
         else
         {
             // turn on next street
-            car.DistanceTravelled += car.Position.StreetEdge.Length;
-            car.Turn(car.Path.First());
-            if (car.Logging)
+            carData.DistanceTravelled += carData.Position.StreetEdge.Length;
+            carData.Turn(carData.Path.First());
+            if (carData.Logging)
             {
-                Console.WriteLine($"{car}\ttick | {car.Position.ToString()} | dest: {car.Destination.Id} | car count: {car.Position.StreetEdge.CarCount} | driving at {car.Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{car.Position.StreetEdge.SpeedLimit:F2}kmh");
+                Console.WriteLine($"{carData}\ttick | {carData.Position.ToString()} | dest: {carData.Destination.Id} | car count: {carData.Position.StreetEdge.CarCount} | driving at {carData.Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{carData.Position.StreetEdge.SpeedLimit:F2}kmh");
             }
         }
     }
     
-    public void UpdateDestination(MockCar car)
+    public void UpdateDestination(CarData carData)
     {
-        car.Destination = car.World.StreetNodes.RandomElement();
-        if(!car.TryUpdatePath()) car.Status = CarStatus.PathingFailed;
+        carData.Destination = carData.World.StreetNodes.RandomElement();
+        if(!carData.TryUpdatePath()) carData.Status = CarStatus.PathingFailed;
     }
 
-    public void SeekParkingSpot(MockCar car)
+    public void SeekParkingSpot(CarData carData)
     {
-        car.Status = CarStatus.Driving;
-        UpdateDestination(car);
+        carData.Status = CarStatus.Driving;
+        UpdateDestination(carData);
     }
 
-    public Task<bool> AttemptLocalParking(MockCar car)
+    public Task<bool> AttemptLocalParking(CarData carData)
     {
         throw new NotImplementedException("Cruisers don't park");
     }
 
-    public bool StayParked(MockCar car)
+    public bool StayParked(CarData carData)
     {
         throw new NotImplementedException("Cruisers don't park.");
     }

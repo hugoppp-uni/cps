@@ -7,51 +7,51 @@ namespace ConsoleApp1.clients;
 
 public class PgsParkerClientBehaviour: ICarClientBehaviour
 {
-    public void DriveAlongPath(MockCar car)
+    public void DriveAlongPath(CarData carData)
     {
-        new CruiserClientBehaviour().DriveAlongPath(car);
+        new CruiserClientBehaviour().DriveAlongPath(carData);
     }
 
-    public void UpdateDestination(MockCar car)
+    public void UpdateDestination(CarData carData)
     { 
         // call to calculate path to destination
-        car.Destination = car.World.StreetNodes.RandomElement();
-        if (!car.TryUpdatePath())
+        carData.Destination = carData.World.StreetNodes.RandomElement();
+        if (!carData.TryUpdatePath())
         {
-            car.Status = CarStatus.PathingFailed;
+            carData.Status = CarStatus.PathingFailed;
             return;
         }
         
-        PathResponse? pathRespone = car.Pgs.RequestGuidanceFromServer(car.Position, car.Destination);
+        PathResponse? pathRespone = carData.Pgs.RequestGuidanceFromServer(carData.Position, carData.Destination);
         if (pathRespone is null)
         {
             // TODO: this generates new dest, implement behaviour in case of not finding parking spot
-            car.Status = CarStatus.PathingFailed;
+            carData.Status = CarStatus.PathingFailed;
             return;
         }
         
-        car.Path = pathRespone.PathToReservedParkingSpot;
-        car.Destination = car.World.ParkingSpotMap[pathRespone.ReservedParkingSpot].Target;
+        carData.Path = pathRespone.PathToReservedParkingSpot;
+        carData.Destination = carData.World.ParkingSpotMap[pathRespone.ReservedParkingSpot].Target;
         
         // reserve spot
-        car.OccupiedSpot = pathRespone.ReservedParkingSpot;
-        car.OccupiedSpot.Occupied = true;
+        carData.OccupiedSpot = pathRespone.ReservedParkingSpot;
+        carData.OccupiedSpot.Occupied = true;
     }
 
-    public void SeekParkingSpot(MockCar car)
+    public void SeekParkingSpot(CarData carData)
     {
-        car.Path = new List<StreetEdge> { car.World.ParkingSpotMap[car.OccupiedSpot] } ;
+        carData.Path = new List<StreetEdge> { carData.World.ParkingSpotMap[carData.OccupiedSpot] } ;
     }
 
-    public async Task<bool> AttemptLocalParking(MockCar car)
+    public async Task<bool> AttemptLocalParking(CarData carData)
     {
-        if (car.Position.DistanceFromSource < car.OccupiedSpot.DistanceFromSource) return false;
-        car.Park();
+        if (carData.Position.DistanceFromSource < carData.OccupiedSpot.DistanceFromSource) return false;
+        carData.Park();
         return true;
     }
 
-    public bool StayParked(MockCar car)
+    public bool StayParked(CarData carData)
     {
-        return new RandomParkerClientBehaviour().StayParked(car);
+        return new RandomParkerClientBehaviour().StayParked(carData);
     }
 }

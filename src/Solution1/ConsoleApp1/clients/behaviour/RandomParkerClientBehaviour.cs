@@ -6,40 +6,40 @@ namespace ConsoleApp1.clients;
 
 public class RandomParkerClientBehaviour: ICarClientBehaviour
 {
-    public void DriveAlongPath(MockCar car)
+    public void DriveAlongPath(CarData carData)
     {
-        new CruiserClientBehaviour().DriveAlongPath(car);
+        new CruiserClientBehaviour().DriveAlongPath(carData);
     }
 
-    public void UpdateDestination(MockCar car)
+    public void UpdateDestination(CarData carData)
     {
-        new CruiserClientBehaviour().UpdateDestination(car);
+        new CruiserClientBehaviour().UpdateDestination(carData);
     }
 
-    public void SeekParkingSpot(MockCar car)
+    public void SeekParkingSpot(CarData carData)
     {
-        if (car.TargetNodeReached())
+        if (carData.TargetNodeReached())
         {
             // update kpis upon reached node
-            car.UpdateTrafficKpis();
-            car.DistanceTravelled += car.Position.StreetEdge.Length;
+            carData.UpdateTrafficKpis();
+            carData.DistanceTravelled += carData.Position.StreetEdge.Length;
             
             // turn on next random street to look for parking
             StreetEdge nextStreet;
-            if (car.World.Graph.TryGetOutEdges(car.Position.StreetEdge.Target, out var outGoingStreets)) // TODO possible parking spot search heuristic 
+            if (carData.World.Graph.TryGetOutEdges(carData.Position.StreetEdge.Target, out var outGoingStreets)) // TODO possible parking spot search heuristic 
             {
                 nextStreet = outGoingStreets.ToList().RandomElement();
-                car.Path = new List<StreetEdge> { nextStreet } ;
+                carData.Path = new List<StreetEdge> { nextStreet } ;
             }
         }
     }
 
-    public async Task<bool> AttemptLocalParking(MockCar car)
+    public async Task<bool> AttemptLocalParking(CarData carData)
     {
-        var previousPosition = car.Position.DistanceFromSource - MathUtil.KmhToMs(car.Position.StreetEdge.CurrentMaxSpeed());
+        var previousPosition = carData.Position.DistanceFromSource - MathUtil.KmhToMs(carData.Position.StreetEdge.CurrentMaxSpeed());
         Stack<ParkingSpot> passedParkingSpots = new Stack<ParkingSpot>(
-            car.Position.StreetEdge.ParkingSpots
-                .Where(spot => spot.DistanceFromSource >= previousPosition && spot.DistanceFromSource <= car.Position.DistanceFromSource)
+            carData.Position.StreetEdge.ParkingSpots
+                .Where(spot => spot.DistanceFromSource >= previousPosition && spot.DistanceFromSource <= carData.Position.DistanceFromSource)
                 .Reverse());
 
         while (passedParkingSpots.Count != 0 && passedParkingSpots.Peek().Occupied)
@@ -50,24 +50,24 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         var nearestUnoccupiedSpot = passedParkingSpots.Peek();
         
         // occupy
-        car.OccupiedSpot = nearestUnoccupiedSpot;
-        car.OccupiedSpot.Occupied = true;
+        carData.OccupiedSpot = nearestUnoccupiedSpot;
+        carData.OccupiedSpot.Occupied = true;
         
         // physically park
-        car.Park();
+        carData.Park();
         return true;
     }
 
-    public bool StayParked(MockCar car)
+    public bool StayParked(CarData carData)
     {
-        if(car.Logging)
-            Console.WriteLine($"{car}\ttick | Parked at {car.Position} | {car.ParkTime} ticks remaining");
-        if (car.ParkTime <= 0)
+        if(carData.Logging)
+            Console.WriteLine($"{carData}\ttick | Parked at {carData.Position} | {carData.ParkTime} ticks remaining");
+        if (carData.ParkTime <= 0)
         {
-            car.ResetAfterParking();
+            carData.ResetAfterParking();
             return false;
         }
-        car.ParkTime--;
+        carData.ParkTime--;
         return true;
     }
     

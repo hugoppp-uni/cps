@@ -15,14 +15,14 @@ public class CarClient: BaseClient
         Behaviour = behaviour;
 
         CallCount = 0;
-        Car = new MockCar(id, world, pgs, logging);
+        CarData = new CarData(id, world, pgs, logging);
         
         Pgs = pgs;
         
         // get initial dest
-        Car.Status = CarStatus.Driving;
-        Car.ResetKpiMetrics();
-        Behaviour.UpdateDestination(Car);
+        CarData.Status = CarStatus.Driving;
+        CarData.ResetKpiMetrics();
+        Behaviour.UpdateDestination(CarData);
     }
 
     public int CallCount { get; set; }
@@ -33,7 +33,7 @@ public class CarClient: BaseClient
 
     private ICarClientBehaviour Behaviour { get; set; }
 
-    public MockCar Car { get; set; }
+    public CarData CarData { get; set; }
     
     /*
      * Creation through factory
@@ -50,45 +50,45 @@ public class CarClient: BaseClient
      */
     protected override async Task MqttClientOnApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
     {
-        switch (Car.Status)
+        switch (CarData.Status)
         {
             case CarStatus.PathingFailed:
-                Car.Status = CarStatus.Driving;
-                Car.RespawnAtRandom();
-                Behaviour.UpdateDestination(Car);
+                CarData.Status = CarStatus.Driving;
+                CarData.RespawnAtRandom();
+                Behaviour.UpdateDestination(CarData);
                 break;
             
             case CarStatus.Driving: 
-                if (Car.DestinationReached()) 
+                if (CarData.DestinationReached()) 
                 {
-                    Car.Status = CarStatus.Parking;
+                    CarData.Status = CarStatus.Parking;
                 }
                 else 
                 {
-                    Behaviour.DriveAlongPath(Car);
+                    Behaviour.DriveAlongPath(CarData);
                 }
                 break;
 
             case CarStatus.Parking:
-                Behaviour.SeekParkingSpot(Car);
-                new CruiserClientBehaviour().DriveAlongPath(Car);
-                if (await Behaviour.AttemptLocalParking(Car))
+                Behaviour.SeekParkingSpot(CarData);
+                new CruiserClientBehaviour().DriveAlongPath(CarData);
+                if (await Behaviour.AttemptLocalParking(CarData))
                 {
-                    Car.Status = CarStatus.Parked;
-                    await Car.PublishAll(MqttClient);
+                    CarData.Status = CarStatus.Parked;
+                    await CarData.PublishAll(MqttClient);
                 }
                 break;
             
             case CarStatus.Parked:
-                if (!Behaviour.StayParked(Car))
+                if (!Behaviour.StayParked(CarData))
                 {
-                    Car.Status = CarStatus.Driving;
-                    Behaviour.UpdateDestination(Car);
+                    CarData.Status = CarStatus.Driving;
+                    Behaviour.UpdateDestination(CarData);
                 }
                 break;
             
             default:
-                throw new InvalidOperationException($"{this}\tInvalid status: {Car.Status}");
+                throw new InvalidOperationException($"{this}\tInvalid status: {CarData.Status}");
         }
     }
     
