@@ -5,6 +5,7 @@ using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
+// TODO: some clients crash after ~10k ticks
 // TODO: implement parking guidance switch
 // TODO: handle MQTT connection errors
 // TODO: implement PGS as server with MQTT communication
@@ -49,7 +50,7 @@ var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
 var parkerClients = Enumerable.Range(0, parkerCount)
-    .Select(i => CarClient.Create(mqttClientFactory, new RandomParkerClientBehaviour(), physicalWorld, pgs, i, true));
+    .Select(i => CarClient.Create(mqttClientFactory, new PgsParkerClientBehaviour(), physicalWorld, pgs, i, true));
 var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'
