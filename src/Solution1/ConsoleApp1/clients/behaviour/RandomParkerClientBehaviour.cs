@@ -21,10 +21,10 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         if (car.TargetNodeReached())
         {
             // update kpis upon reached node
-            car.KpiManager.DistanceTravelledParking += car.Position.StreetEdge.Length;
+            car.DistanceTravelled += car.Position.StreetEdge.Length;
             double speedReductionP = 100 - ((car.Position.StreetEdge.CurrentMaxSpeed() / car.Position.StreetEdge.SpeedLimit) * 100);
-            car.KpiManager.SpeedReductionSum += speedReductionP;
-            car.KpiManager.SpeedReductionCount++;
+            car.SpeedReductionSum += speedReductionP;
+            car.SpeedReductionCount++;
             
             // turn on next random street to look for parking
             StreetEdge nextStreet;
@@ -36,9 +36,8 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         }
     }
 
-    public bool AttemptLocalParking(MockCar car)
+    public async Task<bool> AttemptLocalParking(MockCar car)
     {
-        // TODO make method safe
         var previousPosition = car.Position.DistanceFromSource - MathUtil.KmhToMs(car.Position.StreetEdge.CurrentMaxSpeed());
         Stack<ParkingSpot> passedParkingSpots = new Stack<ParkingSpot>(
             car.Position.StreetEdge.ParkingSpots
@@ -71,15 +70,9 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         
         car.World.DecrementUnoccupiedSpotCount();
         car.World.IncrementParkEvents();
-        car.KpiManager.DistanceTravelledParking += car.Position.DistanceFromSource;
+        car.DistanceTravelled += car.Position.DistanceFromSource;
             
-        // car.KpiManager.PublishAll(); TODO publish kpis with async and await
-
-        // debug race condition
-        var carsParked =  car.World.InitialSpotCount - car.World.UnoccupiedSpotCount;
-        var sum =car.World.StreetEdges.Sum(edge => edge.CarCount);
-        Console.WriteLine($"sum: {sum + carsParked}");
-        
+        car.UpdateAllKpis(); 
         return true;
     }
 

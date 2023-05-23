@@ -1,8 +1,14 @@
-﻿using ConsoleApp1.sim;
+﻿using System.Text;
+using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
+using MQTTnet;
+using MQTTnet.Client;
+using QuickGraph.Algorithms;
 
 namespace ConsoleApp1.clients;
+
+public record Kpi(string Topic, byte[] Payload);
 
 public class MockCar
 {
@@ -17,22 +23,84 @@ public class MockCar
     public bool Logging { get; set; }
     public const int MaxParkTime = 500;
     public int ParkTime { get; set; }
+    
+    public double DistanceToDestination { get; set; }
+    
+    // for kpis
+    private const int Co2EmissionRate = 131; // grams per km, average according to German Federal Environment Agency (UBA)
+    public Dictionary<string, double> Kpis { get; set; } 
+    public double SpeedReductionRunningAvg { get; set; }
+    public double SpeedReductionSum { get; set; }
+    public int SpeedReductionCount { get; set; }
+    public double DistanceTravelled { get; set; }
+    
+    public void ResetKpiMetrics()
+    {
+        DistanceTravelled = 0;
+        SpeedReductionRunningAvg = 0;
+        SpeedReductionCount = 0;
+        SpeedReductionSum = 0;
+    }
 
     public override string ToString() => $"[CAR\t{Id},\t{Status}\t]";
-    public MockCar(int id, PhysicalWorld world, KpiManager kpiManager, bool logging)
+    public MockCar(int id, PhysicalWorld world, bool logging)
     {
         Id = id;
         World = world;
         Path = Enumerable.Empty<StreetEdge>();
         Logging = logging;
-        KpiManager = kpiManager;
+        
+        Kpis = new Dictionary<string, double>();
+        
+        Kpis.Add("kpi/travelDistanceToDestinationDistanceRatio", 0.0);
+        Kpis.Add("kpi/distFromDest", 0.0);
+        Kpis.Add("kpi/speedReduction", 0.0);
+        Kpis.Add("kpi/parkingEmissions", 0.0);
         
         // init position
         Position = StreetPosition.WithRandomDistance(world.StreetEdges.RandomElement());
         Position.StreetEdge.IncrementCarCount();
     }
+    public void UpdateAllKpis()
+    {
+        // travel distance to destination distance ratio
+        double ratio = DistanceTravelled / DistanceToDestination;
+        Kpis["kpi/travelDistanceToDestinationDistanceRatio"] = ratio;
+        
+        // distance from destination
+        double distanceFromDestination = Position.StreetEdge.Length - Position.DistanceFromSource;
+        var shortestPaths = World.Graph.ShortestPathsDijkstra(
+            edge => 100 - edge.SpeedLimit,
+            Position.StreetEdge.Source);
+
+        if (shortestPaths.Invoke(Destination, out var path))
+        {
+            Path = path;
+            distanceFromDestination += Path.Sum(streetEdge => streetEdge.Length);
+        }
+        Kpis["kpi/distFromDest"] = distanceFromDestination;
+        
+        // traffic induced speed reduction
+        var speedReduction = SpeedReductionSum / SpeedReductionCount;
+        Kpis["kpi/speedReduction"] = speedReduction;
+        
+        // co2 emissions
+        double totalCo2EmissionsParking = (DistanceTravelled / 1000) * Co2EmissionRate;
+        Kpis["kpi/parkingEmissions"] = totalCo2EmissionsParking;
+    }
     
-    public KpiManager KpiManager { get; set; }
+    private async Task Publish(IMqttClient client, Kpi kpi)
+    {
+        await client.PublishAsync(new MqttApplicationMessage { Topic = kpi.Topic, Payload = kpi.Payload });
+    }
+    
+    public async Task PublishAll(IMqttClient client)
+    {
+        foreach (var kvp in Kpis)
+        {
+            await Publish(client, new Kpi(kvp.Key, Encoding.UTF8.GetBytes(kvp.Value.ToString())));
+        }
+    }
     
     public bool DestinationReached()
     {
@@ -68,7 +136,7 @@ public class MockCar
         }
 
         // kpi
-        KpiManager.Reset();
+        ResetKpiMetrics();
 
         // diagnostics
         World.IncrementUnoccupiedSpotCount();

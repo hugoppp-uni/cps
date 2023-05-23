@@ -21,6 +21,7 @@ public class CruiserClientBehaviour: ICarClientBehaviour
         else
         {
             // turn on next street
+            car.DistanceTravelled += car.Position.StreetEdge.Length;
             car.Turn(car.Path.First());
             if(car.Logging)
                 Console.WriteLine($"{car}\ttick | {car.Position.ToString()} | dest: {car.Destination.Id} | car count: {car.Position.StreetEdge.CarCount} | driving at {car.Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{car.Position.StreetEdge.SpeedLimit:F2}kmh");
@@ -39,6 +40,10 @@ public class CruiserClientBehaviour: ICarClientBehaviour
         if (shortestPaths.Invoke(car.Destination, out var path))
         {
             car.Path = path.ToList();
+            
+            // calculate distance to destination
+            car.DistanceToDestination = car.Position.StreetEdge.Length - car.Position.DistanceFromSource;
+            car.DistanceToDestination += car.Path.Sum(edge => edge.Length);
         }
         else
         {
@@ -53,7 +58,7 @@ public class CruiserClientBehaviour: ICarClientBehaviour
         UpdateDestination(car);
     }
 
-    public bool AttemptLocalParking(MockCar car)
+    public Task<bool> AttemptLocalParking(MockCar car)
     {
         throw new NotImplementedException("Cruisers don't park");
     }

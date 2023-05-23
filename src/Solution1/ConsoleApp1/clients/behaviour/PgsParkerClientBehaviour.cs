@@ -21,7 +21,7 @@ public class PgsParkerClientBehaviour: ICarClientBehaviour
         throw new NotImplementedException();
     }
 
-    public bool AttemptLocalParking(MockCar car)
+    public Task<bool> AttemptLocalParking(MockCar car)
     {
         // TODO 
         

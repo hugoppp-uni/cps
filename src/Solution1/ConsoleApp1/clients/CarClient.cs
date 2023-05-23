@@ -8,18 +8,26 @@ namespace ConsoleApp1.clients;
 
 public class CarClient: BaseClient
 {
-    protected CarClient(IMqttClient mqttClient, ICarClientBehaviour behaviour, PhysicalWorld world, ParkingGuidanceSystem pgs, int id, bool logging) : base(mqttClient)
+    private const int _kpiPublishIntervall = 100;
+    protected CarClient(IMqttClient mqttClient, ICarClientBehaviour behaviour,
+        PhysicalWorld world, ParkingGuidanceSystem pgs, int id, bool logging) : base(mqttClient)
     {
         Behaviour = behaviour;
-        var kpiManager = new KpiManager(mqttClient, Car);
-        Car = new MockCar(id, world, kpiManager, logging);
+
+        CallCount = 0;
+        Car = new MockCar(id, world, logging);
+        
         Pgs = pgs;
         
         // get initial dest
         Car.Status = CarStatus.Driving;
-        Car.KpiManager.Reset();
+        Car.ResetKpiMetrics();
         Behaviour.UpdateDestination(Car);
     }
+
+    public int CallCount { get; set; }
+
+    public int KpiPublishIntervall { get; set; }
 
     public ParkingGuidanceSystem Pgs { get; set; }
 
@@ -62,12 +70,12 @@ public class CarClient: BaseClient
                 break;
 
             case CarStatus.Parking:
-                Car.KpiManager.TicksSpentParking++;
                 Behaviour.SeekParkingSpot(Car);
                 new CruiserClientBehaviour().DriveAlongPath(Car);
-                if (Behaviour.AttemptLocalParking(Car))
+                if (await Behaviour.AttemptLocalParking(Car))
                 {
                     Car.Status = CarStatus.Parked;
+                    await Car.PublishAll(MqttClient);
                 }
                 break;
             
