@@ -1,6 +1,7 @@
 using QuickGraph;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ConsoleApp1.util;
 using Geolocation;
 using QuickGraph.Serialization.DirectedGraphML;
 
@@ -65,7 +66,7 @@ public static class StreetGraphParser
                         Length = GeoCalculator.GetDistance(firstNode.Coordinate, secondNode.Coordinate,
                             distanceUnit: DistanceUnit.Meters),
                         Tags = osmWay.Tags,
-                        SpeedLimit = double.Parse(osmWay.Tags.GetValueOrDefault("maxspeed", "50")),
+                        SpeedLimitMs = MathUtil.KmhToMs(double.Parse(osmWay.Tags.GetValueOrDefault("maxspeed", "50"))),
                     };
                     var backwardEdge = new StreetEdge()
                     {
@@ -73,7 +74,7 @@ public static class StreetGraphParser
                         Target = firstNode,
                         Length = forwardEdge.Length,
                         Tags = osmWay.Tags,
-                        SpeedLimit = forwardEdge.SpeedLimit,
+                        SpeedLimitMs = forwardEdge.SpeedLimitMs,
                     };
                     
                     // add edge to graph
@@ -130,7 +131,7 @@ public static class StreetGraphParser
                         Source = forwardSource,
                         Target = forwardTarget,
                         Tags = in0.Tags,
-                        SpeedLimit = in0.SpeedLimit,
+                        SpeedLimitMs = in0.SpeedLimitMs,
                     };
                     var connectingBackwardEdge = new StreetEdge()
                     {
@@ -138,7 +139,7 @@ public static class StreetGraphParser
                         Source = backwardSource,
                         Target = backwardTarget,
                         Tags = in1.Tags,
-                        SpeedLimit = in1.SpeedLimit,
+                        SpeedLimitMs = in1.SpeedLimitMs,
                     };
                     
                     // collapse node and add new connecting edges

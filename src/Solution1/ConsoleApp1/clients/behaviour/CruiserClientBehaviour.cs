@@ -12,12 +12,12 @@ public class CruiserClientBehaviour: ICarClientBehaviour
         if (carData.Position.DistanceFromSource < carData.Position.StreetEdge.Length) // driving on street
         {
             // update position
-            double speed = carData.Position.StreetEdge.CurrentMaxSpeed();
-            carData.Position = new StreetPosition(carData.Position.StreetEdge, carData.Position.DistanceFromSource + MathUtil.KmhToMs(speed));
+            double speed = carData.Position.StreetEdge.CurrentMaxSpeedMs();
+            carData.Position = new StreetPosition(carData.Position.StreetEdge, carData.Position.DistanceFromSource + speed);
 
             if (carData.Logging)
             {
-                Console.WriteLine($"{carData}\ttick | {carData.Position.ToString()} | dest: {carData.Destination.Id} | car count: {carData.Position.StreetEdge.CarCount} | driving at {speed:F2}kmh/{carData.Position.StreetEdge.SpeedLimit:F2}kmh");
+                Console.WriteLine($"{carData}\ttick | {carData.Position.ToString()} | dest: {carData.Destination.Id} | car count: {carData.Position.StreetEdge.CarCount} | driving at {MathUtil.MsToKmh(speed):F2}kmh/{MathUtil.MsToKmh(carData.Position.StreetEdge.SpeedLimitMs):F2}kmh");
             }
         }
         else
@@ -27,7 +27,7 @@ public class CruiserClientBehaviour: ICarClientBehaviour
             carData.Turn(carData.Path.First());
             if (carData.Logging)
             {
-                Console.WriteLine($"{carData}\ttick | {carData.Position.ToString()} | dest: {carData.Destination.Id} | car count: {carData.Position.StreetEdge.CarCount} | driving at {carData.Position.StreetEdge.CurrentMaxSpeed():F2}kmh/{carData.Position.StreetEdge.SpeedLimit:F2}kmh");
+                Console.WriteLine($"{carData}\ttick | {carData.Position.ToString()} | dest: {carData.Destination.Id} | car count: {carData.Position.StreetEdge.CarCount} | driving at {MathUtil.MsToKmh(carData.Position.StreetEdge.CurrentMaxSpeedMs()):F2}kmh/{MathUtil.MsToKmh(carData.Position.StreetEdge.SpeedLimitMs):F2}kmh");
             }
         }
     }

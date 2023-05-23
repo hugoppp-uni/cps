@@ -91,7 +91,7 @@ public class CarData
         // distance from destination
         double distanceFromDestination = Position.StreetEdge.Length - Position.DistanceFromSource;
         var shortestPaths = World.Graph.ShortestPathsDijkstra(
-            edge => 100 - edge.SpeedLimit,
+            _ => 1.0,
             Position.StreetEdge.Source);
 
         if (shortestPaths.Invoke(Destination, out var path))
@@ -185,7 +185,7 @@ public class CarData
     {
         // update path
         var shortestPaths = World.Graph.ShortestPathsDijkstra(
-            edge => 100 - edge.SpeedLimit,
+            _ => 1,
             Position.StreetEdge.Source);
     
         if (shortestPaths.Invoke(Destination, out var path))
@@ -204,7 +204,7 @@ public class CarData
 
     public void UpdateTrafficKpis()
     {
-        double speedReductionP = 100 - ((Position.StreetEdge.CurrentMaxSpeed() / Position.StreetEdge.SpeedLimit) * 100);
+        double speedReductionP = 100 - ((Position.StreetEdge.CurrentMaxSpeedMs() / Position.StreetEdge.SpeedLimitMs) * 100);
         SpeedReductionSum += speedReductionP;
         SpeedReductionCount++;
         SpeedReductionRunningAvg = SpeedReductionSum / SpeedReductionCount;

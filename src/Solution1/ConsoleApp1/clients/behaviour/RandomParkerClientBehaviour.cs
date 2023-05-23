@@ -36,7 +36,7 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
 
     public async Task<bool> AttemptLocalParking(CarData carData)
     {
-        var previousPosition = carData.Position.DistanceFromSource - MathUtil.KmhToMs(carData.Position.StreetEdge.CurrentMaxSpeed());
+        var previousPosition = carData.Position.DistanceFromSource - MathUtil.KmhToMs(carData.Position.StreetEdge.CurrentMaxSpeedMs());
         Stack<ParkingSpot> passedParkingSpots = new Stack<ParkingSpot>(
             carData.Position.StreetEdge.ParkingSpots
                 .Where(spot => spot.DistanceFromSource >= previousPosition && spot.DistanceFromSource <= carData.Position.DistanceFromSource)
