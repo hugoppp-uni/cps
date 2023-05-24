@@ -34,19 +34,19 @@ public class PgsParkerClientBehaviour: ICarClientBehaviour
         carData.Destination = carData.World.ParkingSpotMap[pathRespone.ReservedParkingSpot].Target;
         
         // reserve spot
-        carData.OccupiedSpot = pathRespone.ReservedParkingSpot;
-        carData.OccupiedSpot.Occupied = true;
+        carData.ReservedSpot = pathRespone.ReservedParkingSpot;
+        carData.ReservedSpot.Reserved = true;
     }
 
     public void SeekParkingSpot(CarData carData)
     {
-        carData.Path = new List<StreetEdge> { carData.World.ParkingSpotMap[carData.OccupiedSpot] } ;
+        carData.Path = new List<StreetEdge> { carData.World.ParkingSpotMap[carData.ReservedSpot] } ;
     }
 
     public async Task<bool> AttemptLocalParking(CarData carData)
     {
-        if (carData.Position.DistanceFromSource < carData.OccupiedSpot.DistanceFromSource) return false;
-        carData.Park();
+        if (carData.Position.DistanceFromSource < carData.ReservedSpot.DistanceFromSource) return false;
+        carData.Park(carData.ReservedSpot);
         return true;
     }
 

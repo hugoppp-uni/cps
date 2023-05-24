@@ -40,7 +40,7 @@ public record StreetEdge : Street, IEdge<StreetNode>
                 double distanceFromSource = (ParkingSpotLength + ParkingSpotSpacing) * i;
                 bool occupied = rand.NextDouble() >= InitialParkingSpotOccupancyRate;
                 if (!occupied) UnoccupiedSpotCount++;
-                return new ParkingSpot(i, distanceFromSource, Length, ParkingSpotLength, occupied);
+                return new ParkingSpot(i, distanceFromSource, Length, ParkingSpotLength, occupied, false);
             }).ToList();
         
         ParkingSpots.ForEach(parkingSpot => parkingSpotMap.Add(parkingSpot, this));

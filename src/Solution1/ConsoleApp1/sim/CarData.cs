@@ -20,7 +20,6 @@ public class CarData
     public StreetNode Destination { get; set; }
 
     public ParkingSpot OccupiedSpot { get; set; } = null!;
-    public ParkingGuidanceSystem pgs { get; set; }
     public CarStatus Status { get; set; }
     public bool Logging { get; set; }
     public const int MaxParkTime = 500;
@@ -66,9 +65,12 @@ public class CarData
     }
 
     public ParkingGuidanceSystem Pgs { get; set; }
+    public ParkingSpot ReservedSpot { get; set; }
 
-    public void Park()
+    public void Park(ParkingSpot spot)
     {
+        OccupiedSpot = spot;
+        OccupiedSpot.Occupied = true;
         Position = new StreetPosition(Position.StreetEdge, OccupiedSpot.DistanceFromSource);
         lock (Position.StreetEdge)
         {
@@ -153,6 +155,7 @@ public class CarData
         lock (Position.StreetEdge)
         {
             OccupiedSpot.Occupied = false;
+            OccupiedSpot.Reserved = false;
             Position.StreetEdge.IncrementCarCount();
         }
 

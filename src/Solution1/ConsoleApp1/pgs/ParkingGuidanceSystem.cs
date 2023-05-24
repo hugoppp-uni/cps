@@ -47,7 +47,7 @@ public class ParkingGuidanceSystem
                 if (shortestPaths.Invoke(edgeWithFreeSpot.Source, out var path))
                 {
                     // occupy free spot
-                    freeSpot.Occupied = true;
+                    freeSpot.Reserved = true;
                     return new PathResponse(path.Append(edgeWithFreeSpot).ToList(), freeSpot);
                 }
                 // pathing failed 

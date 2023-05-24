@@ -25,7 +25,7 @@ public class NearestParkingStrategy: IParkingStrategy
             foreach (var edge in adjacentEdges)
             {
                 // filter unoccupied spots and sort by distance from source ascending
-                var unoccupiedSpots = edge.ParkingSpots.Where(spot => !spot.Occupied)
+                var unoccupiedSpots = edge.ParkingSpots.Where(spot => !spot.Occupied && !spot.Reserved)
                     .OrderBy(spot => spot.DistanceFromSource)
                     .ToList();
                 

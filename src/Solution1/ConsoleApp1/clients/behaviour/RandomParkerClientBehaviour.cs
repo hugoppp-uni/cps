@@ -49,12 +49,8 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         if (passedParkingSpots.Count == 0) return false;
         var nearestUnoccupiedSpot = passedParkingSpots.Peek();
         
-        // occupy
-        carData.OccupiedSpot = nearestUnoccupiedSpot;
-        carData.OccupiedSpot.Occupied = true;
-        
         // physically park
-        carData.Park();
+        carData.Park(nearestUnoccupiedSpot);
         return true;
     }
 
