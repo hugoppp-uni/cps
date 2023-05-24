@@ -7,9 +7,15 @@ namespace ConsoleApp1.clients;
 
 public class PgsParkerClientBehaviour: ICarClientBehaviour
 {
+    private bool Logging { get; }
+    public PgsParkerClientBehaviour(bool logging)
+    {
+        Logging = logging;
+    }
+    
     public void DriveAlongPath(CarData carData)
     {
-        new CruiserClientBehaviour().DriveAlongPath(carData);
+        new CruiserClientBehaviour(Logging).DriveAlongPath(carData);
     }
 
     public void UpdateDestination(CarData carData)
@@ -41,6 +47,7 @@ public class PgsParkerClientBehaviour: ICarClientBehaviour
     public void SeekParkingSpot(CarData carData)
     {
         carData.Path = new List<StreetEdge> { carData.World.ParkingSpotMap[carData.ReservedSpot] } ;
+        new CruiserClientBehaviour(Logging).DriveAlongPath(carData);
     }
 
     public async Task<bool> AttemptLocalParking(CarData carData)
@@ -52,6 +59,6 @@ public class PgsParkerClientBehaviour: ICarClientBehaviour
 
     public bool StayParked(CarData carData)
     {
-        return new RandomParkerClientBehaviour().StayParked(carData);
+        return new RandomParkerClientBehaviour(Logging).StayParked(carData);
     }
 }

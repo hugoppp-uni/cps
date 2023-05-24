@@ -10,12 +10,12 @@ public class CarClient: BaseClient
 {
     private const int _kpiPublishIntervall = 100;
     protected CarClient(IMqttClient mqttClient, ICarClientBehaviour behaviour,
-        PhysicalWorld world, ParkingGuidanceSystem pgs, int id, bool logging) : base(mqttClient)
+        PhysicalWorld world, ParkingGuidanceSystem pgs, int id) : base(mqttClient)
     {
         Behaviour = behaviour;
 
         CallCount = 0;
-        CarData = new CarData(id, world, pgs, logging);
+        CarData = new CarData(id, world, pgs);
         
         Pgs = pgs;
         
@@ -39,10 +39,10 @@ public class CarClient: BaseClient
      * Creation through factory
      */
     public static async Task<CarClient> Create(MqttClientFactory clientFactory, ICarClientBehaviour behaviour,
-        PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, int id, bool logging)
+        PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, int id)
     {
         var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick"));
-        return new CarClient(client, behaviour, physicalWorld, pgs, id, logging);
+        return new CarClient(client, behaviour, physicalWorld, pgs, id);
     }
 
     /**
@@ -53,20 +53,12 @@ public class CarClient: BaseClient
         switch (CarData.Status)
         {
             case CarStatus.PathingFailed:
-                if (CarData.Logging)
-                {
-                    Console.WriteLine($"{CarData} entered state PathingFailed ({CarData.Status}, {CarData.World.GetUnoccupiedSpotsCount()})");
-                }
                 CarData.Status = CarStatus.Driving;
                 CarData.RespawnAtRandom();
                 Behaviour.UpdateDestination(CarData);
                 break;
             
             case CarStatus.Driving: 
-                if (CarData.Logging)
-                {
-                    Console.WriteLine($"{CarData} entered state Driving ({CarData.Status})");
-                }
                 if (CarData.DestinationReached()) 
                 {
                     CarData.Status = CarStatus.Parking;
@@ -78,12 +70,7 @@ public class CarClient: BaseClient
                 break;
 
             case CarStatus.Parking:
-                if (CarData.Logging)
-                {
-                    Console.WriteLine($"{CarData} entered state Parking ({CarData.Status})");
-                }
                 Behaviour.SeekParkingSpot(CarData);
-                new CruiserClientBehaviour().DriveAlongPath(CarData);
                 if (await Behaviour.AttemptLocalParking(CarData))
                 {
                     CarData.Status = CarStatus.Parked;
@@ -92,10 +79,6 @@ public class CarClient: BaseClient
                 break;
             
             case CarStatus.Parked:
-                if (CarData.Logging)
-                {
-                    Console.WriteLine($"{CarData} entered state Parked ({CarData.Status})");
-                }
                 if (!Behaviour.StayParked(CarData))
                 {
                     CarData.Status = CarStatus.Driving;

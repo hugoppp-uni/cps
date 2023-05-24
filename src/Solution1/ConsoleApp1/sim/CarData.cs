@@ -21,7 +21,6 @@ public class CarData
 
     public ParkingSpot OccupiedSpot { get; set; } = null!;
     public CarStatus Status { get; set; }
-    public bool Logging { get; set; }
     public const int MaxParkTime = 500;
     public int ParkTime { get; set; }
     
@@ -44,12 +43,11 @@ public class CarData
     }
 
     public override string ToString() => $"[CAR\t{Id},\t{Status}\t]";
-    public CarData(int id, PhysicalWorld world, ParkingGuidanceSystem parkingGuidanceSystem, bool logging)
+    public CarData(int id, PhysicalWorld world, ParkingGuidanceSystem parkingGuidanceSystem)
     {
         Id = id;
         World = world;
         Path = Enumerable.Empty<StreetEdge>();
-        Logging = logging;
         Pgs = parkingGuidanceSystem;
         
         Kpis = new Dictionary<string, double>();

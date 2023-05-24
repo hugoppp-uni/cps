@@ -45,12 +45,12 @@ ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new Nearest
 
 // init cruisers 
 var cruiserClients = Enumerable.Range(0, cruiserCount)
-    .Select(i => CarClient.Create(mqttClientFactory, new CruiserClientBehaviour(), physicalWorld, pgs, i, false));
+    .Select(i => CarClient.Create(mqttClientFactory, new CruiserClientBehaviour(false), physicalWorld, pgs, i));
 var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
 var parkerClients = Enumerable.Range(0, parkerCount)
-    .Select(i => CarClient.Create(mqttClientFactory, new PgsParkerClientBehaviour(), physicalWorld, pgs, i, true));
+    .Select(i => CarClient.Create(mqttClientFactory, new PgsParkerClientBehaviour(true), physicalWorld, pgs, i));
 var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'

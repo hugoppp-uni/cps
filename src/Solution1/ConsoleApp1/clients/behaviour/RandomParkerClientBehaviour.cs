@@ -6,14 +6,22 @@ namespace ConsoleApp1.clients;
 
 public class RandomParkerClientBehaviour: ICarClientBehaviour
 {
+    
+    private bool Logging { get; }
+    public RandomParkerClientBehaviour(bool logging)
+    {
+        Logging = logging;
+    }
+    
+    
     public void DriveAlongPath(CarData carData)
     {
-        new CruiserClientBehaviour().DriveAlongPath(carData);
+        new CruiserClientBehaviour(Logging).DriveAlongPath(carData);
     }
 
     public void UpdateDestination(CarData carData)
     {
-        new CruiserClientBehaviour().UpdateDestination(carData);
+        new CruiserClientBehaviour(Logging).UpdateDestination(carData);
     }
 
     public void SeekParkingSpot(CarData carData)
@@ -32,6 +40,7 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
                 carData.Path = new List<StreetEdge> { nextStreet } ;
             }
         }
+        new CruiserClientBehaviour(Logging).DriveAlongPath(carData);
     }
 
     public async Task<bool> AttemptLocalParking(CarData carData)
@@ -56,8 +65,10 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
 
     public bool StayParked(CarData carData)
     {
-        if(carData.Logging)
-            //Console.WriteLine($"{carData}\ttick | Parked at {carData.Position} | {carData.ParkTime} ticks remaining");
+        if (Logging)
+        {
+            Console.WriteLine($"{carData}\ttick | Parked at {carData.Position} | {carData.ParkTime} ticks remaining");
+        }
         if (carData.ParkTime <= 0)
         {
             carData.ResetAfterParking();
