@@ -70,7 +70,7 @@ public class SimDataClient: BaseClient
     private async void PublishDynamicSimData()
     {
         // unoccupied parking spot count
-        var payload = Encoding.UTF8.GetBytes(World.UnoccupiedSpotCount.ToString());
+        var payload = Encoding.UTF8.GetBytes(World.GetUnoccupiedSpotsCount().ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/dynamic/unoccupiedSpotCount", Payload = payload });
         
         // traffic density weighted average

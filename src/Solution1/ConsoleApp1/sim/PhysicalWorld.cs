@@ -73,4 +73,17 @@ public class PhysicalWorld
     public IReadOnlyList<StreetEdge> StreetEdges { get; }
     
     public Dictionary<ParkingSpot, StreetEdge> ParkingSpotMap { get; } = new();
+
+    public int GetUnoccupiedSpotsCount()
+    {
+        int spotCount = 0;
+    
+        foreach (var streetEdge in StreetEdges)
+        {
+            spotCount += streetEdge.ParkingSpots.Count(spot => !spot.Occupied);
+        }
+    
+        return spotCount;
+    }
+
 }

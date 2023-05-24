@@ -61,7 +61,7 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
     public bool StayParked(CarData carData)
     {
         if(carData.Logging)
-            Console.WriteLine($"{carData}\ttick | Parked at {carData.Position} | {carData.ParkTime} ticks remaining");
+            //Console.WriteLine($"{carData}\ttick | Parked at {carData.Position} | {carData.ParkTime} ticks remaining");
         if (carData.ParkTime <= 0)
         {
             carData.ResetAfterParking();

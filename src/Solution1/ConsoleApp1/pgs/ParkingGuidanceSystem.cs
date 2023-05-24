@@ -39,9 +39,6 @@ public class ParkingGuidanceSystem
             // get edge with free spot from map
             if (World.ParkingSpotMap.TryGetValue(freeSpot, out var edgeWithFreeSpot))
             {
-                // occupy free spot
-                freeSpot.Occupied = true;
-                
                 // path to free spot
                 var shortestPaths = World.Graph.ShortestPathsDijkstra(
                     _searchEdgeWeights,
@@ -49,9 +46,10 @@ public class ParkingGuidanceSystem
             
                 if (shortestPaths.Invoke(edgeWithFreeSpot.Source, out var path))
                 {
+                    // occupy free spot
+                    freeSpot.Occupied = true;
                     return new PathResponse(path.Append(edgeWithFreeSpot).ToList(), freeSpot);
                 }
-
                 // pathing failed 
                 return null!; 
             }
