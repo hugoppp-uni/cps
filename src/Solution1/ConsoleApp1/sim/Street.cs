@@ -16,7 +16,7 @@ public record Street
 
     public List<ParkingSpot> ParkingSpots { get; set; } = new List<ParkingSpot>();
     public static double ParkingSpotDensity { get; set; } = 0.5; // between 0 and 1
-    public static double InitialParkingSpotOccupancyRate { get; } = 0.01;
+    public static double InitialParkingSpotOccupancyRate { get; } = 0.02;
     public int NumParkingSpots { get; set; }
     public double ParkingSpotSpacing { get; set; }
     public static double ParkingSpotLength { get; } = 5.0;
@@ -55,6 +55,8 @@ public record Street
             CarCount--;
         }
     }
+
+    public double TrafficDensity => CarCount / Length;
 
     public override string ToString()
     {

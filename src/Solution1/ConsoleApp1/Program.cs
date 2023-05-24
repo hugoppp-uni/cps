@@ -32,9 +32,9 @@ CancellationTokenSource cancellationTokenSource = new();
 var tickClientTask = (await TickClient.Create(mqttClientFactory)).Run(cancellationTokenSource.Token);
 
 // sim
-const int parkerCount = 10;
-const int cruiserCount = 400;
-int simDataPublishInterval = 20;
+const int parkerCount = 50;
+const int cruiserCount = 200;
+int simDataPublishInterval = 25;
 var physicalWorld = new PhysicalWorld(graph, parkerCount, cruiserCount);
 
 // sim meta data
@@ -50,7 +50,7 @@ var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
 var parkerClients = Enumerable.Range(0, parkerCount)
-    .Select(i => CarClient.Create(mqttClientFactory, new PgsParkerClientBehaviour(true), physicalWorld, pgs, i));
+    .Select(i => CarClient.Create(mqttClientFactory, new RandomParkerClientBehaviour(true), physicalWorld, pgs, i));
 var parkers = await Task.WhenAll(parkerClients);
 
 // cancel with 'q'

@@ -76,7 +76,6 @@ public class CarData
         }
         Random rand = new Random();
         ParkTime = rand.Next(0, MaxParkTime + 1);
-        World.DecrementUnoccupiedSpotCount();
         World.IncrementParkEvents();
         DistanceTravelled += Position.DistanceFromSource;
         UpdateAllKpis();
@@ -159,9 +158,6 @@ public class CarData
 
         // kpi
         ResetKpiMetrics();
-
-        // diagnostics
-        World.IncrementUnoccupiedSpotCount();
     }
 
     public void Turn(StreetEdge next)

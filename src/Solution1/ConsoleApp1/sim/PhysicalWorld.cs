@@ -17,9 +17,8 @@ public class PhysicalWorld
             .ForEach(edge =>
             {
                 edge.InitParkingSpots(ParkingSpotMap);
-                UnoccupiedSpotCount += edge.UnoccupiedSpotCount;
             });
-        InitialSpotCount = UnoccupiedSpotCount;
+        InitialSpotCount = GetUnoccupiedSpotsCount();
 
         // sim data 
         CruiserCount = cruiserCount;
@@ -31,7 +30,6 @@ public class PhysicalWorld
     }
 
     public int InitialSpotCount { get; set; }
-    public int UnoccupiedSpotCount { get; set; }
     
     public void IncrementParkEvents()
     {
@@ -42,22 +40,6 @@ public class PhysicalWorld
     }
 
     public int ParkEvents { get; set; }
-
-    public void IncrementUnoccupiedSpotCount()
-    {
-        lock (this)
-        {
-            UnoccupiedSpotCount++;
-        }
-    }
-
-    public void DecrementUnoccupiedSpotCount()
-    {
-        lock (this)
-        {
-            UnoccupiedSpotCount--;
-        }
-    }
 
     public int ParkingSpotCount { get; set; }
 

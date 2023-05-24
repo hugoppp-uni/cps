@@ -16,7 +16,7 @@ public class SimDataClient: BaseClient
         CallCount = 0;
         
         PublishStaticSimData();
-        PublishDynamicSimData();
+        PublishDiagnostics();
     }
 
     private async void PublishStaticSimData()
@@ -26,7 +26,7 @@ public class SimDataClient: BaseClient
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/static/parkingSpotCount", Payload = payload });
         
         // initially available spots
-        payload = Encoding.UTF8.GetBytes(World.UnoccupiedSpotCount.ToString());
+        payload = Encoding.UTF8.GetBytes(World.InitialSpotCount.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/static/initiallyAvailableSpots", Payload = payload });
         
         // car count
@@ -52,6 +52,7 @@ public class SimDataClient: BaseClient
         // parking spot length
         payload = Encoding.UTF8.GetBytes(Street.ParkingSpotLength.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/static/parkingSpotLength", Payload = payload });
+        
     }
 
     private int PublishInterval { get; set; }
@@ -63,29 +64,32 @@ public class SimDataClient: BaseClient
         CallCount++;
         if (CallCount % PublishInterval == 0)
         {
-            PublishDynamicSimData();
+            PublishDiagnostics();
         }
     }
 
-    private async void PublishDynamicSimData()
+    private async void PublishDiagnostics()
     {
         // unoccupied parking spot count
         var payload = Encoding.UTF8.GetBytes(World.GetUnoccupiedSpotsCount().ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/dynamic/unoccupiedSpotCount", Payload = payload });
         
-        // traffic density weighted average
-        double sumCarCount = World.StreetEdges.Sum(edge => edge.CarCount);
-        double sumLength = World.StreetEdges.Sum(edge => edge.Length);
-        double avgTrafficDensity = sumCarCount / sumLength;
+        // traffic density average
+        double trafficDensitySum = World.StreetEdges.Sum(edge => edge.TrafficDensity);
+        double avgTrafficDensity = trafficDensitySum / World.StreetEdges.Count;
         payload = Encoding.UTF8.GetBytes(avgTrafficDensity.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/dynamic/trafficDensity", Payload = payload });
 
-        // parking rate
-        double simTimeH = (double)CallCount / 60;
-        double parkingRateM = World.ParkEvents / simTimeH;
+        // todo parking rate: make this rolling avg
+        double simTimeM = (double)CallCount / 60;
+        double parkingRateM = World.ParkEvents / simTimeM;
+
         payload = Encoding.UTF8.GetBytes(parkingRateM.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/dynamic/parkingRate", Payload = payload });
     }
+
+    private int _previousParkEvents { get; set; } = 0;
+    private int _previousCallCount { get; set; } = 0;
 
     public static async Task<SimDataClient> Create(MqttClientFactory clientFactory, PhysicalWorld physicalWorld, int publishInterval)
     {
