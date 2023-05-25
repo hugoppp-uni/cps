@@ -76,7 +76,7 @@ public class SimDataClient: BaseClient
         
         // traffic density average
         double trafficDensitySum = World.StreetEdges.Sum(edge => edge.TrafficDensity);
-        double avgTrafficDensity = trafficDensitySum / World.StreetEdges.Count;
+        double avgTrafficDensity = World.StreetEdges.Count / trafficDensitySum;
         payload = Encoding.UTF8.GetBytes(avgTrafficDensity.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/dynamic/trafficDensity", Payload = payload });
 
