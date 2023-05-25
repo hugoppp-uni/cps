@@ -50,8 +50,12 @@ var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
 var parkerClients = Enumerable.Range(0, parkerCount)
-    .Select(i => CarClient.Create(mqttClientFactory, new RandomParkerClientBehaviour(true), physicalWorld, pgs, i));
+    .Select(i => CarClient.Create(mqttClientFactory, new PgsParkerClientBehaviour(true), physicalWorld, pgs, i));
 var parkers = await Task.WhenAll(parkerClients);
+
+//todo Rouge Parker:
+// parks on reserved spots.
+// pgsCards will be notified with an updated spot
 
 // cancel with 'q'
 while (Console.ReadKey().Key != ConsoleKey.Q)
