@@ -15,6 +15,7 @@ public class SimDataClient: BaseClient
         PublishInterval = publishInterval;
         CallCount = 0;
         
+        // todo combine these 2
         PublishStaticSimData();
         PublishDiagnostics();
     }
@@ -55,9 +56,9 @@ public class SimDataClient: BaseClient
         
     }
 
-    private int PublishInterval { get; set; }
+    private int PublishInterval { get; }
     private int CallCount { get; set; }
-    private PhysicalWorld World { get; set; }
+    private PhysicalWorld World { get; }
 
     protected override async Task MqttClientOnApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
     {
@@ -73,23 +74,7 @@ public class SimDataClient: BaseClient
         // unoccupied parking spot count
         var payload = Encoding.UTF8.GetBytes(World.GetUnoccupiedSpotsCount().ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/dynamic/unoccupiedSpotCount", Payload = payload });
-        
-        // traffic density average
-        double trafficDensitySum = World.StreetEdges.Sum(edge => edge.TrafficDensity);
-        double avgTrafficDensity = World.StreetEdges.Count / trafficDensitySum;
-        payload = Encoding.UTF8.GetBytes(avgTrafficDensity.ToString());
-        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/dynamic/trafficDensity", Payload = payload });
-
-        // todo parking rate: make this rolling avg
-        double simTimeM = (double)CallCount / 60;
-        double parkingRateM = World.ParkEvents / simTimeM;
-
-        payload = Encoding.UTF8.GetBytes(parkingRateM.ToString());
-        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/dynamic/parkingRate", Payload = payload });
     }
-
-    private int _previousParkEvents { get; set; } = 0;
-    private int _previousCallCount { get; set; } = 0;
 
     public static async Task<SimDataClient> Create(MqttClientFactory clientFactory, PhysicalWorld physicalWorld, int publishInterval)
     {

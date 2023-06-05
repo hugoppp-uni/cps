@@ -5,12 +5,13 @@ using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
-// TODO: some clients crash after ~10k ticks
 // TODO: implement parking guidance switch
 // TODO: handle MQTT connection errors
-// TODO: implement PGS as server with MQTT communication
 // TODO: implement ParkingSpaceClient and reserving service for realistic PGS
+// TODO: init actual cars parking initially
+// TODO: Rouge Parker: park on reserved spots
 // TODO: compare different street map scenarios (parameters)
+// TODO: implement PGS as server with MQTT communication
 
 const string assetsPath = "../../../assets/";
 const int brokerPort = 1883;
@@ -53,9 +54,6 @@ var parkerClients = Enumerable.Range(0, parkerCount)
     .Select(i => CarClient.Create(mqttClientFactory, new PgsParkerClientBehaviour(true), physicalWorld, pgs, i));
 var parkers = await Task.WhenAll(parkerClients);
 
-//todo Rouge Parker:
-// parks on reserved spots.
-// pgsCards will be notified with an updated spot
 
 // cancel with 'q'
 while (Console.ReadKey().Key != ConsoleKey.Q)
