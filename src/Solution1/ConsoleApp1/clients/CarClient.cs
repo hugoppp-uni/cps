@@ -1,4 +1,5 @@
-﻿using ConsoleApp1.pgs;
+﻿using System.Text;
+using ConsoleApp1.pgs;
 using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
@@ -10,7 +11,7 @@ public class CarClient: BaseClient
 {
     private const int _kpiPublishIntervall = 100;
     protected CarClient(IMqttClient mqttClient, ICarClientBehaviour behaviour,
-        PhysicalWorld world, ParkingGuidanceSystem pgs, int id) : base(mqttClient)
+        PhysicalWorld world, ParkingGuidanceSystem pgs, bool parked, int id) : base(mqttClient)
     {
         Behaviour = behaviour;
 
@@ -18,11 +19,17 @@ public class CarClient: BaseClient
         CarData = new CarData(id, world, pgs);
         
         Pgs = pgs;
-        
+
         // get initial dest
-        CarData.Status = CarStatus.Driving;
         CarData.ResetKpiMetrics();
+        CarData.Status = CarStatus.Driving;
         Behaviour.UpdateDestination(CarData);
+        
+        if (parked)
+        {
+            CarData.Status = CarStatus.Parked;
+            CarData.Park(world.GetRandomUnoccupied() ?? throw new InvalidOperationException());
+        }
     }
 
     public int CallCount { get; set; }
@@ -39,10 +46,14 @@ public class CarClient: BaseClient
      * Creation through factory
      */
     public static async Task<CarClient> Create(MqttClientFactory clientFactory, ICarClientBehaviour behaviour,
-        PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, int id)
+        PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, bool parked, int id)
     {
-        var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick").WithTopicFilter("pgs/on"));
-        return new CarClient(client, behaviour, physicalWorld, pgs, id);
+        var client = await clientFactory.CreateClient(builder => builder.
+                WithTopicFilter("tickgen/tick").
+                WithTopicFilter("pgs/on").
+                WithTopicFilter("rogue/on"));
+        
+        return new CarClient(client, behaviour, physicalWorld, pgs, parked, id);
     }
 
     /**
@@ -50,11 +61,13 @@ public class CarClient: BaseClient
      */
     protected override async Task MqttClientOnApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
     {
-        if (arg.ApplicationMessage.Topic == "pgs/on")
-        {
-            Behaviour = Behaviour.TogglePgs();
-            Console.WriteLine("Toggled");
-        }
+        string topic = arg.ApplicationMessage.Topic;
+        string payloadStr = Encoding.Default.GetString(arg.ApplicationMessage.Payload);
+        if (topic == "pgs/on")
+            Behaviour.SetPgs(bool.Parse(payloadStr));
+        else if (topic == "rogue/on")
+            Behaviour.SetRogue(bool.Parse(payloadStr));
+
         switch (CarData.Status)
         {
             case CarStatus.PathingFailed:
@@ -79,7 +92,7 @@ public class CarClient: BaseClient
                 if (await Behaviour.AttemptLocalParking(CarData))
                 {
                     CarData.Status = CarStatus.Parked;
-                    await CarData.PublishAll(MqttClient);
+                    await Behaviour.PublishAll(CarData, MqttClient);
                 }
                 break;
             
@@ -96,8 +109,4 @@ public class CarClient: BaseClient
         }
     }
 
-    private void LogStatus(CarStatus carDataStatus, string name)
-    {
-        throw new NotImplementedException();
-    }
 }

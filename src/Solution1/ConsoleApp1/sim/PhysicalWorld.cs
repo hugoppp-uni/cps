@@ -1,16 +1,18 @@
 using ConsoleApp1.sim.graph;
+using ConsoleApp1.util;
 using QuickGraph;
 
 namespace ConsoleApp1.sim;
 
 public class PhysicalWorld
 {
-    public PhysicalWorld(IMutableBidirectionalGraph<StreetNode, StreetEdge> graph, int parkerCount, int cruiserCount)
+    public PhysicalWorld(IMutableBidirectionalGraph<StreetNode, StreetEdge> graph, int parkingSpotCount, int parkerCount, int cruiserCount,
+        int rogueParkerCount)
     {
         Graph = graph;
         StreetNodes = graph.Vertices.ToList();
         StreetEdges = graph.Edges.ToList();
-        
+
         StreetEdges
             .Where(edge => edge.Tags.ContainsKey("name"))
             .ToList()
@@ -23,8 +25,9 @@ public class PhysicalWorld
         // sim data 
         CruiserCount = cruiserCount;
         ParkerCount = parkerCount;
+        RogueParkerCount = rogueParkerCount;
         CarCount = cruiserCount + parkerCount;
-        ParkingSpotCount = ParkingSpotMap.Count;
+        MaxParkingSpots = ParkingSpotMap.Count;
         ParkEvents = 0;
 
     }
@@ -41,12 +44,12 @@ public class PhysicalWorld
 
     public int ParkEvents { get; set; }
 
-    public int ParkingSpotCount { get; set; }
+    public int MaxParkingSpots { get; set; }
 
     public int CarCount { get; set; }
 
     public int ParkerCount { get; set; }
-
+    public int RogueParkerCount { get; set; }
     public int CruiserCount { get; set; }
     
 
@@ -66,6 +69,20 @@ public class PhysicalWorld
         }
     
         return spotCount;
+    }
+
+    public ParkingSpot? GetRandomUnoccupied()
+    {
+        List<ParkingSpot> unoccupiedParkingSpots = StreetEdges
+            .SelectMany(edge => edge.ParkingSpots)
+            .Where(spot => !spot.Occupied)
+            .ToList();
+
+        if (unoccupiedParkingSpots.Count > 0)
+        {
+            return unoccupiedParkingSpots.RandomElement();
+        }
+        return null;
     }
 
 }

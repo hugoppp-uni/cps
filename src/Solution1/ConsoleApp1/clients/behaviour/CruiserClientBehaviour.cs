@@ -1,6 +1,7 @@
 ﻿using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
+using MQTTnet.Client;
 using QuickGraph.Algorithms;
 
 namespace ConsoleApp1.clients;
@@ -50,7 +51,7 @@ public class CruiserClientBehaviour: ICarClientBehaviour
         UpdateDestination(carData);
     }
 
-    public Task<bool> AttemptLocalParking(CarData carData)
+    public Task<bool> AttemptLocalParking(CarData carData, bool considerReservation = true)
     {
         throw new NotImplementedException("Cruisers don't park");
     }
@@ -60,9 +61,19 @@ public class CruiserClientBehaviour: ICarClientBehaviour
         throw new NotImplementedException("Cruisers don't park.");
     }
     
-    public ICarClientBehaviour TogglePgs()
+    public ICarClientBehaviour SetPgs(bool pgsOn)
     {
-        // cruiser clients dont change
+        // cruiser clients don't change
         return new CruiserClientBehaviour(Logging);
+    }
+    
+    public async Task PublishAll(CarData carData, IMqttClient mqttClient)
+    {
+        throw new NotImplementedException("Cruisers don't park.");
+    }
+    
+    public void SetRogue(bool rogueOn)
+    {
+        // for rogue parkers only
     }
 }

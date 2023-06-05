@@ -15,15 +15,14 @@ public class SimDataClient: BaseClient
         PublishInterval = publishInterval;
         CallCount = 0;
         
-        // todo combine these 2
-        PublishStaticSimData();
         PublishDiagnostics();
+        PublishStaticSimData();
     }
 
     private async void PublishStaticSimData()
     {
         // total parking spots
-        var payload = Encoding.UTF8.GetBytes(World.ParkingSpotCount.ToString());
+        var payload = Encoding.UTF8.GetBytes(World.MaxParkingSpots.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/static/parkingSpotCount", Payload = payload });
         
         // initially available spots
@@ -41,6 +40,10 @@ public class SimDataClient: BaseClient
         // parker count
         payload = Encoding.UTF8.GetBytes(World.ParkerCount.ToString());
         await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/static/parkerCount", Payload = payload });
+        
+        // rogue parker count
+        payload = Encoding.UTF8.GetBytes(World.ParkerCount.ToString());
+        await MqttClient.PublishAsync(new MqttApplicationMessage { Topic = "simData/static/rogueParkerCount", Payload = payload });
         
         // parking spot density
         payload = Encoding.UTF8.GetBytes(Street.ParkingSpotDensity.ToString());

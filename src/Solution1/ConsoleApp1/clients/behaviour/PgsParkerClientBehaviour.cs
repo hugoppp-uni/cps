@@ -2,6 +2,7 @@
 using ConsoleApp1.sim;
 using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
+using MQTTnet.Client;
 
 namespace ConsoleApp1.clients;
 
@@ -50,7 +51,7 @@ public class PgsParkerClientBehaviour: ICarClientBehaviour
         new CruiserClientBehaviour(Logging).DriveAlongPath(carData);
     }
 
-    public async Task<bool> AttemptLocalParking(CarData carData)
+    public async Task<bool> AttemptLocalParking(CarData carData, bool considerReservation = true)
     {
         if (carData.Position.DistanceFromSource < carData.ReservedSpot.DistanceFromSource) return false;
         carData.Park(carData.ReservedSpot);
@@ -62,9 +63,19 @@ public class PgsParkerClientBehaviour: ICarClientBehaviour
         return new RandomParkerClientBehaviour(Logging).StayParked(carData);
     }
     
-    public ICarClientBehaviour TogglePgs()
+    public ICarClientBehaviour SetPgs(bool pgsOn)
     {
-        return new RandomParkerClientBehaviour(Logging);
+        return new RandomParkerClientBehaviour(Logging).SetPgs(pgsOn);
+    }
+    
+    public async Task PublishAll(CarData carData, IMqttClient mqttClient)
+    {
+        await carData.PublishAll(mqttClient);
+    }
+    
+    public void SetRogue(bool rogueOn)
+    {
+        // for rogue parkers only
     }
     
 }
