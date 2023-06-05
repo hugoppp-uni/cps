@@ -59,4 +59,10 @@ public class CruiserClientBehaviour: ICarClientBehaviour
     {
         throw new NotImplementedException("Cruisers don't park.");
     }
+    
+    public ICarClientBehaviour TogglePgs()
+    {
+        // cruiser clients dont change
+        return new CruiserClientBehaviour(Logging);
+    }
 }

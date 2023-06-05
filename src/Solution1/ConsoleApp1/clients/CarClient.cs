@@ -41,7 +41,7 @@ public class CarClient: BaseClient
     public static async Task<CarClient> Create(MqttClientFactory clientFactory, ICarClientBehaviour behaviour,
         PhysicalWorld physicalWorld, ParkingGuidanceSystem pgs, int id)
     {
-        var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick"));
+        var client = await clientFactory.CreateClient(builder => builder.WithTopicFilter("tickgen/tick").WithTopicFilter("pgs/on"));
         return new CarClient(client, behaviour, physicalWorld, pgs, id);
     }
 
@@ -50,6 +50,11 @@ public class CarClient: BaseClient
      */
     protected override async Task MqttClientOnApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
     {
+        if (arg.ApplicationMessage.Topic == "pgs/on")
+        {
+            Behaviour = Behaviour.TogglePgs();
+            Console.WriteLine("Toggled");
+        }
         switch (CarData.Status)
         {
             case CarStatus.PathingFailed:
@@ -90,5 +95,9 @@ public class CarClient: BaseClient
                 throw new InvalidOperationException($"{this}\tInvalid status: {CarData.Status}");
         }
     }
-    
+
+    private void LogStatus(CarStatus carDataStatus, string name)
+    {
+        throw new NotImplementedException();
+    }
 }

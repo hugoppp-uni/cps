@@ -9,5 +9,5 @@ public interface ICarClientBehaviour
     public void SeekParkingSpot(CarData carData);
     public Task<bool> AttemptLocalParking(CarData carData);
     public bool StayParked(CarData carData);
-
+    public ICarClientBehaviour TogglePgs();
 }

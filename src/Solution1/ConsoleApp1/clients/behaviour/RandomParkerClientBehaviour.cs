@@ -77,5 +77,9 @@ public class RandomParkerClientBehaviour: ICarClientBehaviour
         carData.ParkTime--;
         return true;
     }
-    
+
+    public ICarClientBehaviour TogglePgs()
+    {
+        return new PgsParkerClientBehaviour(Logging);
+    }
 }

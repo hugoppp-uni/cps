@@ -6,9 +6,8 @@ using ConsoleApp1.sim.graph;
 using ConsoleApp1.util;
 
 // TODO: implement parking guidance switch
-// TODO: handle MQTT connection errors
+// TODO: init actual cars parking initially, overhaul diagnostics and make parking spots customizable
 // TODO: implement ParkingSpaceClient and reserving service for realistic PGS
-// TODO: init actual cars parking initially
 // TODO: Rouge Parker: park on reserved spots
 // TODO: compare different street map scenarios (parameters)
 // TODO: implement PGS as server with MQTT communication
@@ -38,11 +37,12 @@ const int cruiserCount = 200;
 int simDataPublishInterval = 25;
 var physicalWorld = new PhysicalWorld(graph, parkerCount, cruiserCount);
 
-// sim meta data
-var simDataTask = await SimDataClient.Create(mqttClientFactory, physicalWorld, simDataPublishInterval);
 
 // parking guidance system
 ParkingGuidanceSystem pgs = new ParkingGuidanceSystem(physicalWorld, new NearestParkingStrategy(), false);
+
+// sim data
+var simDataTask = await SimDataClient.Create(mqttClientFactory, physicalWorld, simDataPublishInterval);
 
 // init cruisers 
 var cruiserClients = Enumerable.Range(0, cruiserCount)
@@ -51,9 +51,8 @@ var cruisers = await Task.WhenAll(cruiserClients);
 
 // init parkers 
 var parkerClients = Enumerable.Range(0, parkerCount)
-    .Select(i => CarClient.Create(mqttClientFactory, new PgsParkerClientBehaviour(true), physicalWorld, pgs, i));
+    .Select(i => CarClient.Create(mqttClientFactory, new RandomParkerClientBehaviour(false), physicalWorld, pgs, i));
 var parkers = await Task.WhenAll(parkerClients);
-
 
 // cancel with 'q'
 while (Console.ReadKey().Key != ConsoleKey.Q)

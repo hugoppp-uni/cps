@@ -61,4 +61,10 @@ public class PgsParkerClientBehaviour: ICarClientBehaviour
     {
         return new RandomParkerClientBehaviour(Logging).StayParked(carData);
     }
+    
+    public ICarClientBehaviour TogglePgs()
+    {
+        return new RandomParkerClientBehaviour(Logging);
+    }
+    
 }

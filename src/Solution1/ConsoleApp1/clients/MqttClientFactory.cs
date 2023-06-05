@@ -20,7 +20,14 @@ public class MqttClientFactory
             .WithTcpServer(Host, Port)
             .Build();
 
-        await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+        try
+        {
+            await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+        }
 
         if (subscribeOptionsConfig is not null)
         {
